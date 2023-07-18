@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:fikisha/views/Authentication/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -110,7 +111,7 @@ class _UserVerificationState extends State<UserVerification> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            PasswordVerification(),
+                                            UserInfo(),
                                       ));
                                 });
                               }

@@ -1,3 +1,4 @@
+import 'package:fikisha/views/Authentication/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -123,7 +124,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmailVerification()));
+                        builder: (context) => UserVerification()));
               } else {}
             },
           ),

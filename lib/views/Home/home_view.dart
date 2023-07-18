@@ -32,7 +32,7 @@ class _HomeviewState extends State<Homeview> {
       bearing: 192.8334901395799,
       target: LatLng(-3.4000, 38.3833),
       tilt: 50,
-      zoom: 10);
+      zoom: 15);
 
   @override
   Widget build(BuildContext context) {

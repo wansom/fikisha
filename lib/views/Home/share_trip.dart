@@ -8,7 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fikisha/utils/colors.dart';
 
 final CameraPosition _kLake = CameraPosition(
-  target: LatLng(8.479879, 4.541814),
+  bearing: 192.8334901395799,
+  target: LatLng(-3.4000, 38.3833),
   zoom: 24,
 );
 

@@ -56,27 +56,27 @@ class ChooseAuth extends StatelessWidget {
                   children: [
                     AuthButtons(
                       color: ColorPath.Primarydark,
-                      text: "Continue with Email",
-                      icon: ImagesAsset.envelope,
+                      text: "Continue with Phone Number",
+                      icon: ImagesAsset.call,
                       textcolor: ColorPath.Primarywhite,
                       bordercolor: Colors.transparent,
                     ),
+                    // YMargin(10),
+                    // AuthButtons(
+                    //   color: ColorPath.Primarywhite,
+                    //   text: "Continue with Google",
+                    //   icon: ImagesAsset.google,
+                    //   textcolor: ColorPath.Secondarydark,
+                    //   bordercolor: ColorPath.Secondarydark,
+                    // ),
                     YMargin(10),
-                    AuthButtons(
-                      color: ColorPath.Primarywhite,
-                      text: "Continue with Google",
-                      icon: ImagesAsset.google,
-                      textcolor: ColorPath.Secondarydark,
-                      bordercolor: ColorPath.Secondarydark,
-                    ),
-                    YMargin(10),
-                    AuthButtons(
-                      color: ColorPath.Primaryblue,
-                      text: "Continue with Facebook",
-                      icon: ImagesAsset.facebookb,
-                      textcolor: ColorPath.Primarywhite,
-                      bordercolor: Colors.transparent,
-                    )
+                    // AuthButtons(
+                    //   color: ColorPath.Primaryblue,
+                    //   text: "Continue with Facebook",
+                    //   icon: ImagesAsset.facebookb,
+                    //   textcolor: ColorPath.Primarywhite,
+                    //   bordercolor: Colors.transparent,
+                    // )
                   ],
                 ),
                 YMargin(45),

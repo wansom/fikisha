@@ -365,7 +365,7 @@ class _EnjoyRideState extends State<EnjoyRide> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Canel Delivery",
+                        "Cancel Delivery",
                         style: GoogleFonts.poppins(
                           color: ColorPath.Primarywhite,
                           fontWeight: FontWeight.w500,

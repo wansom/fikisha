@@ -303,7 +303,7 @@ class _BookingDetialsState extends State<BookingDetials> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Canel Ride",
+                        "Cancel Delviery",
                         style: GoogleFonts.poppins(
                           color: ColorPath.Primarywhite,
                           fontWeight: FontWeight.w500,
