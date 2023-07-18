@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 // ignore_for_file: library_private_types_in_public_api, avoid_print
 
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Home/home_page.dart';
 import 'package:fikisha/views/Home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+=======
+import 'package:fikisha/views/Authentication/user_details.dart';
+>>>>>>> 3042836f342e6708a837300696e3c1bb814dec7c
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';

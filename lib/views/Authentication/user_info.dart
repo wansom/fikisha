@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:fikisha/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -116,6 +117,33 @@ class _UserInfoState extends State<UserInfo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // InkWell(
+                //   onTap: () {
+                //     Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => ForgetPassword(),
+                //         ));
+                //   },
+                //   child: Container(
+                //     width: 110,
+                //     height: 30,
+                //     decoration: BoxDecoration(
+                //       color: ColorPath.Primaryfield,
+                //       borderRadius: BorderRadius.circular(8.0),
+                //     ),
+                //     child: Center(
+                //       child: Text(
+                //         "Reset Password",
+                //         style: GoogleFonts.montserrat(
+                //           fontWeight: FontWeight.w300,
+                //           color: ColorPath.Primarydark,
+                //           fontSize: 12,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 InkWell(
                   onTap: () {
                     Navigator.push(
