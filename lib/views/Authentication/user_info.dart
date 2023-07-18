@@ -1,10 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/forget_password.dart';
-import 'package:fikisha/views/Authentication/login_screen.dart';
 import 'package:fikisha/utils/colors.dart';
 
 class UserInfo extends StatefulWidget {
@@ -18,11 +16,11 @@ class _UserInfoState extends State<UserInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       body: FadeInDown(
-        duration: Duration(milliseconds: 2000),
+        duration: const Duration(milliseconds: 2000),
         child: Column(children: [
-          YMargin(100),
+          const YMargin(100),
           Center(
             child: Container(
               alignment: Alignment.center,
@@ -36,7 +34,7 @@ class _UserInfoState extends State<UserInfo> {
               ),
             ),
           ),
-          YMargin(30),
+          const YMargin(30),
           Stack(
             children: [
               Container(
@@ -68,13 +66,13 @@ class _UserInfoState extends State<UserInfo> {
                   child: Container(
                     height: 35,
                     width: 35,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.black,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.camera_alt_rounded,
-                      color: ColorPath.Primarywhite,
+                      color: ColorPath.primarywhite,
                       size: 16,
                     ),
                   ),
@@ -82,31 +80,31 @@ class _UserInfoState extends State<UserInfo> {
               )
             ],
           ),
-          YMargin(15),
-          Text("Upload clear image of youself,\nlet’s identify you",
+          const YMargin(15),
+          const Text("Upload clear image of youself,\nlet’s identify you",
               textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
+              style: TextStyle(
                 fontWeight: FontWeight.normal,
-                color: ColorPath.Primarydark,
+                color: ColorPath.primarydark,
                 fontSize: 14,
               )),
-          YMargin(25),
-          Text(
+          const YMargin(25),
+          const Text(
             " Set your Home Address and \nfavourite locations",
             textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               fontWeight: FontWeight.w500,
-              color: ColorPath.Primarydark,
+              color: ColorPath.primarydark,
               fontSize: 23,
             ),
           ),
-          YMargin(20),
+          const YMargin(20),
           favoritecard(
             "🏀",
             "Set your Favoutite Locations",
             "Save more time when booking ride",
           ),
-          YMargin(10),
+          const YMargin(10),
           favoritecard(
             "🏠",
             "Set your Home Address",
@@ -123,22 +121,22 @@ class _UserInfoState extends State<UserInfo> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ForgetPassword(),
+                          builder: (context) => const ForgetPassword(),
                         ));
                   },
                   child: Container(
                     width: 110,
                     height: 30,
                     decoration: BoxDecoration(
-                      color: ColorPath.Primaryfield,
+                      color: ColorPath.primaryfield,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Reset Password",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                           fontSize: 12,
                         ),
                       ),
@@ -146,26 +144,26 @@ class _UserInfoState extends State<UserInfo> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ));
-                  },
+                  // onTap: () {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const LoginScreen(),
+                  //       ));
+                  // },
                   child: Container(
                     width: 110,
                     height: 30,
                     decoration: BoxDecoration(
-                      color: ColorPath.Primarydark,
+                      color: ColorPath.primarydark,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Proceed",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          color: ColorPath.Primarywhite,
+                          color: ColorPath.primarywhite,
                           fontSize: 12,
                         ),
                       ),
@@ -186,14 +184,14 @@ class _UserInfoState extends State<UserInfo> {
       child: Container(
           height: 60,
           decoration: BoxDecoration(
-            color: ColorPath.Primaryfield,
+            color: ColorPath.primaryfield,
             border: Border.all(
               width: 0.5,
-              color: ColorPath.PrimaryColor,
+              color: ColorPath.primaryColor,
             ),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,44 +204,44 @@ class _UserInfoState extends State<UserInfo> {
                     height: 30,
                     width: 30,
                     decoration: BoxDecoration(
-                      color: ColorPath.Primarydark.withOpacity(0.29),
+                      color: ColorPath.primarydark.withOpacity(0.29),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
                         image,
-                        style: GoogleFonts.montserrat(
+                        style: const TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
                   ),
-                  XMargin(5.0),
+                  const XMargin(5.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(text1,
-                          style: GoogleFonts.montserrat(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: ColorPath.Primarydark,
+                            color: ColorPath.primarydark,
                             fontSize: 12,
                           )),
                       Text(text2,
-                          style: GoogleFonts.montserrat(
+                          style: const TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: ColorPath.PrimaryColor,
+                            color: ColorPath.primaryColor,
                             fontSize: 10,
                           )),
                     ],
                   ),
                 ],
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_forward_ios,
                 size: 15,
-                color: ColorPath.Primarydark,
+                color: ColorPath.primarydark,
               ),
             ],
           )),

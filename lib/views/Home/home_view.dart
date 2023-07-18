@@ -1,9 +1,10 @@
-import 'dart:async';
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, avoid_print
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fikisha/models/favorite_item_model.dart';
 import 'package:fikisha/utils/images_path.dart';
@@ -26,32 +27,39 @@ class Homeview extends StatefulWidget {
 class _HomeviewState extends State<Homeview> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   TextEditingController placetexteditingcontroller = TextEditingController();
-  Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController controller;
+  List<Marker> markers = [];
+  LatLng? destination;
 
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(-3.4000, 38.3833),
-      tilt: 50,
-      zoom: 10);
+final LatLng center = const LatLng(-1.286389, 36.817223);
+  void onMapCreated(GoogleMapController mapController) {
+    controller = mapController;
+  }
+
+      @override
+  void initState() {
+    super.initState();
+    // loadRiders();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _key,
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.0),
+          preferredSize: const Size.fromHeight(70.0),
           child: AppBar(
-            brightness: Brightness.dark,
-            backgroundColor: ColorPath.Primarydark,
+            // brightness: Brightness.dark,
+            backgroundColor: ColorPath.primarydark,
             automaticallyImplyLeading: false,
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 20.0, top: 5, bottom: 5),
                 child: Container(
                   width: 45,
-                  decoration: BoxDecoration(
-                      color: ColorPath.PrimaryColor,
+                  decoration: const BoxDecoration(
+                      color: ColorPath.primaryColor,
                       borderRadius: BorderRadius.all(Radius.circular(8.0))),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -67,22 +75,22 @@ class _HomeviewState extends State<Homeview> {
               )
             ],
             centerTitle: false,
-            title: Column(
+            title: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Hello, Warren 👋🏾",
-                  style: GoogleFonts.poppins(
-                    color: ColorPath.Primarywhite,
+                  style: TextStyle(
+                    color: ColorPath.primarywhite,
                     fontWeight: FontWeight.w400,
                     fontSize: 17,
                   ),
                 ),
                 Text(
                   "Order a delivery now!",
-                  style: GoogleFonts.poppins(
-                    color: ColorPath.PrimaryColor,
+                  style: TextStyle(
+                    color: ColorPath.primaryColor,
                     fontWeight: FontWeight.w400,
                     fontSize: 10,
                   ),
@@ -90,18 +98,17 @@ class _HomeviewState extends State<Homeview> {
               ],
             ),
             systemOverlayStyle: SystemUiOverlayStyle.light,
-          )),
-      drawer: RyderDrawer(),
+          )
+          ),
+      drawer: const RyderDrawer(),
       body: Stack(
         children: [
           FadeIn(
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             child: GoogleMap(
               mapType: MapType.normal,
-              initialCameraPosition: _kLake,
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
+              initialCameraPosition: CameraPosition(target: center, zoom: 12),
+              onMapCreated: onMapCreated,
             ),
           ),
           Positioned(
@@ -109,38 +116,38 @@ class _HomeviewState extends State<Homeview> {
             child: Column(
               children: [
                 FadeInUp(
-                  delay: Duration(milliseconds: 1000),
-                  duration: Duration(milliseconds: 2000),
+                  delay: const Duration(milliseconds: 1000),
+                  duration: const Duration(milliseconds: 2000),
                   child: AnimatedContainer(
                       curve: Curves.easeInOut,
-                      duration: Duration(milliseconds: 100),
+                      duration: const Duration(milliseconds: 100),
                       alignment: Alignment.bottomCenter,
                       height: 300,
                       width: context.screenWidth(),
-                      decoration: BoxDecoration(
-                          color: ColorPath.Primarywhite,
+                      decoration: const BoxDecoration(
+                          color: ColorPath.primarywhite,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(25.0),
                               topRight: Radius.circular(25.0))),
                       child: Column(
                         children: [
-                          YMargin(7.0),
+                          const YMargin(7.0),
                           Container(
                               width: 80,
                               height: 2.875,
                               decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(80)),
-                                color: ColorPath.PrimaryColor.withOpacity(0.5),
+                                    const BorderRadius.all(Radius.circular(80)),
+                                color: ColorPath.primaryColor.withOpacity(0.5),
                               )),
-                          YMargin(20),
+                          const YMargin(20),
                           SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: Column(
                               children: [
-                                CustomPlaceHolder(),
-                                YMargin(10),
-                                Container(
+                                const CustomPlaceHolder(),
+                                const YMargin(10),
+                                SizedBox(
                                   height: 130,
                                   width: context.screenWidth(),
                                   child: Padding(
@@ -150,7 +157,7 @@ class _HomeviewState extends State<Homeview> {
                                         scrollDirection: Axis.horizontal,
                                         itemCount: favs.length,
                                         physics:
-                                            RangeMaintainingScrollPhysics(),
+                                            const RangeMaintainingScrollPhysics(),
                                         itemBuilder: (BuildContext context, i) {
                                           return Row(
                                             children: [
@@ -169,15 +176,15 @@ class _HomeviewState extends State<Homeview> {
                                         }),
                                   ),
                                 ),
-                                YMargin(10),
+                                const YMargin(10),
                                 Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 30),
+                                        const EdgeInsets.symmetric(horizontal: 30),
                                     child: Container(
                                       height: 40,
                                       width: context.screenWidth() - 100,
                                       decoration: BoxDecoration(
-                                        color: ColorPath.Secondarygrey,
+                                        color: ColorPath.secondarygrey,
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
@@ -185,14 +192,14 @@ class _HomeviewState extends State<Homeview> {
                                         onTap: () {
                                           selectFavorite(context);
                                         },
-                                        child: Row(
+                                        child: const Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               "Set favorite locations",
-                                              style: GoogleFonts.poppins(
-                                                color: ColorPath.Primarywhite,
+                                              style: TextStyle(
+                                                color: ColorPath.primarywhite,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -200,7 +207,8 @@ class _HomeviewState extends State<Homeview> {
                                           ],
                                         ),
                                       ),
-                                    )),
+                                    )
+                                    ),
                               ],
                             ),
                           )
@@ -230,142 +238,140 @@ class _HomeviewState extends State<Homeview> {
           context: context,
           builder: (context) {
             return Container(
-              padding: EdgeInsets.only(top: 7),
+              padding: const EdgeInsets.only(top: 7),
               height: context.screenHeight() / 1.8,
               width: context.screenWidth(),
-              decoration: BoxDecoration(
-                color: ColorPath.Primarywhite,
+              decoration: const BoxDecoration(
+                color: ColorPath.primarywhite,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(15),
                 ),
               ),
-              child: Container(
-                child: Column(
-                  children: [
-                    sheetHeader(),
-                    FadeInUp(
-                      duration: Duration(milliseconds: 1000),
-                      child: Column(
-                        children: [
-                          YMargin(15),
-                          Text(
-                            "Set favorite location",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w500,
-                              color: ColorPath.Primarydark,
-                            ),
+              child: Column(
+                children: [
+                  sheetHeader(),
+                  FadeInUp(
+                    duration: const Duration(milliseconds: 1000),
+                    child: Column(
+                      children: [
+                        const YMargin(15),
+                        const Text(
+                          "Set favorite location",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w500,
+                            color: ColorPath.primarydark,
                           ),
-                          Text(
-                            "Pick a favorite location to enable quick access",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 11.0,
-                              fontWeight: FontWeight.w300,
-                              color: ColorPath.offBlack,
-                            ),
+                        ),
+                        const Text(
+                          "Pick a favorite location to enable quick access",
+                          style: TextStyle(
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.w300,
+                            color: ColorPath.offBlack,
                           ),
-                          YMargin(10),
-                          DotWidget(
-                            dashColor: ColorPath.Primaryfield,
-                            dashHeight: 1.0,
-                            dashWidth: 2.0,
-                          ),
-                          YMargin(10),
-                          CustomTextFieldWidget(
-                            controller: favoritetextEditingController,
-                            keyboardType: TextInputType.streetAddress,
-                            autofill: [AutofillHints.addressCityAndState],
-                            hintText: 'Enter favorite location',
-                          ),
-                          YMargin(10),
-                          CustomTextFieldWidget(
-                            controller: favoriteaddresstextEditingController,
-                            keyboardType: TextInputType.streetAddress,
-                            autofill: [AutofillHints.addressCityAndState],
-                            hintText: 'Enter favorite address',
-                          ),
-                          YMargin(10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0),
-                                child: Text(
-                                  "Pick a favorite location to enable quick access",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 11.0,
-                                    fontWeight: FontWeight.w300,
-                                    color: ColorPath.offBlack,
-                                  ),
+                        ),
+                        const YMargin(10),
+                        const DotWidget(
+                          dashColor: ColorPath.primaryfield,
+                          dashHeight: 1.0,
+                          dashWidth: 2.0,
+                        ),
+                        const YMargin(10),
+                        CustomTextFieldWidget(
+                          controller: favoritetextEditingController,
+                          keyboardType: TextInputType.streetAddress,
+                          autofill: const [AutofillHints.addressCityAndState],
+                          hintText: 'Enter favorite location',
+                        ),
+                        const YMargin(10),
+                        CustomTextFieldWidget(
+                          controller: favoriteaddresstextEditingController,
+                          keyboardType: TextInputType.streetAddress,
+                          autofill: const [AutofillHints.addressCityAndState],
+                          hintText: 'Enter favorite address',
+                        ),
+                        const YMargin(10),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 30.0),
+                              child: Text(
+                                "Pick a favorite location to enable quick access",
+                                style: TextStyle(
+                                  fontSize: 11.0,
+                                  fontWeight: FontWeight.w300,
+                                  color: ColorPath.offBlack,
                                 ),
                               ),
-                            ],
-                          ),
-                          YMargin(10),
-                          Container(
-                            height: 100,
-                            width: context.screenWidth() / 1.2,
-                            child: GridView(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 3 / 4,
-                                mainAxisSpacing: 30,
-                                mainAxisExtent: 50,
-                                crossAxisSpacing: 10,
-                              ),
-                              padding: EdgeInsets.only(left: 20),
-                              scrollDirection: Axis.horizontal,
-                              children: AppData.favsitems
-                                  .map((favoriteLists) => FavoriteCard(
-                                      favoriteLists: favoriteLists,
-                                      onSelected: (model) {
-                                        setState(() {
-                                          AppData.favsitems.forEach((item) {
-                                            item.isSelected = false;
-                                          });
-                                          model.isSelected = true;
-                                        });
-                                      }))
-                                  .toList(),
                             ),
+                          ],
+                        ),
+                        const YMargin(10),
+                        SizedBox(
+                          height: 100,
+                          width: context.screenWidth() / 1.2,
+                          child: GridView(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 3 / 4,
+                              mainAxisSpacing: 30,
+                              mainAxisExtent: 50,
+                              crossAxisSpacing: 10,
+                            ),
+                            padding: const EdgeInsets.only(left: 20),
+                            scrollDirection: Axis.horizontal,
+                            children: AppData.favsitems
+                                .map((favoriteLists) => FavoriteCard(
+                                    favoriteLists: favoriteLists,
+                                    onSelected: (model) {
+                                      setState(() {
+                                        for (var item in AppData.favsitems) {
+                                          item.isSelected = false;
+                                        }
+                                        model.isSelected = true;
+                                      });
+                                    }))
+                                .toList(),
                           ),
-                          YMargin(7),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50),
-                            child: Container(
-                              height: 40,
-                              width: context.screenWidth(),
-                              decoration: BoxDecoration(
-                                color: ColorPath.Primarydark,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Set  favorite locations",
-                                      style: GoogleFonts.poppins(
-                                        color: ColorPath.Primarywhite,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                        ),
+                        const YMargin(7),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Container(
+                            height: 40,
+                            width: context.screenWidth(),
+                            decoration: BoxDecoration(
+                              color: ColorPath.primarydark,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Set  favorite locations",
+                                    style: TextStyle(
+                                      color: ColorPath.primarywhite,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           });
@@ -378,7 +384,7 @@ class FavoriteItems extends StatelessWidget {
   final String text;
   final String time;
 
-  FavoriteItems({
+  const FavoriteItems({
     required this.icon,
     required this.text,
     required this.time,
@@ -393,17 +399,17 @@ class FavoriteItems extends StatelessWidget {
         height: 120,
         width: 110,
         decoration: BoxDecoration(
-            border: Border.all(color: ColorPath.PrimaryColor),
-            borderRadius: BorderRadius.all(
+            border: Border.all(color: ColorPath.primaryColor),
+            borderRadius: const BorderRadius.all(
               Radius.circular(25),
             )),
         child: Column(
           children: [
-            YMargin(10),
+            const YMargin(10),
             Container(
               height: 67,
               width: 67,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Color(0xFFF5F6F5),
               ),
@@ -412,19 +418,19 @@ class FavoriteItems extends StatelessWidget {
                 child: SvgPicture.asset(icon, height: 26, width: 26),
               ),
             ),
-            YMargin(5.0),
+            const YMargin(5.0),
             Text(
               text,
-              style: GoogleFonts.montserrat(
+              style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
-                color: ColorPath.Primarydark,
+                color: ColorPath.primarydark,
               ),
             ),
-            YMargin(5.0),
+            const YMargin(5.0),
             Text(
               time,
-              style: GoogleFonts.montserrat(
+              style: const TextStyle(
                 fontSize: 9,
                 fontWeight: FontWeight.w400,
                 color: Color(0xFF999393),
@@ -456,43 +462,43 @@ class CustomPlaceTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 30),
+      padding: const EdgeInsets.only(left: 30),
       height: 55,
       width: context.screenWidth() - 60,
       child: TextField(
-        scrollPadding: EdgeInsets.symmetric(vertical: 15),
+        scrollPadding: const EdgeInsets.symmetric(vertical: 15),
         onSubmitted: onSubmitted,
         controller: placetexteditingcontroller,
-        cursorColor: ColorPath.Primaryblack,
+        cursorColor: ColorPath.primaryblack,
         keyboardType: TextInputType.streetAddress,
-        autofillHints: [AutofillHints.addressCity],
+        autofillHints: const [AutofillHints.addressCity],
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 10,
           ),
           prefixIcon: prefix,
           suffix: suffix,
           filled: true,
-          fillColor: ColorPath.Primaryfield.withOpacity(0.3),
+          fillColor: ColorPath.primaryfield.withOpacity(0.3),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(9),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.transparent,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(9),
-            borderSide: BorderSide(
-              color: ColorPath.Primaryfield,
+            borderSide: const BorderSide(
+              color: ColorPath.primaryfield,
             ),
           ),
           hintText: hintText,
           alignLabelWithHint: true,
-          hintStyle: GoogleFonts.montserrat(
+          hintStyle: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: ColorPath.Primarydark.withOpacity(0.5),
+            color: ColorPath.primarydark.withOpacity(0.5),
           ),
         ),
       ),
@@ -501,7 +507,7 @@ class CustomPlaceTextWidget extends StatelessWidget {
 }
 
 class PrefixIcon1 extends StatelessWidget {
-  PrefixIcon1({
+  const PrefixIcon1({
     Key? key,
   }) : super(key: key);
 
@@ -525,7 +531,7 @@ class PrefixIcon2 extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: SvgPicture.asset(
         ImagesAsset.locate,
-        color: ColorPath.Primarydark.withOpacity(0.5),
+        color: ColorPath.primarydark.withOpacity(0.5),
         height: 10,
         width: 10,
       ),
@@ -545,23 +551,23 @@ class SuffixNow1 extends StatelessWidget {
       child: Container(
           height: 25,
           width: 60,
-          decoration: BoxDecoration(
-              color: ColorPath.Primarydark,
+          decoration: const BoxDecoration(
+              color: ColorPath.primarydark,
               borderRadius: BorderRadius.all(Radius.circular(5.0))),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 Icons.timer_outlined,
                 size: 13.0,
-                color: ColorPath.Primarywhite,
+                color: ColorPath.primarywhite,
               ),
               Text(
                 "Now",
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 10.0,
                   fontWeight: FontWeight.w500,
-                  color: ColorPath.Primarywhite,
+                  color: ColorPath.primarywhite,
                 ),
               )
             ],
@@ -586,20 +592,44 @@ class SuffixNow2 extends StatelessWidget {
         child: Container(
             height: 20,
             width: 20,
-            decoration: BoxDecoration(
-                color: ColorPath.Primarydark,
+            decoration: const BoxDecoration(
+                color: ColorPath.primarydark,
                 borderRadius: BorderRadius.all(Radius.circular(5.0))),
-            child: Icon(
+            child: const Icon(
               Icons.add,
               size: 12.0,
-              color: ColorPath.Primarywhite,
+              color: ColorPath.primarywhite,
             )));
   }
 }
 
-class CustomPlaceHolder extends StatelessWidget {
+class CustomPlaceHolder extends StatefulWidget {
   const CustomPlaceHolder({Key? key}) : super(key: key);
 
+  @override
+  State<CustomPlaceHolder> createState() => _CustomPlaceHolderState();
+}
+
+class _CustomPlaceHolderState extends State<CustomPlaceHolder> {
+  final locationController = TextEditingController();
+  late GoogleMapController controller;
+
+  void searchLocations() async {
+    final query = locationController.text;
+    if (query.isEmpty) {
+      return;
+    }
+    try {
+      final locations = await locationFromAddress(query);
+      if (locations.isEmpty) {
+        return;
+      }
+      final lng = LatLng(locations.first.latitude, locations.first.longitude);
+      controller.animateCamera(CameraUpdate.newLatLngZoom(lng, 15));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -607,55 +637,26 @@ class CustomPlaceHolder extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         height: 55,
-        width: context.screenWidth(),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(9),
-          color: ColorPath.Primaryfield.withOpacity(0.3),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(children: [
-              SvgPicture.asset(ImagesAsset.car, height: 25, width: 25),
-              XMargin(10),
-              Text(
-                "Where to ?",
-                style: GoogleFonts.montserrat(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: ColorPath.Primarydark,
-                ),
-              ),
-            ]),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                  height: 25,
-                  width: 60,
-                  decoration: BoxDecoration(
-                      color: ColorPath.Primarydark,
-                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.timer_outlined,
-                        size: 13.0,
-                        color: ColorPath.Primarywhite,
-                      ),
-                      Text(
-                        "Now",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 10.0,
-                          fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarywhite,
-                        ),
+        width: context.screenWidth(),        
+        child:TextField(
+              controller: locationController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    labelText: 'Where to ?',
+                    suffixIcon: IconButton(
+                      onPressed: searchLocations, 
+                      icon: const Icon(Icons.search,
+                      color: Colors.black,
+                        size: 30,
                       )
-                    ],
-                  )).ripple(() {}),
-            ),
-          ],
-        ),
+                      ),
+                    prefixIcon: Icon(
+                        Icons.drive_eta_rounded,
+                        color: ColorPath.primaryColor.withOpacity(0.3),
+                        size: 30,
+                      ),),
+            ), 
       ).ripple(() {
         showModalBottomSheet(
             isDismissible: true,
@@ -666,11 +667,11 @@ class CustomPlaceHolder extends StatelessWidget {
             context: context,
             builder: (context) {
               return Container(
-                padding: EdgeInsets.only(top: 7),
+                padding: const EdgeInsets.only(top: 7),
                 height: context.screenHeight() - 118,
                 width: context.screenWidth(),
-                decoration: BoxDecoration(
-                  color: ColorPath.Primarywhite,
+                decoration: const BoxDecoration(
+                  color: ColorPath.primarywhite,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
@@ -690,7 +691,7 @@ class CustomPlaceHolder extends StatelessWidget {
         Column(
           children: [
             sheetHeader(),
-            YMargin(40),
+            const YMargin(40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
@@ -703,17 +704,17 @@ class CustomPlaceHolder extends StatelessWidget {
                         onSubmitted: (_) {
                           buildTripDetails(context);
                         },
-                        suffix: SuffixNow1(),
-                        prefix: PrefixIcon1(),
+                        suffix: const SuffixNow1(),
+                        prefix: const PrefixIcon1(),
                       ),
-                      YMargin(5.0),
+                      const YMargin(5.0),
                       CustomPlaceTextWidget(
                         hintText: "Your current location",
                         onSubmitted: (_) {
                           buildTripDetails(context);
                         },
-                        suffix: SuffixNow2(),
-                        prefix: PrefixIcon2(),
+                        suffix: const SuffixNow2(),
+                        prefix: const PrefixIcon2(),
                       ),
                     ],
                   ),
@@ -725,31 +726,31 @@ class CustomPlaceHolder extends StatelessWidget {
         Column(
           children: [
             SvgPicture.asset(ImagesAsset.stopwatch),
-            YMargin(10),
-            Text(
+            const YMargin(10),
+            const Text(
               "Consider the time and don’t keep the rider waiting.",
-              style: GoogleFonts.montserrat(
+              style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
-                color: ColorPath.Primarydark,
+                color: ColorPath.primarydark,
               ),
             ),
-            YMargin(10),
-            Text(
+            const YMargin(10),
+            const Text(
               "You will be charged an additional Ksh50 for every minute you \nkeep the rider waiting",
               textAlign: TextAlign.center,
-              style: GoogleFonts.montserrat(
+              style: TextStyle(
                 fontSize: 8.0,
                 fontWeight: FontWeight.w400,
                 color: Color(0xFF999393),
               ),
             ),
-            YMargin(15),
+            const YMargin(15),
             Container(
               height: 70,
               width: context.screenWidth(),
-              decoration: BoxDecoration(
-                color: ColorPath.Primarydark,
+              decoration: const BoxDecoration(
+                color: ColorPath.primarydark,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
@@ -760,13 +761,13 @@ class CustomPlaceHolder extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(ImagesAsset.globe),
-                    XMargin(5.0),
-                    Text(
+                    const XMargin(5.0),
+                    const Text(
                       "Search on Map",
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        color: ColorPath.Primarywhite,
+                        color: ColorPath.primarywhite,
                       ),
                     )
                   ]),
@@ -781,7 +782,7 @@ class CustomPlaceHolder extends StatelessWidget {
 class FavoriteCard extends StatefulWidget {
   final FavoriteLists favoriteLists;
   final ValueChanged<FavoriteLists> onSelected;
-  FavoriteCard({
+  const FavoriteCard({
     Key? key,
     required this.favoriteLists,
     required this.onSelected,
@@ -801,7 +802,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
       decoration: BoxDecoration(
           color: widget.favoriteLists.isSelected
               ? Colors.black
-              : ColorPath.Primarywhite,
+              : ColorPath.primarywhite,
           border: Border.all(
               color: widget.favoriteLists.isSelected
                   ? Colors.transparent
@@ -812,26 +813,24 @@ class _FavoriteCardState extends State<FavoriteCard> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           widget.favoriteLists.isSelected
-              ? Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
+              ? const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
                   child:
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    Container(
-                      child: Icon(
-                        Icons.check_circle,
-                        size: 10,
-                        color: Colors.green,
-                      ),
+                    Icon(
+                      Icons.check_circle,
+                      size: 10,
+                      color: Colors.green,
                     )
                   ]),
                 )
-              : SizedBox.shrink(),
-          YMargin(5.0),
+              : const SizedBox.shrink(),
+          const YMargin(5.0),
           SvgPicture.asset(
             widget.favoriteLists.icon,
             color: widget.favoriteLists.isSelected
-                ? ColorPath.Primaryfield
-                : ColorPath.Primarydark,
+                ? ColorPath.primaryfield
+                : ColorPath.primarydark,
           )
         ],
       ),
@@ -867,23 +866,23 @@ Widget tripdetails(
                 SvgPicture.asset(icon),
               ],
             ),
-            XMargin(5),
+            const XMargin(5),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   locate,
-                  style: GoogleFonts.montserrat(
+                  style: TextStyle(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w600,
-                    color: ColorPath.Primaryblack.withOpacity(0.5),
+                    color: ColorPath.primaryblack.withOpacity(0.5),
                   ),
                 ),
-                YMargin(10),
+                const YMargin(10),
                 Text(
                   location,
-                  style: GoogleFonts.montserrat(
+                  style: const TextStyle(
                     fontSize: 10.0,
                     fontWeight: FontWeight.w300,
                     color: Color(0xFF818181),
@@ -899,17 +898,17 @@ Widget tripdetails(
           children: [
             Text(
               extimated,
-              style: GoogleFonts.montserrat(
+              style: const TextStyle(
                 fontSize: 9.0,
                 fontWeight: FontWeight.w300,
                 color: Color(0xFF818181),
               ),
             ),
-            YMargin(2.0),
+            const YMargin(2.0),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  color: ColorPath.Primarydark,
+                  color: ColorPath.primarydark,
                   borderRadius: BorderRadius.circular(7.0)),
               child: Row(
                 children: [
@@ -918,13 +917,13 @@ Widget tripdetails(
                     height: 16,
                     width: 16,
                   ),
-                  XMargin(4),
+                  const XMargin(4),
                   Text(
                     eDistance,
-                    style: GoogleFonts.montserrat(
+                    style: const TextStyle(
                       fontSize: 11.0,
                       fontWeight: FontWeight.w500,
-                      color: ColorPath.Primaryfield,
+                      color: ColorPath.primaryfield,
                     ),
                   )
                 ],

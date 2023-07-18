@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
 import 'package:fikisha/views/Authentication/verify_otp.dart';
@@ -8,7 +9,7 @@ import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/utils/colors.dart';
 
 class MobileAuth extends StatefulWidget {
-  MobileAuth({Key? key}) : super(key: key);
+  const MobileAuth({Key? key}) : super(key: key);
 
   @override
   _MobileAuthState createState() => _MobileAuthState();
@@ -40,97 +41,93 @@ class _MobileAuthState extends State<MobileAuth> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       body: SingleChildScrollView(
         child: FadeInDown(
-          duration: Duration(
+          duration: const Duration(
             milliseconds: 2000,
           ),
-          child: Column(
-            children: [
-              YMargin(100),
-              authHeader(context),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Let’s know you",
-                    style: GoogleFonts.montserrat(
-                      fontWeight: FontWeight.w500,
-                      color: ColorPath.Primarydark,
-                      fontSize: 23,
-                    ),
-                  ),
-                  YMargin(10),
-                  Text("Please enter your Mobile Number",
-                      style: GoogleFonts.montserrat(
-                        fontWeight: FontWeight.normal,
-                        color: ColorPath.Primarydark,
-                        fontSize: 14,
-                      )),
-                  YMargin(3.0),
-                  Text("An OTP will be sent you for verification?",
-                      style: GoogleFonts.montserrat(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                const YMargin(100),
+                authHeader(context),
+                const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Let’s know you",
+                      style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: ColorPath.PrimaryColor,
-                        fontSize: 9.0,
-                      )),
-                ],
-              ),
-              YMargin(25),
-              CustomTextFieldWidget(
-                controller: phonetextEditingController,
+                        color: ColorPath.primarydark,
+                        fontSize: 23,
+                      ),
+                    ),
+                    YMargin(10),
+                    Text("Please enter your Mobile Number",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: ColorPath.primarydark,
+                          fontSize: 14,
+                        )),
+                    YMargin(3.0),
+                    Text("An OTP will be sent you for verification?",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: ColorPath.primaryColor,
+                          fontSize: 9.0,
+                        )),
+                  ],
+                ),
+                const YMargin(25),
+                TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                    filled: false,
+                    hintText: 'Mobile Number',
+                    // prefixText: '+254 | ',
+                    prefixIcon: Icon(Icons.phone_iphone)),
+                maxLength: 10,
                 keyboardType: TextInputType.phone,
-                autofill: [AutofillHints.telephoneNumberAreaCode],
-                hintText: 'Mobile Number',
-                prefixWidget: DropdownButtonHideUnderline(
-                    child: ButtonTheme(
-                        alignedDropdown: true, child: Text("+254 |  "))),
-              ),
-              YMargin(30),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Container(
-                  height: 50,
-                  width: context.screenWidth(),
-                  decoration: BoxDecoration(
-                    color: isChange
-                        ? ColorPath.Secondarygrey
-                        : ColorPath.Primaryfield,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: InkWell(
-                    onTap: isChange
-                        ? () {
-                            setState(() {
-                              isChange = false;
-                              phonetextEditingController.clear();
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VerifyOtp(
-                                        phonenumber:
-                                            phonetextEditingController.text),
-                                  ));
-                            });
-                          }
-                        : null,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Next",
-                          style: GoogleFonts.poppins(
-                            color: ColorPath.Primarywhite,
-                            fontWeight: FontWeight.w500,
-                          ),
+                controller: phonetextEditingController,
+              ),              
+                const YMargin(30),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Container(
+                    height: 50,
+                    width: context.screenWidth(),
+                    decoration: BoxDecoration(
+                      color: isChange
+                          ? ColorPath.secondarygrey
+                          : ColorPath.primaryfield,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: ElevatedButton(                      
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerifyOtp(
+                                          phonenumber:
+                                              phonetextEditingController.text),
+                                    ));
+                      },                    
+                      child: const Text(
+                        "Next",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: ColorPath.primarywhite,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -151,13 +148,13 @@ class CustomTextFieldWidget extends StatelessWidget {
   const CustomTextFieldWidget(
       {Key? key,
       required this.controller,
-      this.hintText: 'A Text is missing HERE!',
+      this.hintText = 'A Text is missing HERE!',
       this.keyboardType,
       this.autofill,
       this.prefixWidget,
-      this.hideText: false,
+      this.hideText = false,
       this.suffixWidget,
-      this.fillcolour: ColorPath.Primaryfield,
+      this.fillcolour = ColorPath.primaryfield,
       this.onChanged})
       : super(key: key);
 
@@ -166,17 +163,17 @@ class CustomTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       height: 50,
       child: TextField(
         onChanged: onChanged,
         obscureText: hideText,
         controller: controller,
-        cursorColor: ColorPath.Primaryblack,
+        cursorColor: ColorPath.primaryblack,
         keyboardType: keyboardType,
         autofillHints: autofill,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(
+          contentPadding: const EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 10,
           ),
@@ -185,19 +182,19 @@ class CustomTextFieldWidget extends StatelessWidget {
           fillColor: fillcolour,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(9),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xFFd4f0ff),
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(9),
-            borderSide: BorderSide(
-              color: ColorPath.Primaryfield,
+            borderSide: const BorderSide(
+              color: ColorPath.primaryfield,
             ),
           ),
           hintText: hintText,
           alignLabelWithHint: true,
-          hintStyle: GoogleFonts.montserrat(
+          hintStyle: const TextStyle(
             fontSize: 13,
             color: Color(0xFF77869E),
           ),
@@ -218,20 +215,20 @@ class CustomDropdown extends StatelessWidget {
     this.dropdownValue,
     required this.items,
     this.onChanged,
-    this.backgroundColour: ColorPath.Primarywhite,
+    this.backgroundColour = ColorPath.primarywhite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       height: 45,
       decoration: BoxDecoration(
         color: backgroundColour,
         borderRadius: BorderRadius.circular(9),
         border: Border.all(
-          color: Color(0xFF0647b0),
+          color: const Color(0xFF0647b0),
           width: 0.1,
         ),
       ),
@@ -257,7 +254,7 @@ class NumericPad extends StatelessWidget {
   final Function(int) onNumberSelected;
   final Function(bool)? onValidate;
 
-  NumericPad({
+  const NumericPad({super.key, 
     required this.onNumberSelected,
     this.onValidate,
   });
@@ -265,55 +262,47 @@ class NumericPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFE7E8E7),
+      color: const Color(0xFFE7E8E7),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    numberContainer(1),
-                    numberContainer(2),
-                    numberContainer(3),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  numberContainer(1),
+                  numberContainer(2),
+                  numberContainer(3),
+                ],
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    numberContainer(4),
-                    numberContainer(5),
-                    numberContainer(6),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  numberContainer(4),
+                  numberContainer(5),
+                  numberContainer(6),
+                ],
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    numberContainer(7),
-                    numberContainer(8),
-                    numberContainer(9),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  numberContainer(7),
+                  numberContainer(8),
+                  numberContainer(9),
+                ],
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildBackspace(),
-                    numberContainer(0),
-                    validateContainer(context)
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  buildBackspace(),
+                  numberContainer(0),
+                  validateContainer(context)
+                ],
               ),
             ],
           ),
@@ -325,10 +314,10 @@ class NumericPad extends StatelessWidget {
   Widget numberContainer(int number) {
     return Expanded(
         child: Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Container(
-        padding: EdgeInsets.only(top: 10, bottom: 10),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        decoration: const BoxDecoration(
           color: Color(0xffFFFFFF),
           borderRadius: BorderRadius.all(
             Radius.circular(15),
@@ -337,7 +326,7 @@ class NumericPad extends StatelessWidget {
         child: Center(
           child: Text(
             number.toString(),
-            style: GoogleFonts.montserrat(
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w400,
               color: Color(0xFF41536C),
@@ -355,16 +344,16 @@ class NumericPad extends StatelessWidget {
   Widget buildBackspace() {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Container(
-          padding: EdgeInsets.only(top: 16, bottom: 16),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.only(top: 16, bottom: 16),
+          decoration: const BoxDecoration(
             color: Color(0xffF7F9FD),
             borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),
           ),
-          child: Center(
+          child: const Center(
             child: Icon(
               Icons.backspace,
               size: 28,
@@ -385,18 +374,18 @@ class NumericPad extends StatelessWidget {
         child: Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        padding: EdgeInsets.only(top: 16, bottom: 16),
-        decoration: BoxDecoration(
-          color: ColorPath.Primarydark,
+        padding: const EdgeInsets.only(top: 16, bottom: 16),
+        decoration: const BoxDecoration(
+          color: ColorPath.primarydark,
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ),
         ),
-        child: Center(
+        child: const Center(
           child: Icon(
             Icons.arrow_forward,
             size: 28,
-            color: ColorPath.Primarywhite,
+            color: ColorPath.primarywhite,
           ),
         ),
       ).ripple(() {
@@ -412,8 +401,8 @@ class NumericPad extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Container(
-          padding: EdgeInsets.only(top: 16, bottom: 16),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.only(top: 16, bottom: 16),
+          decoration: const BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.all(
               Radius.circular(15),

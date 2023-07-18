@@ -1,4 +1,6 @@
 /// A widget based custom info window for google_maps_flutter package.
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 library custom_info_window;
 
 import 'dart:io';
@@ -41,7 +43,7 @@ class CustomInfoWindow extends StatefulWidget {
   /// Width of [CustomInfoWindow].
   final double width;
 
-  const CustomInfoWindow({
+  const CustomInfoWindow({super.key, 
     required this.controller,
     this.offset = 50,
     this.height = 50,
@@ -124,10 +126,10 @@ class _CustomInfoWindowState extends State<CustomInfoWindow> {
                 _latLng == null)
             ? false
             : true,
-        child: Container(
-          child: _child,
+        child: SizedBox(
           height: widget.height,
           width: widget.width,
+          child: _child,
         ),
       ),
     );

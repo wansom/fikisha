@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Home/build_trip_details.dart';
@@ -14,8 +13,8 @@ class Support extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
-      appBar: PreferredSize(
+      backgroundColor: ColorPath.primarywhite,
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Support"),
       ),
@@ -23,10 +22,10 @@ class Support extends StatelessWidget {
         children: [
           const YMargin(40),
           Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            margin: EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-                color: ColorPath.Primarywhite,
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            margin: const EdgeInsets.only(left: 10, right: 10),
+            decoration: const BoxDecoration(
+                color: ColorPath.primarywhite,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15))),
@@ -34,100 +33,100 @@ class Support extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const YMargin(10),
-                  Text(
+                  const Text(
                     "Fikisha Support",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: ColorPath.Primarydark),
+                        color: ColorPath.primarydark),
                   ),
                   const YMargin(15),
-                  Text(
+                  const Text(
                     "Question and answer about Fikisha",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w300,
-                      color: ColorPath.PrimaryColor,
+                      color: ColorPath.primaryColor,
                     ),
                   ),
                   const YMargin(10),
                   FadeInUp(
-                    duration: Duration(milliseconds: 1800),
-                    child: DotWidget(
-                      dashColor: ColorPath.Primaryfield,
+                    duration: const Duration(milliseconds: 1800),
+                    child: const DotWidget(
+                      dashColor: ColorPath.primaryfield,
                       dashHeight: 1.0,
                       dashWidth: 2.0,
                     ),
                   ),
                   const YMargin(15),
                   Card(
-                      color: ColorPath.Primaryfield.withOpacity(0.5),
+                      color: ColorPath.primaryfield.withOpacity(0.5),
                       elevation: 0,
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                       shape: RoundedRectangleBorder(
-                          side: new BorderSide(
-                              color: ColorPath.PrimaryColor.withOpacity(0.6)),
+                          side: BorderSide(
+                              color: ColorPath.primaryColor.withOpacity(0.6)),
                           borderRadius: BorderRadius.circular(10.0)),
                       child: Column(children: [
                         ListTile(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 25),
                           onTap: () {
                             // Navigator.push(context, MaterialPageRoute(builder: (context) => FAQs()));
                           },
                           leading: SvgPicture.asset(ImagesAsset.faq),
-                          title: Text(
+                          title: const Text(
                             "FAQ",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 13, color: ColorPath.Primarydark),
+                            style: TextStyle(
+                                fontSize: 13, color: ColorPath.primarydark),
                           ),
-                          subtitle: Text(
+                          subtitle: const Text(
                             "Question and answer about Fikisha",
                             style: TextStyle(
-                                fontSize: 10, color: ColorPath.PrimaryColor),
+                                fontSize: 10, color: ColorPath.primaryColor),
                           ),
                           trailing:
-                              Icon(Icons.arrow_forward_ios_outlined, size: 10),
+                              const Icon(Icons.arrow_forward_ios_outlined, size: 10),
                         ),
                         _buildDivider(),
                         ListTile(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 25),
                           onTap: () {
                             //  Navigator.push(context, MaterialPageRoute(builder: (context) => TechSupport()));
                           },
                           leading: SvgPicture.asset(ImagesAsset.headphone),
-                          title: Text(
+                          title: const Text(
                             "Technical Support",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 13, color: ColorPath.Primarydark),
+                            style: TextStyle(
+                                fontSize: 13, color: ColorPath.primarydark),
                           ),
-                          subtitle: Text(
+                          subtitle: const Text(
                             "Tell us how we can help you",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 10, color: ColorPath.PrimaryColor),
+                            style: TextStyle(
+                                fontSize: 10, color: ColorPath.primaryColor),
                           ),
                           trailing:
-                              Icon(Icons.arrow_forward_ios_outlined, size: 10),
+                              const Icon(Icons.arrow_forward_ios_outlined, size: 10),
                         ),
                         _buildDivider(),
                         ListTile(
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 25),
                           onTap: () {},
                           leading: SvgPicture.asset(ImagesAsset.chat),
-                          title: Text(
+                          title: const Text(
                             "Chat live",
                             style: TextStyle(
-                                fontSize: 13, color: ColorPath.Primarydark),
+                                fontSize: 13, color: ColorPath.primarydark),
                           ),
-                          subtitle: Text(
+                          subtitle: const Text(
                             "Communicate with our customer service live",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 10, color: ColorPath.PrimaryColor),
+                            style: TextStyle(
+                                fontSize: 10, color: ColorPath.primaryColor),
                           ),
                           trailing:
-                              Icon(Icons.arrow_forward_ios_outlined, size: 10),
+                              const Icon(Icons.arrow_forward_ios_outlined, size: 10),
                         ),
                       ])),
                 ]),
@@ -140,8 +139,8 @@ class Support extends StatelessWidget {
 
 Widget _buildDivider() {
   return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       width: double.infinity - 10,
       height: 1,
-      color: ColorPath.PrimaryColor.withOpacity(0.6));
+      color: ColorPath.primaryColor.withOpacity(0.6));
 }

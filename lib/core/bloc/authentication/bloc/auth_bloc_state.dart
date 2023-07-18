@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 part of 'auth_bloc_bloc.dart';
 
 abstract class AuthBlocState extends Equatable {
@@ -24,9 +26,13 @@ class AuthBlocLogin extends AuthBlocState {
 
 ///[AutoLoggedState] State that automatically logs a user in the application
 class AutoLoggedState extends AuthBlocLogin {
+  @override
   final String? uid;
+  @override
   final String? firstname;
+  @override
   final String? lastname;
+  @override
   final String? email;
   const AutoLoggedState(this.uid, this.firstname, this.lastname, this.email) : super(uid, firstname, lastname, email);
 }

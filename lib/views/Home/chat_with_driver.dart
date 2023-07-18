@@ -1,9 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:math';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
@@ -45,14 +46,14 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: ChatAppBar(),
       ),
       body: FadeInUp(
-        duration: Duration(milliseconds: 2000),
+        duration: const Duration(milliseconds: 2000),
         child: Column(children: [
-          YMargin(10),
+          const YMargin(10),
           Expanded(
               child: ListView.builder(
                   itemCount: messages.length,
@@ -76,32 +77,32 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
                               children: [
                                 Text(
                                   msg.user == 1 ? "Rider" : "You",
-                                  style: GoogleFonts.montserrat(
+                                  style: const TextStyle(
                                       fontSize: 10.0,
                                       fontWeight: FontWeight.w500,
-                                      color: ColorPath.Primarydark),
+                                      color: ColorPath.primarydark),
                                 ),
-                                YMargin(5),
+                                const YMargin(5),
                                 Container(
                                   height: 40,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     vertical: 10.0,
                                     horizontal: 16.0,
                                   ),
                                   decoration: BoxDecoration(
                                     color: msg.user == 1
-                                        ? ColorPath.SecondaryColor
-                                        : ColorPath.PrimaryColor,
+                                        ? ColorPath.secondaryColor
+                                        : ColorPath.primaryColor,
                                     borderRadius: BorderRadius.circular(9.0),
                                   ),
                                   child: Text(
                                     msg.desc,
-                                    style: GoogleFonts.montserrat(
+                                    style: TextStyle(
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w300,
                                       color: msg.user == 1
-                                          ? ColorPath.Primarydark
-                                          : ColorPath.Primarywhite,
+                                          ? ColorPath.primarydark
+                                          : ColorPath.primarywhite,
                                     ),
                                   ),
                                 ),
@@ -113,11 +114,11 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
                     );
                   })),
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               vertical: 8,
               horizontal: 16.0,
             ),
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               vertical: 8,
             ),
             decoration: BoxDecoration(
@@ -129,17 +130,17 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
                   child: TextField(
                     textInputAction: TextInputAction.send,
                     controller: _textEditingController,
-                    style: GoogleFonts.montserrat(
+                    style: const TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w400,
-                        color: ColorPath.Primarydark),
+                        color: ColorPath.primarydark),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         vertical: 10.0,
                         horizontal: 10.0,
                       ),
                       hintText: "Send Message to Rider",
-                      hintStyle: GoogleFonts.montserrat(
+                      hintStyle: const TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFF999393),
@@ -147,16 +148,16 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
                       suffixIcon: Container(
                         height: 50,
                         width: 50,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(Icons.tag_faces_outlined),
                         ),
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(100.0),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 0.5,
                             color: Color(0xFFDADADA),
                           )),
@@ -164,21 +165,21 @@ class _ChatWithDriverState extends State<ChatWithDriver> {
                     onEditingComplete: _savemsg,
                   ),
                 ),
-                XMargin(5.0),
+                const XMargin(5.0),
                 Container(
                   height: 50,
                   width: 50,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ColorPath.Primarydark,
+                    color: ColorPath.primarydark,
                   ),
                   child: IconButton(
                     onPressed: () {
                       _savemsg();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.send,
-                      color: ColorPath.Primarywhite,
+                      color: ColorPath.primarywhite,
                     ),
                   ),
                 )
@@ -199,7 +200,7 @@ class ChatAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorPath.Primarydark,
+      backgroundColor: ColorPath.primarydark,
       automaticallyImplyLeading: false,
       centerTitle: true,
       leadingWidth: 67,
@@ -216,19 +217,19 @@ class ChatAppBar extends StatelessWidget {
           ).ripple(() {
             driversDetail(context);
           }),
-          YMargin(5),
-          Text(
+          const YMargin(5),
+          const Text(
             "Ochieng Warren",
-            style: GoogleFonts.montserrat(
+            style: TextStyle(
               fontSize: 12.0,
               fontWeight: FontWeight.w400,
-              color: ColorPath.SecondaryColor,
+              color: ColorPath.secondaryColor,
             ),
           ),
         ],
       ),
       leading: Padding(
-        padding: EdgeInsets.only(left: 15),
+        padding: const EdgeInsets.only(left: 15),
         child: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -236,23 +237,23 @@ class ChatAppBar extends StatelessWidget {
           child: Container(
             width: 45,
             height: 45,
-            decoration: BoxDecoration(
-                color: ColorPath.Primaryfield,
+            decoration: const BoxDecoration(
+                color: ColorPath.primaryfield,
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            child: Center(
+            child: const Center(
                 child: Icon(
               Icons.arrow_back_ios,
               size: 18,
-              color: ColorPath.Primarydark,
+              color: ColorPath.primarydark,
             )),
           ),
         ),
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 20),
+          padding: const EdgeInsets.only(right: 20),
           child: Center(
-            child: Container(
+            child: SizedBox(
               height: 30,
               width: 30,
               child: SvgPicture.asset(

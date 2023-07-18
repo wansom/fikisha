@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -22,47 +23,47 @@ class _ManagePasswordState extends State<ManagePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Manage Password"),
       ),
       body: FadeInUp(
-        duration: Duration(milliseconds: 2000),
+        duration: const Duration(milliseconds: 2000),
         child: Column(
           children: [
-            YMargin(50),
+            const YMargin(50),
             CustomTextFieldWidget(
               controller: passwordtexteditingcontroller,
               hideText: true,
               keyboardType: TextInputType.visiblePassword,
-              autofill: [AutofillHints.password],
+              autofill: const [AutofillHints.password],
               hintText: 'Password',
             ),
-            YMargin(8.0),
+            const YMargin(8.0),
             CustomTextFieldWidget(
               controller: confirmpasswordtexteditingcontroller,
               hideText: true,
               keyboardType: TextInputType.visiblePassword,
-              autofill: [AutofillHints.password],
+              autofill: const [AutofillHints.password],
               hintText: 'Confirm Password',
             ),
-            YMargin(20),
+            const YMargin(20),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Container(
                 height: 50,
                 width: context.screenWidth(),
                 decoration: BoxDecoration(
-                  color: ColorPath.Secondarygrey,
+                  color: ColorPath.secondarygrey,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Update Password",
-                      style: GoogleFonts.poppins(
-                        color: ColorPath.Primarywhite,
+                      style: TextStyle(
+                        color: ColorPath.primarywhite,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

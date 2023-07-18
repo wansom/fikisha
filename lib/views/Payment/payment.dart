@@ -1,8 +1,9 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -11,7 +12,7 @@ import 'package:fikisha/utils/colors.dart';
 import 'add_payment_method.dart';
 
 class Payments extends StatefulWidget {
-  Payments({Key? key}) : super(key: key);
+  const Payments({Key? key}) : super(key: key);
 
   @override
   _PaymentsState createState() => _PaymentsState();
@@ -23,13 +24,13 @@ class _PaymentsState extends State<Payments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Payment"),
       ),
       body: Column(
         children: [
-          YMargin(20),
+          const YMargin(20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Row(
@@ -37,36 +38,36 @@ class _PaymentsState extends State<Payments> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 FadeInUp(
-                  duration: Duration(milliseconds: 1800),
+                  duration: const Duration(milliseconds: 1800),
                   child: Container(
                     width: 340,
                     height: 122,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: ColorPath.Primarydark,
+                        color: ColorPath.primarydark,
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(ImagesAsset.paybg),
                         )),
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           "Fikisha Balance",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.w600,
-                            color: ColorPath.SecondaryColor,
+                            color: ColorPath.secondaryColor,
                           ),
                         ),
                         YMargin(10),
                         Text(
                           "Ksh13,300",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontSize: 36.0,
                             fontWeight: FontWeight.w600,
-                            color: ColorPath.SecondaryColor,
+                            color: ColorPath.secondaryColor,
                           ),
                         ),
                       ],
@@ -76,45 +77,45 @@ class _PaymentsState extends State<Payments> {
               ],
             ),
           ),
-          YMargin(30),
+          const YMargin(30),
           FadeInUp(
-            duration: Duration(milliseconds: 2000),
+            duration: const Duration(milliseconds: 2000),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
                       Text(
                         "Payment Methods",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
                     ],
                   ),
                 ),
-                YMargin(20),
+                const YMargin(20),
                 Container(
                   height: 85,
                   width: context.screenWidth(),
-                  decoration: BoxDecoration(color: ColorPath.Primarydark),
+                  decoration: const BoxDecoration(color: ColorPath.primarydark),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          XMargin(20),
+                          const XMargin(20),
                           SvgPicture.asset(ImagesAsset.money1),
-                          XMargin(10),
-                          Text(
+                          const XMargin(10),
+                          const Text(
                             "Pay with Cash",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 13.0,
                               fontWeight: FontWeight.w600,
-                              color: ColorPath.SecondaryColor,
+                              color: ColorPath.secondaryColor,
                             ),
                           ),
                         ],
@@ -122,7 +123,7 @@ class _PaymentsState extends State<Payments> {
                       Row(
                         children: [
                           Radio(
-                            activeColor: ColorPath.SecondaryColor,
+                            activeColor: ColorPath.secondaryColor,
                             value: "cash",
                             onChanged: (value) {
                               setState(() {
@@ -131,90 +132,90 @@ class _PaymentsState extends State<Payments> {
                             },
                             groupValue: payment,
                           ),
-                          XMargin(20),
+                          const XMargin(20),
                         ],
                       ),
                     ],
                   ),
                 ),
-                YMargin(15),
+                const YMargin(15),
                 Container(
                   height: 52,
                   width: context.screenWidth(),
-                  decoration: BoxDecoration(color: ColorPath.Primaryfield),
+                  decoration: const BoxDecoration(color: ColorPath.primaryfield),
                   child: Row(
                     children: [
-                      XMargin(20),
+                      const XMargin(20),
                       Container(
                         width: 25,
                         height: 25,
-                        decoration: BoxDecoration(
-                          color: ColorPath.Primarydark,
+                        decoration: const BoxDecoration(
+                          color: ColorPath.primarydark,
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.add,
                           size: 15,
-                          color: ColorPath.Primaryfield,
+                          color: ColorPath.primaryfield,
                         ),
                       ),
-                      XMargin(10),
-                      Text(
+                      const XMargin(10),
+                      const Text(
                         "Add Payment Method",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 13.0,
                           fontWeight: FontWeight.w600,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
                     ],
                   ),
                 ).ripple(() {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddPaymethod()));
+                      MaterialPageRoute(builder: (context) => const AddPaymethod()));
                 }),
-                YMargin(20),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                const YMargin(20),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     children: [
                       Text(
                         "Apply Coupon",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
                     ],
                   ),
                 ),
-                YMargin(10),
+                const YMargin(10),
                 CustomTextFieldWidget(
                   controller: coupontextEditingController,
                   keyboardType: TextInputType.text,
-                  autofill: [AutofillHints.name],
+                  autofill: const [AutofillHints.name],
                   hintText: 'Enter Coupon Code',
                 ),
-                YMargin(15),
+                const YMargin(15),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Container(
                     height: 50,
                     width: context.screenWidth(),
                     decoration: BoxDecoration(
-                      color: ColorPath.Secondarygrey,
+                      color: ColorPath.secondarygrey,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: InkWell(
                       onTap: () {},
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             "Apply Coupon Code",
-                            style: GoogleFonts.poppins(
-                              color: ColorPath.Primarywhite,
+                            style: TextStyle(
+                              color: ColorPath.primarywhite,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -234,7 +235,7 @@ class _PaymentsState extends State<Payments> {
 
 class CustomAppBar extends StatelessWidget {
   final String title;
-  CustomAppBar({
+  const CustomAppBar({
     required this.title,
     Key? key,
   }) : super(key: key);
@@ -242,21 +243,21 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        brightness: Brightness.dark,
-        backgroundColor: ColorPath.Primarydark,
+        // brightness: Brightness.dark,
+        backgroundColor: ColorPath.primarydark,
         automaticallyImplyLeading: false,
         centerTitle: true,
         leadingWidth: 67,
         title: Text(
           title,
-          style: GoogleFonts.montserrat(
+          style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.w400,
-            color: ColorPath.Primarywhite,
+            color: ColorPath.primarywhite,
           ),
         ),
         leading: Padding(
-          padding: EdgeInsets.only(left: 15),
+          padding: const EdgeInsets.only(left: 15),
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -264,14 +265,14 @@ class CustomAppBar extends StatelessWidget {
             child: Container(
               width: 45,
               height: 45,
-              decoration: BoxDecoration(
-                  color: ColorPath.Primaryfield,
+              decoration: const BoxDecoration(
+                  color: ColorPath.primaryfield,
                   borderRadius: BorderRadius.all(Radius.circular(10.0))),
-              child: Center(
+              child: const Center(
                   child: Icon(
                 Icons.arrow_back_ios,
                 size: 18,
-                color: ColorPath.Primarydark,
+                color: ColorPath.primarydark,
               )),
             ),
           ),

@@ -1,16 +1,15 @@
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:fikisha/core/services/local_auth.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Home/home_view.dart';
 import 'package:fikisha/utils/colors.dart';
 
-import 'choose_auth.dart';
 import 'components/auth_header.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,71 +52,71 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorPath.Primarywhite,
+        backgroundColor: ColorPath.primarywhite,
         body: SingleChildScrollView(
           child: Column(children: [
-            YMargin(100),
+            const YMargin(100),
             authHeader(context),
             Column(
               children: [
                 FadeInDown(
-                  duration: Duration(milliseconds: 1400),
+                  duration: const Duration(milliseconds: 1400),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Welcome Back To Fikisha",
-                              style: GoogleFonts.montserrat(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: ColorPath.Primarydark,
+                                color: ColorPath.primarydark,
                                 fontSize: 18,
                               ),
                             ),
                             YMargin(7),
                             Text("Enjoy awesome deliveries at cheap rates",
-                                style: GoogleFonts.montserrat(
+                                style: TextStyle(
                                   fontWeight: FontWeight.w300,
-                                  color: ColorPath.Primarydark,
+                                  color: ColorPath.primarydark,
                                   fontSize: 12,
                                 )),
                           ],
                         ),
                       ),
-                      YMargin(30),
+                      const YMargin(30),
                       CustomTextFieldWidget(
                         controller: emailnametexteditingcontroller,
                         keyboardType: TextInputType.emailAddress,
-                        autofill: [AutofillHints.email],
+                        autofill: const [AutofillHints.email],
                         hintText: 'Email Address',
                       ),
-                      YMargin(10),
+                      const YMargin(10),
                       CustomTextFieldWidget(
                         controller: passwordnametexteditingcontroller,
                         keyboardType: TextInputType.visiblePassword,
                         hideText: true,
-                        suffixWidget: Text("show"),
-                        autofill: [AutofillHints.password],
+                        suffixWidget: const Text("show"),
+                        autofill: const [AutofillHints.password],
                         hintText: 'Password',
                       ),
-                      YMargin(20),
+                      const YMargin(20),
                       FadeInDown(
-                        duration: Duration(milliseconds: 1600),
+                        duration: const Duration(milliseconds: 1600),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Container(
                             height: 50,
                             width: context.screenWidth(),
                             decoration: BoxDecoration(
                               color: isChange
-                                  ? ColorPath.Secondarygrey
-                                  : ColorPath.Primaryfield,
+                                  ? ColorPath.secondarygrey
+                                  : ColorPath.primaryfield,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: InkWell(
@@ -128,18 +127,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => Homeview(),
+                                              builder: (context) => const Homeview(),
                                             ));
                                       });
                                     }
                                   : null,
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     "Login",
-                                    style: GoogleFonts.poppins(
-                                      color: ColorPath.Primarywhite,
+                                    style: TextStyle(
+                                      color: ColorPath.primarywhite,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -152,26 +151,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                YMargin(40),
+                const YMargin(40),
                 FadeInDown(
-                  duration: Duration(milliseconds: 2000),
+                  duration: const Duration(milliseconds: 2000),
                   child: Row(children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 30),
                       child: Container(
                         height: 50,
                         width: context.screenWidth() - 180,
                         decoration: BoxDecoration(
-                            color: ColorPath.Primarywhite,
+                            color: ColorPath.primarywhite,
                             borderRadius: BorderRadius.circular(8.0),
                             border: Border.all(
-                              color: Color(0xFF90D8FF),
+                              color: const Color(0xFF90D8FF),
                             )),
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => Homeview()),
+                                  builder: (context) => const Homeview()),
                             );
                           },
                           child: Padding(
@@ -179,14 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   "Continue with Google",
-                                  style: GoogleFonts.poppins(
-                                    color: ColorPath.Secondarydark,
+                                  style: TextStyle(
+                                    color: ColorPath.secondarydark,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                XMargin(7.0),
+                                const XMargin(7.0),
                                 SvgPicture.asset(ImagesAsset.google),
                               ],
                             ),
@@ -194,13 +193,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    XMargin(8),
+                    const XMargin(8),
                     InkWell(
                       onTap: () {},
                       child: Container(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: ColorPath.Primaryblue,
+                            color: ColorPath.primaryblue,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           height: 50,
@@ -208,22 +207,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: SvgPicture.asset(ImagesAsset.facebookb,
                               height: 14, width: 9)),
                     ),
-                    XMargin(8),
+                    const XMargin(8),
                     InkWell(
-                      onTap: () async {
-                        final isAuthenticated =
-                            await LocalAuthApi.authenticate();
+                      onTap: ()  {
+                        // final isAuthenticated =
+                        //     await LocalAuthApi.authenticate();
 
-                        if (isAuthenticated) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => Homeview()),
+                        // if (isAuthenticated) {
+                        //   Navigator.of(context).pushReplacement(
+                        //     MaterialPageRoute(builder: (context) => const Homeview()),
+                        //   );
+                        // }
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => const Homeview()),
                           );
-                        }
                       },
                       child: Container(
-                          padding: EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: ColorPath.PrimaryColor,
+                            color: ColorPath.primaryColor,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           height: 50,
@@ -238,28 +240,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ]),
                 ),
-                YMargin(40),
+                const YMargin(40),
                 FadeInDown(
-                  duration: Duration(milliseconds: 2200),
+                  duration: const Duration(milliseconds: 2200),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Have an account?",
-                          style: GoogleFonts.montserrat(
+                      const Text("Have an account?",
+                          style: TextStyle(
                             fontSize: 13,
                             color: Colors.black,
                             fontWeight: FontWeight.w300,
                           )),
-                      XMargin(5.0),
+                      const XMargin(5.0),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                                builder: (context) => ChooseAuth()),
+                                builder: (context) => const MobileAuth()),
                           );
                         },
-                        child: Text("Sign up",
-                            style: GoogleFonts.montserrat(
+                        child: const Text("Sign up",
+                            style: TextStyle(
                               fontSize: 13,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -275,14 +277,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildText(String text, bool checked) => Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [
             checked
-                ? Icon(Icons.check, color: Colors.green, size: 24)
-                : Icon(Icons.close, color: Colors.red, size: 24),
+                ? const Icon(Icons.check, color: Colors.green, size: 24)
+                : const Icon(Icons.close, color: Colors.red, size: 24),
             const SizedBox(width: 12),
-            Text(text, style: TextStyle(fontSize: 24)),
+            Text(text, style: const TextStyle(fontSize: 24)),
           ],
         ),
       );
@@ -290,14 +292,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget buildAuthenticate(BuildContext context) => buildButton(
         text: 'Authenticate',
         icon: Icons.lock_open,
-        onClicked: () async {
-          final isAuthenticated = await LocalAuthApi.authenticate();
+        onClicked: () {
+          // final isAuthenticated = await LocalAuthApi.authenticate();
 
-          if (isAuthenticated) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => Homeview()),
-            );
-          }
+          // if (isAuthenticated) {
+          //   Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (context) => const Homeview()),
+          //   );
+          // }
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const Homeview()));
         },
       );
 
@@ -308,12 +312,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }) =>
       ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          minimumSize: Size.fromHeight(50),
+          minimumSize: const Size.fromHeight(50),
         ),
         icon: Icon(icon, size: 26),
         label: Text(
           text,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         onPressed: onClicked,
       );

@@ -5,7 +5,7 @@ import 'package:fikisha/utils/margins.dart';
 
 Widget authHeader(BuildContext context) {
   return FadeInDown(
-    duration: Duration(milliseconds: 1500),
+    duration: const Duration(milliseconds: 1500),
     child: Column(
       children: [
         Center(
@@ -21,7 +21,7 @@ Widget authHeader(BuildContext context) {
             ),
           ),
         ),
-        YMargin(30),
+        const YMargin(30),
         Container(
           width: context.screenWidth(),
           height: 160,

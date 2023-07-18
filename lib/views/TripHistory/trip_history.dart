@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/views/Home/build_trip_details.dart';
@@ -15,21 +14,21 @@ class TripHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CameraPosition _kLake = CameraPosition(
+    const CameraPosition kLake = CameraPosition(
       target: LatLng(-3.4000, 38.3833),
       zoom: 30,
     );
 
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Your Delivery History"),
       ),
       body: Column(
         children: [
-          YMargin(40),
+          const YMargin(40),
           FadeInUp(
-            duration: Duration(milliseconds: 1400),
+            duration: const Duration(milliseconds: 1400),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 28.0),
               child: Container(
@@ -38,44 +37,44 @@ class TripHistory extends StatelessWidget {
                 width: context.screenWidth(),
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(15)),
-                child: GoogleMap(
+                child: const GoogleMap(
                   mapType: MapType.normal,
-                  initialCameraPosition: _kLake,
+                  initialCameraPosition: kLake,
                 ),
               ),
             ),
           ),
-          YMargin(20),
+          const YMargin(20),
           FadeInUp(
-            duration: Duration(milliseconds: 1600),
+            duration: const Duration(milliseconds: 1600),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Delivery Details",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 9.0,
                       fontWeight: FontWeight.w300,
                       color: ColorPath.offBlack,
                     ),
                   ),
-                  YMargin(5),
+                  const YMargin(5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset(ImagesAsset.side),
-                      XMargin(10),
-                      Column(
+                      const XMargin(10),
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Current Location",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 9.0,
                               fontWeight: FontWeight.w400,
                               color: ColorPath.offBlack,
@@ -84,7 +83,7 @@ class TripHistory extends StatelessWidget {
                           YMargin(5),
                           Text(
                             "Kwara Mall,  Mbale",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 9.0,
                               fontWeight: FontWeight.w300,
                               color: Color(0xFF818181),
@@ -93,7 +92,7 @@ class TripHistory extends StatelessWidget {
                           YMargin(30),
                           Text(
                             "Destination",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 9.0,
                               fontWeight: FontWeight.w400,
                               color: ColorPath.offBlack,
@@ -102,7 +101,7 @@ class TripHistory extends StatelessWidget {
                           YMargin(5),
                           Text(
                             "Kwara Mall,  Chavakali",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 9.0,
                               fontWeight: FontWeight.w300,
                               color: ColorPath.offBlack,
@@ -116,31 +115,31 @@ class TripHistory extends StatelessWidget {
               ),
             ),
           ),
-          YMargin(20),
+          const YMargin(20),
           FadeInUp(
-            duration: Duration(milliseconds: 1600),
-            child: DotWidget(
-              dashColor: ColorPath.Primaryfield,
+            duration: const Duration(milliseconds: 1600),
+            child: const DotWidget(
+              dashColor: ColorPath.primaryfield,
               dashHeight: 1.0,
               dashWidth: 2.0,
             ),
           ),
-          YMargin(20),
+          const YMargin(20),
           FadeInUp(
-            duration: Duration(milliseconds: 1800),
+            duration: const Duration(milliseconds: 1800),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         "RIDERS INFORMATION",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 9.0,
                           fontWeight: FontWeight.w300,
                           color: ColorPath.offBlack,
@@ -149,38 +148,38 @@ class TripHistory extends StatelessWidget {
                       YMargin(10),
                       Text(
                         "Ochieng Warren",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w700,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
                       Row(
                         children: [
                           Text(
                             "Honda Cycle 2010 |",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 10.0,
                               fontWeight: FontWeight.w400,
-                              color: ColorPath.Primarydark,
+                              color: ColorPath.primarydark,
                             ),
                           ),
                           Text(
                             "237183AR",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 10.0,
                               fontWeight: FontWeight.w600,
-                              color: ColorPath.Primarydark,
+                              color: ColorPath.primarydark,
                             ),
                           ),
                         ],
                       ),
                       Text(
                         "Black Color",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 10.0,
                           fontWeight: FontWeight.w400,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
                     ],
@@ -199,62 +198,62 @@ class TripHistory extends StatelessWidget {
               ),
             ),
           ),
-          YMargin(14),
+          const YMargin(14),
           FadeInUp(
-            duration: Duration(milliseconds: 1800),
-            child: DotWidget(
-              dashColor: ColorPath.Primaryfield,
+            duration: const Duration(milliseconds: 1800),
+            child: const DotWidget(
+              dashColor: ColorPath.primaryfield,
               dashHeight: 1.0,
               dashWidth: 2.0,
             ),
           ),
-          YMargin(14),
+          const YMargin(14),
           FadeInUp(
-            duration: Duration(milliseconds: 1800),
+            duration: const Duration(milliseconds: 1800),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Trip Cost",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 9.0,
                       fontWeight: FontWeight.w300,
                       color: ColorPath.offBlack,
                     ),
                   ),
-                  YMargin(10),
+                  const YMargin(10),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "Ksh 1,100",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w700,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                         ),
                       ),
-                      XMargin(8.0),
+                      const XMargin(8.0),
                       Container(
                         width: 47,
                         height: 18,
                         decoration: BoxDecoration(
-                            color: ColorPath.Primaryfield.withOpacity(0.47),
+                            color: ColorPath.primaryfield.withOpacity(0.47),
                             borderRadius: BorderRadius.circular(2),
                             border: Border.all(
-                                color: ColorPath.PrimaryColor
+                                color: ColorPath.primaryColor
                                   ..withOpacity(0.5))),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(ImagesAsset.cash),
-                            XMargin(3.0),
-                            Text(
+                            const XMargin(3.0),
+                            const Text(
                               "Cash",
-                              style: GoogleFonts.montserrat(
+                              style: TextStyle(
                                 fontSize: 9.0,
                                 fontWeight: FontWeight.w300,
                                 color: ColorPath.offBlack,
@@ -269,33 +268,33 @@ class TripHistory extends StatelessWidget {
               ),
             ),
           ),
-          YMargin(14),
+          const YMargin(14),
           FadeInUp(
-            duration: Duration(milliseconds: 2000),
-            child: DotWidget(
-              dashColor: ColorPath.Primaryfield,
+            duration: const Duration(milliseconds: 2000),
+            child: const DotWidget(
+              dashColor: ColorPath.primaryfield,
               dashHeight: 1.0,
               dashWidth: 2.0,
             ),
           ),
-          YMargin(14),
+          const YMargin(14),
           FadeInUp(
-            duration: Duration(milliseconds: 2000),
+            duration: const Duration(milliseconds: 2000),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Make Complaint",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 9.0,
                       fontWeight: FontWeight.w300,
                       color: ColorPath.offBlack,
                     ),
                   ),
-                  YMargin(10),
+                  const YMargin(10),
                   Row(
                     children: [
                       Container(
@@ -305,25 +304,25 @@ class TripHistory extends StatelessWidget {
                             image: DecorationImage(
                                 image: AssetImage(ImagesAsset.rider))),
                       ),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "Report Driver",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 12.0,
                               fontWeight: FontWeight.w700,
-                              color: ColorPath.Primarydark,
+                              color: ColorPath.primarydark,
                             ),
                           ),
                           YMargin(8.0),
                           Text(
                             "Any Issue with the Delivery? File a complaint now!",
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                               fontSize: 8.0,
                               fontWeight: FontWeight.w300,
-                              color: ColorPath.Primarydark,
+                              color: ColorPath.primarydark,
                             ),
                           ),
                         ],
@@ -334,36 +333,36 @@ class TripHistory extends StatelessWidget {
               ),
             ),
           ),
-          YMargin(14),
+          const YMargin(14),
           FadeInUp(
-            duration: Duration(milliseconds: 2200),
-            child: DotWidget(
-              dashColor: ColorPath.Primaryfield,
+            duration: const Duration(milliseconds: 2200),
+            child: const DotWidget(
+              dashColor: ColorPath.primaryfield,
               dashHeight: 1.0,
               dashWidth: 2.0,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           FadeInUp(
-            duration: Duration(milliseconds: 2300),
+            duration: const Duration(milliseconds: 2300),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Container(
                 height: 50,
                 width: context.screenWidth(),
                 decoration: BoxDecoration(
-                  color: ColorPath.Secondarygrey,
+                  color: ColorPath.secondarygrey,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: InkWell(
                   onTap: () {},
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Share Fikisha Information",
-                        style: GoogleFonts.poppins(
-                          color: ColorPath.SecondaryColor,
+                        style: TextStyle(
+                          color: ColorPath.secondaryColor,
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),
@@ -374,7 +373,7 @@ class TripHistory extends StatelessWidget {
               ).ripple(() {}),
             ),
           ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
     );

@@ -6,9 +6,7 @@ class CodeGenerator {
   static CodeGenerator? _instance;
 
   static CodeGenerator? get instance {
-    if (_instance == null) {
-      _instance = CodeGenerator._();
-    }
+    _instance ??= CodeGenerator._();
     return _instance;
   }
 

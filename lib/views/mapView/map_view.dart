@@ -17,7 +17,7 @@
 // class _MapViewState extends State<MapView> {
 //   final currentAddressController = TextEditingController();
 //   final destinationAddressController = TextEditingController();
-//   GoogleMapController? _controller;
+//   GoogleMapController? controller;
 
 //   List<Address> searchedAddress = [];
 
@@ -44,7 +44,7 @@
 //   }
 
 //   _animateCamera(LatLng latLng) async {
-//     await _controller?.animateCamera(CameraUpdate.newCameraPosition(
+//     await controller?.animateCamera(CameraUpdate.newCameraPosition(
 //       CameraPosition(
 //           target: LatLng(latLng.latitude, latLng.longitude), zoom: 16.5),
 //     ));
@@ -99,7 +99,7 @@
 //                             CameraPosition(target: address!.latLng!, zoom: 15),
 //                         onMapCreated: (GoogleMapController controller) {
 //                           setState(() {
-//                             _controller = controller;
+//                             controller = controller;
 //                             MapService.instance?.controller
 //                                 .googleMapController = controller;
 //                           });
@@ -126,7 +126,7 @@
 //                       child: SafeArea(
 //                         child: Container(
 //                           decoration: BoxDecoration(
-//                             color: ColorPath.Primarywhite,
+//                             color: ColorPath.primarywhite,
 //                             borderRadius: BorderRadius.circular(6),
 //                             boxShadow: [
 //                               BoxShadow(

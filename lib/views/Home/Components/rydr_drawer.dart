@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Authentication/login_screen.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
-import 'package:fikisha/views/Home/chat_with_driver.dart';
 import 'package:fikisha/views/Notifications/notifications.dart';
 import 'package:fikisha/views/Payment/Coupons/apply_coupons.dart';
 import 'package:fikisha/views/Payment/payment.dart';
@@ -24,80 +21,77 @@ class RyderDrawer extends StatelessWidget {
       width: MediaQuery.of(context).size.width / 1.5,
       margin: const EdgeInsets.only(right: 30),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(10),
           bottomRight: Radius.circular(10),
         ),
         child: Drawer(
           child: Padding(
-            padding: EdgeInsets.only(top: 70),
+            padding: const EdgeInsets.only(top: 70),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                        child: Column(children: [
+                    Column(children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Container(
-                          child: Image(
-                            width: 110,
-                            height: 110,
-                            image: AssetImage(ImagesAsset.driverpic),
-                          ),
-                        ),
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: Image(
+                      width: 110,
+                      height: 110,
+                      image: AssetImage(ImagesAsset.driverpic),
+                    ),
                       ),
-                      YMargin(14),
-                      Text(
-                        "Ochieng Warren",
-                        style: GoogleFonts.montserrat(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w600,
-                          color: ColorPath.Primarydark,
-                        ),
+                      const YMargin(14),
+                      const Text(
+                    "Ochieng Warren",
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w600,
+                      color: ColorPath.primarydark,
+                    ),
                       ),
-                      YMargin(15),
+                      const YMargin(15),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        child: Container(
-                          height: 33,
-                          width: 125,
-                          decoration: BoxDecoration(
-                            color: ColorPath.Primarydark,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: InkWell(
-                            onTap: () {},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Edit Profile",
-                                  style: GoogleFonts.poppins(
-                                    color: ColorPath.Primarywhite,
-                                    fontSize: 10.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Container(
+                      height: 33,
+                      width: 125,
+                      decoration: BoxDecoration(
+                        color: ColorPath.primarydark,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Edit Profile",
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ).ripple(() {}),
+                          ],
+                        ),
                       ),
-                    ])),
+                    ).ripple(() {}),
+                      ),
+                    ]),
                   ],
                 ),
-                YMargin(10),
-                DrawerDots(
-                  dashColor: ColorPath.Primaryfield,
+                const YMargin(10),
+                const DrawerDots(
+                  dashColor: ColorPath.primaryfield,
                   dashHeight: 1.0,
                   dashWidth: 2.0,
                 ),
-                YMargin(10),
+                const YMargin(10),
                 Padding(
-                  padding: EdgeInsets.only(left: 25),
+                  padding: const EdgeInsets.only(left: 25),
                   child: Column(children: [
                     DrawerListTile(
                       title: 'Your Delivery History',
@@ -106,7 +100,7 @@ class RyderDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TripScreen(),
+                              builder: (context) => const TripScreen(),
                             ));
                       },
                     ),
@@ -117,7 +111,7 @@ class RyderDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Payments(),
+                              builder: (context) => const Payments(),
                             ));
                       },
                     ),
@@ -128,7 +122,7 @@ class RyderDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Notifications(),
+                              builder: (context) => const Notifications(),
                             ));
                       },
                     ),
@@ -150,7 +144,7 @@ class RyderDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Support(),
+                              builder: (context) => const Support(),
                             ));
                       },
                     ),
@@ -161,7 +155,7 @@ class RyderDrawer extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ManagePassword(),
+                              builder: (context) => const ManagePassword(),
                             ));
                       },
                     ),
@@ -178,20 +172,20 @@ class RyderDrawer extends StatelessWidget {
                     // ),
                   ]),
                 ),
-                Spacer(),
-                DrawerDots(
-                  dashColor: ColorPath.Primaryfield,
+                const Spacer(),
+                const DrawerDots(
+                  dashColor: ColorPath.primaryfield,
                   dashHeight: 1.0,
                   dashWidth: 2.0,
                 ),
-                YMargin(10),
-                Text("Share on:",
-                    style: GoogleFonts.montserrat(
+                const YMargin(10),
+                const Text("Share on:",
+                    style: TextStyle(
                       fontSize: 10.0,
                       fontWeight: FontWeight.w400,
-                      color: ColorPath.Primarydark,
+                      color: ColorPath.primarydark,
                     )),
-                YMargin(10),
+                const YMargin(10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -202,7 +196,7 @@ class RyderDrawer extends StatelessWidget {
                           image: DecorationImage(
                               image: AssetImage(ImagesAsset.whatsapp))),
                     ),
-                    XMargin(5),
+                    const XMargin(5),
                     Container(
                       height: 25,
                       width: 25,
@@ -210,7 +204,7 @@ class RyderDrawer extends StatelessWidget {
                           image: DecorationImage(
                               image: AssetImage(ImagesAsset.twitter))),
                     ),
-                    XMargin(5),
+                    const XMargin(5),
                     Container(
                       height: 25,
                       width: 25,
@@ -220,23 +214,23 @@ class RyderDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
-                YMargin(10),
+                const YMargin(10),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Container(
                     height: 40,
                     width: 137,
                     decoration: BoxDecoration(
-                      color: ColorPath.Primaryred,
+                      color: ColorPath.primaryred,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Log out",
-                          style: GoogleFonts.poppins(
-                            color: ColorPath.Primarywhite,
+                          style: TextStyle(
+                            color: ColorPath.primarywhite,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -245,14 +239,14 @@ class RyderDrawer extends StatelessWidget {
                   ),
                 ).ripple(() {
                   Navigator.of(context).pop();
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginScreen(),
-                      ));
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => const LoginScreen(),
+                  //     ));
                 }),
-                YMargin(10),
-                Spacer()
+                const YMargin(10),
+                const Spacer()
               ],
             ),
           ),
@@ -277,10 +271,10 @@ class DrawerListTile extends StatelessWidget {
     return ListTile(
       onTap: onPressed,
       title: Text(title,
-          style: GoogleFonts.montserrat(
+          style: const TextStyle(
             fontSize: 12.0,
             fontWeight: FontWeight.w600,
-            color: ColorPath.Primarydark,
+            color: ColorPath.primarydark,
           )),
     );
   }

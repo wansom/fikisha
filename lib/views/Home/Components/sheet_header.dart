@@ -6,7 +6,7 @@ Widget sheetHeader() {
       width: 80,
       height: 2.875,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(80)),
-        color: ColorPath.PrimaryColor.withOpacity(0.5),
+        borderRadius: const BorderRadius.all(Radius.circular(80)),
+        color: ColorPath.primaryColor.withOpacity(0.5),
       ));
 }

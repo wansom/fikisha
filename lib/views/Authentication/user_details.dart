@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/create_password.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -46,59 +45,59 @@ class _UserVerificationState extends State<UserVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            YMargin(100),
+            const YMargin(100),
             authHeader(context),
             FadeInDown(
-                duration: Duration(milliseconds: 2000),
+                duration: const Duration(milliseconds: 2000),
                 child: Column(children: [
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Let’s know you",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                           fontSize: 23,
                         ),
                       ),
                       YMargin(10),
                       Text("Please enter your correct names for identification",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: ColorPath.Primarydark,
+                            color: ColorPath.primarydark,
                             fontSize: 14,
                           )),
                     ],
                   ),
-                  YMargin(25),
+                  const YMargin(25),
                   CustomTextFieldWidget(
                     controller: firstnametexteditingcontroller,
                     keyboardType: TextInputType.name,
-                    autofill: [AutofillHints.name],
+                    autofill: const [AutofillHints.name],
                     hintText: 'First name',
                   ),
-                  YMargin(10),
+                  const YMargin(10),
                   CustomTextFieldWidget(
                     controller: lastnametexteditingcontroller,
                     keyboardType: TextInputType.name,
-                    autofill: [AutofillHints.name],
+                    autofill: const [AutofillHints.name],
                     hintText: 'Last name',
                   ),
-                  YMargin(30),
+                  const YMargin(30),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Container(
                       height: 50,
                       width: context.screenWidth(),
                       decoration: BoxDecoration(
                         color: isChange
-                            ? ColorPath.Secondarygrey
-                            : ColorPath.Primaryfield,
+                            ? ColorPath.secondarygrey
+                            : ColorPath.primaryfield,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: InkWell(
@@ -110,18 +109,18 @@ class _UserVerificationState extends State<UserVerification> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            PasswordVerification(),
+                                            const PasswordVerification(),
                                       ));
                                 });
                               }
                             : null,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "Next",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarywhite,
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

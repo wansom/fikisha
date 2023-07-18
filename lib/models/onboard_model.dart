@@ -24,23 +24,23 @@ List<OnboardModel> screens = <OnboardModel>[
     text: "Enjoy affordable deliveraries",
     desc:
         "We have many riders available for you\n to pick your orders and make deliveries \non time.",
-    bg: ColorPath.Primarywhite,
-    button: Color(0xFF4756DF),
+    bg: ColorPath.primarywhite,
+    button: const Color(0xFF4756DF),
   ),
   OnboardModel(
     img: ImagesAsset.money,
     text: "Enjoy affordable deliveraries",
     desc:
         "We have many riders available for you\n to pick your orders and make deliveries \non time.",
-    bg: Color(0xFF4756DF),
-    button: ColorPath.Primarywhite,
+    bg: const Color(0xFF4756DF),
+    button: ColorPath.primarywhite,
   ),
   OnboardModel(
     img: ImagesAsset.accomodation,
     text: "Enjoy affordable deliveraries",
     desc:
         "We have many riders available for you\n to pick your orders and make deliveries \non time.",
-    bg: ColorPath.Primarywhite,
-    button: Color(0xFF4756DF),
+    bg: ColorPath.primarywhite,
+    button: const Color(0xFF4756DF),
   ),
 ];

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
@@ -9,9 +11,7 @@ class UserRepo {
   static UserRepo? _instance;
 
   static UserRepo get instance {
-    if (_instance == null) {
-      _instance = UserRepo._();
-    }
+    _instance ??= UserRepo._();
     return _instance!;
   }
 

@@ -1,5 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'Components/sheet_header.dart';
@@ -15,7 +16,7 @@ scheduleTrip(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return ScheduleTrip();
+        return const ScheduleTrip();
       });
 }
 
@@ -30,150 +31,145 @@ class _ScheduleTripState extends State<ScheduleTrip> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 7),
+        padding: const EdgeInsets.only(top: 7),
         height: context.screenHeight() / 3,
         width: context.screenWidth(),
-        decoration: BoxDecoration(
-          color: ColorPath.Primarywhite,
+        decoration: const BoxDecoration(
+          color: ColorPath.primarywhite,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(15),
             topRight: Radius.circular(15),
           ),
         ),
-        child: Container(
-            child: Column(children: [
+        child: Column(children: [
           sheetHeader(),
-          YMargin(15),
-          Text(
-            "Schedule a Delivery",
-            style: GoogleFonts.montserrat(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-              color: ColorPath.Primarydark,
-            ),
+          const YMargin(15),
+          const Text(
+        "Schedule a Delivery",
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w500,
+          color: ColorPath.primarydark,
+        ),
           ),
+          const Text(
+        "Book a ride for later?",
+        style: TextStyle(
+          fontSize: 11.0,
+          fontWeight: FontWeight.w300,
+          color: ColorPath.offBlack,
+        ),
+          ),
+          const YMargin(10),
+          const DotWidget(
+        dashColor: ColorPath.primaryfield,
+        dashHeight: 1.0,
+        dashWidth: 2.0,
+          ),
+          const YMargin(20),
+          const Column(
+            children: [
+              Text(
+                "Date",
+                style: TextStyle(
+                  fontSize: 11.0,
+                  fontWeight: FontWeight.w300,
+                  color: ColorPath.offBlack,
+                ),
+              ),
+              YMargin(10),
+              Text(
+                "Mon, 10 June, 2021",
+                style: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                  color: ColorPath.primaryColor,
+                ),
+              ),
+              YMargin(10),
+              DotWidget(
+                dashColor: ColorPath.primaryfield,
+                dashHeight: 1.0,
+                dashWidth: 2.0,
+              ),
+            ],
+          ).ripple(() async {
+        final initialDate = DateTime.now();
+        await showDatePicker(
+          context: context,
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: ColorPath.primarydark,
+                  onPrimary: ColorPath.primarywhite,
+                  onSurface: ColorPath.primarydark,
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor: ColorPath.primaryColor,
+                  ),
+                ),
+              ),
+              child: child!,
+            );
+          },
+          initialDate: initialDate,
+          firstDate: DateTime(DateTime.now().year - 80),
+          lastDate: DateTime(DateTime.now().year + 1),
+        );
+          }),
+          const YMargin(15),
+          const Column(
+        children: [
           Text(
-            "Book a ride for later?",
-            style: GoogleFonts.montserrat(
+            "Time",
+            style: TextStyle(
               fontSize: 11.0,
               fontWeight: FontWeight.w300,
               color: ColorPath.offBlack,
             ),
           ),
           YMargin(10),
+          Text(
+            "09 : 00 pm",
+            style: TextStyle(
+              fontSize: 13.0,
+              fontWeight: FontWeight.w400,
+              color: ColorPath.primaryColor,
+            ),
+          ),
+          YMargin(10),
           DotWidget(
-            dashColor: ColorPath.Primaryfield,
+            dashColor: ColorPath.primaryfield,
             dashHeight: 1.0,
             dashWidth: 2.0,
           ),
-          YMargin(20),
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  "Date",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 11.0,
-                    fontWeight: FontWeight.w300,
-                    color: ColorPath.offBlack,
-                  ),
-                ),
-                YMargin(10),
-                Text(
-                  "Mon, 10 June, 2021",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w400,
-                    color: ColorPath.PrimaryColor,
-                  ),
-                ),
-                YMargin(10),
-                DotWidget(
-                  dashColor: ColorPath.Primaryfield,
-                  dashHeight: 1.0,
-                  dashWidth: 2.0,
-                ),
-              ],
-            ),
+        ],
           ).ripple(() async {
-            final initialDate = DateTime.now();
-            await showDatePicker(
-              context: context,
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                    colorScheme: ColorScheme.light(
-                      primary: ColorPath.Primarydark,
-                      onPrimary: ColorPath.Primarywhite,
-                      onSurface: ColorPath.Primarydark,
-                    ),
-                    textButtonTheme: TextButtonThemeData(
-                      style: TextButton.styleFrom(
-                        primary: ColorPath.PrimaryColor,
-                      ),
-                    ),
+        final initialDate = TimeOfDay.now();
+        await showTimePicker(
+          initialTime: initialDate,
+          context: context,
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: ColorPath.primarydark,
+                  onPrimary: ColorPath.primarywhite,
+                  onSurface: ColorPath.primarydark,
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor: ColorPath.primaryColor,
                   ),
-                  child: child!,
-                );
-              },
-              initialDate: initialDate,
-              firstDate: DateTime(DateTime.now().year - 80),
-              lastDate: DateTime(DateTime.now().year + 1),
+                ),
+              ),
+              child: child!,
             );
+          },
+        );
           }),
-          YMargin(15),
-          Container(
-            child: Column(
-              children: [
-                Text(
-                  "Time",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 11.0,
-                    fontWeight: FontWeight.w300,
-                    color: ColorPath.offBlack,
-                  ),
-                ),
-                YMargin(10),
-                Text(
-                  "09 : 00 pm",
-                  style: GoogleFonts.montserrat(
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w400,
-                    color: ColorPath.PrimaryColor,
-                  ),
-                ),
-                YMargin(10),
-                DotWidget(
-                  dashColor: ColorPath.Primaryfield,
-                  dashHeight: 1.0,
-                  dashWidth: 2.0,
-                ),
-              ],
-            ),
-          ).ripple(() async {
-            final initialDate = TimeOfDay.now();
-            await showTimePicker(
-              initialTime: initialDate,
-              context: context,
-              builder: (context, child) {
-                return Theme(
-                  data: Theme.of(context).copyWith(
-                    colorScheme: ColorScheme.light(
-                      primary: ColorPath.Primarydark,
-                      onPrimary: ColorPath.Primarywhite,
-                      onSurface: ColorPath.Primarydark,
-                    ),
-                    textButtonTheme: TextButtonThemeData(
-                      style: TextButton.styleFrom(
-                        primary: ColorPath.PrimaryColor,
-                      ),
-                    ),
-                  ),
-                  child: child!,
-                );
-              },
-            );
-          }),
-        ])));
+        ]));
   }
 }

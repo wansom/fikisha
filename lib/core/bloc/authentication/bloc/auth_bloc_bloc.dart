@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks, avoid_print
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +9,7 @@ part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
 
 class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
-  AuthenticationService _authenticationService = AuthenticationService.instance;
+  final AuthenticationService _authenticationService = AuthenticationService.instance;
 
   AuthBlocBloc() : super(AuthBlocInitial()) {
     on<AuthBlocEvent>((event, emit) async* {

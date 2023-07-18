@@ -1,3 +1,4 @@
+// ignore_for_file: library_private_types_in_public_api
 import 'dart:async';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     getAuth();
     Timer(
-        Duration(milliseconds: 2500),
+        const Duration(milliseconds: 2500),
         () => Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return isviewed != 0 ? Onboarding() : Onboarding();
+              return isviewed != 0 ? const Onboarding() : const Onboarding();
             })));
   }
 
@@ -40,9 +41,9 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Spacer(),
+          const Spacer(),
           FadeIn(
-            duration: Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 1500),
             child: Align(
               alignment: Alignment.center,
               child: Container(
@@ -56,9 +57,9 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
           ),
-          Spacer(),
+          const Spacer(),
           FadeInUp(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             child: Align(
               alignment: Alignment.center,
               child: Container(
@@ -72,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
           ),
-          YMargin(40)
+          const YMargin(40)
         ],
       ),
     );

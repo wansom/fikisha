@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -16,41 +15,41 @@ class ApplyCoupon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Apply Coupons"),
       ),
       body: SingleChildScrollView(
         child: FadeInUp(
-          duration: Duration(milliseconds: 2000),
+          duration: const Duration(milliseconds: 2000),
           child: Column(
             children: [
-              YMargin(20),
+              const YMargin(20),
               CustomTextFieldWidget(
                 controller: coupontextEditingController,
                 keyboardType: TextInputType.text,
-                autofill: [AutofillHints.name],
+                autofill: const [AutofillHints.name],
                 hintText: 'Enter Coupon Code',
               ),
-              YMargin(15),
+              const YMargin(15),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
+                padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Container(
                   height: 50,
                   width: context.screenWidth(),
                   decoration: BoxDecoration(
-                    color: ColorPath.Secondarygrey,
+                    color: ColorPath.secondarygrey,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: InkWell(
                     onTap: () {},
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Apply Coupon Code",
-                          style: GoogleFonts.poppins(
-                            color: ColorPath.Primarywhite,
+                          style: TextStyle(
+                            color: ColorPath.primarywhite,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -59,8 +58,8 @@ class ApplyCoupon extends StatelessWidget {
                   ),
                 ).ripple(() {}),
               ),
-              YMargin(20),
-              Padding(
+              const YMargin(20),
+              const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
@@ -68,7 +67,7 @@ class ApplyCoupon extends StatelessWidget {
                         children: [
                           Text(
                             "Active Coupons",
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               color: Color(0xFF818181),
                               fontSize: 9,
                               fontWeight: FontWeight.w300,
@@ -78,17 +77,17 @@ class ApplyCoupon extends StatelessWidget {
                       ),
                     ],
                   )),
-              YMargin(15),
+              const YMargin(15),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                     height: 120,
                     width: context.screenWidth(),
                     decoration: BoxDecoration(
-                        color: ColorPath.GoldenColor,
+                        color: ColorPath.goldenColor,
                         borderRadius: BorderRadius.circular(15.0),
                         border: Border.all(
-                            color: ColorPath.Primarydark.withOpacity(0.3))),
+                            color: ColorPath.primarydark.withOpacity(0.3))),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,14 +96,14 @@ class ApplyCoupon extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Image(image: AssetImage(ImagesAsset.ride)),
                         ),
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "🎉Congratulations!",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarydark,
+                              style: TextStyle(
+                                color: ColorPath.primarydark,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -112,8 +111,8 @@ class ApplyCoupon extends StatelessWidget {
                             YMargin(10),
                             Text(
                               "You have gotten 10% free Coupon \nfor our next trip.",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarywhite,
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w300,
                               ),
@@ -123,14 +122,14 @@ class ApplyCoupon extends StatelessWidget {
                       ],
                     )),
               ),
-              YMargin(15),
+              const YMargin(15),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                     height: 120,
                     width: context.screenWidth(),
                     decoration: BoxDecoration(
-                      color: Color(0XFF878E88),
+                      color: const Color(0XFF878E88),
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Row(
@@ -141,14 +140,14 @@ class ApplyCoupon extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Image(image: AssetImage(ImagesAsset.cough)),
                         ),
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "😱10 Trips  Coupon!",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarydark,
+                              style: TextStyle(
+                                color: ColorPath.primarydark,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -156,8 +155,8 @@ class ApplyCoupon extends StatelessWidget {
                             YMargin(10),
                             Text(
                               "Get 60% off your next trip due to the \nwith coupon!",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarywhite,
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w300,
                               ),

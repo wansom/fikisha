@@ -1,12 +1,13 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
+
+import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/models/onboard_model.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Authentication/choose_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fikisha/utils/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key? key}) : super(key: key);
@@ -42,12 +43,12 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorPath.Primarywhite,
+        backgroundColor: ColorPath.primarywhite,
         body: Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Column(
               children: [
-                YMargin(80),
+                const YMargin(80),
                 Container(
                   width: context.screenWidth(),
                   height: 45,
@@ -56,7 +57,7 @@ class _OnboardingState extends State<Onboarding> {
                           fit: BoxFit.contain,
                           image: AssetImage(ImagesAsset.logosm))),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Expanded(
                   child: Stack(children: [
                     Container(
@@ -65,11 +66,11 @@ class _OnboardingState extends State<Onboarding> {
                               fit: BoxFit.cover,
                               image: AssetImage(ImagesAsset.citybg))),
                     ),
-                    YMargin(10),
+                    const YMargin(10),
                     PageView.builder(
                         itemCount: screens.length,
                         controller: _pageController,
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         onPageChanged: (int index) {
                           setState(() {
                             currentIndex = index;
@@ -78,7 +79,7 @@ class _OnboardingState extends State<Onboarding> {
                         itemBuilder: (_, index) {
                           return Column(
                             children: [
-                              YMargin(220),
+                              const YMargin(220),
                               Column(
                                 children: [
                                   Container(
@@ -90,29 +91,29 @@ class _OnboardingState extends State<Onboarding> {
                                             image: AssetImage(
                                                 screens[index].img))),
                                   ),
-                                  YMargin(5),
+                                  const YMargin(5),
                                   Text(
                                     screens[index].text,
                                     textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                      color: ColorPath.SecondaryColor,
+                                    style: const TextStyle(
+                                      color: ColorPath.secondaryColor,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 17.3,
                                     ),
                                   ),
-                                  YMargin(10),
+                                  const YMargin(10),
                                   Text(
                                     screens[index].desc,
                                     textAlign: TextAlign.center,
                                     maxLines: 5,
                                     overflow: TextOverflow.clip,
-                                    style: GoogleFonts.poppins(
-                                      color: ColorPath.Primarywhite,
+                                    style: const TextStyle(
+                                      color: ColorPath.primarywhite,
                                       fontWeight: FontWeight.w300,
                                       fontSize: 13.6,
                                     ),
                                   ),
-                                  YMargin(20),
+                                  const YMargin(20),
                                 ],
                               ),
                             ],
@@ -122,7 +123,7 @@ class _OnboardingState extends State<Onboarding> {
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 100.0),
-                        child: Container(
+                        child: SizedBox(
                           height: 10.0,
                           child: ListView.builder(
                             itemCount: screens.length,
@@ -134,13 +135,13 @@ class _OnboardingState extends State<Onboarding> {
                                   children: [
                                     Container(
                                       margin:
-                                          EdgeInsets.symmetric(horizontal: 3.0),
+                                          const EdgeInsets.symmetric(horizontal: 3.0),
                                       width: 45,
                                       height: 1.5,
                                       decoration: BoxDecoration(
                                         color: currentIndex == index
-                                            ? ColorPath.Primarydark
-                                            : Color(0xFFEBEBEB),
+                                            ? ColorPath.primarydark
+                                            : const Color(0xFFEBEBEB),
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                       ),
@@ -151,7 +152,7 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                       ),
                     ),
-                    YMargin(30),
+                    const YMargin(30),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
@@ -160,64 +161,60 @@ class _OnboardingState extends State<Onboarding> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             currentIndex != 2
-                                ? Container(
-                                    child: InkWell(
-                                      onTap: () {
-                                        _storeOnboardInfo();
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ChooseAuth()));
-                                      },
-                                      child: Container(
-                                        height: 52,
-                                        width: 93,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(14.0),
-                                            color: ColorPath.Primarydark),
-                                        child: Center(
-                                          child: Text(
-                                            "Skip",
-                                            style: GoogleFonts.poppins(
-                                                color: ColorPath.Primarywhite),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(
-                                    height: 52,
-                                    width: 93,
-                                  ),
-                            XMargin(50),
-                            Container(
-                              child: InkWell(
-                                onTap: () async {
-                                  if (currentIndex == screens.length - 1) {
-                                    await _storeOnboardInfo();
+                                ? InkWell(
+                                  onTap: () {
+                                    _storeOnboardInfo();
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ChooseAuth()));
-                                  }
-                                  _pageController.nextPage(
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.easeInOut,
-                                  );
-                                },
-                                child: Container(
-                                  height: 61,
-                                  width: 61,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: ColorPath.Primarydark),
-                                  child: Center(
-                                      child: SvgPicture.asset(
-                                          ImagesAsset.rightarrow)),
-                                ),
+                                                const MobileAuth()));
+                                  },
+                                  child: Container(
+                                    height: 52,
+                                    width: 93,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(14.0),
+                                        color: ColorPath.primarydark),
+                                    child: const Center(
+                                      child: Text(
+                                        "Skip",
+                                        style: TextStyle(
+                                            color: ColorPath.primarywhite),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                : const SizedBox(
+                                    height: 52,
+                                    width: 93,
+                                  ),
+                            const XMargin(50),
+                            InkWell(
+                              onTap: () async {
+                                if (currentIndex == screens.length - 1) {
+                                  await _storeOnboardInfo();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const MobileAuth()));
+                                }
+                                _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                );
+                              },
+                              child: Container(
+                                height: 61,
+                                width: 61,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: ColorPath.primarydark),
+                                child: Center(
+                                    child: SvgPicture.asset(
+                                        ImagesAsset.rightarrow)),
                               ),
                             )
                           ],

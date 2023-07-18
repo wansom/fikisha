@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -24,8 +23,9 @@ class _EmailVerificationState extends State<EmailVerification> {
     final numericRegex = RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]");
     setState(() {
       isValid = false;
-      if (numericRegex.hasMatch(emailtexteditingcontroller.text))
+      if (numericRegex.hasMatch(emailtexteditingcontroller.text)) {
         isValid = true;
+      }
     });
   }
 
@@ -51,61 +51,61 @@ class _EmailVerificationState extends State<EmailVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            YMargin(100),
+            const YMargin(100),
             authHeader(context),
             FadeInDown(
-              duration: Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2000),
               child: Column(
                 children: [
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Let’s know you",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                           fontSize: 23,
                         ),
                       ),
                       YMargin(10),
                       Text("What is your email address?",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: ColorPath.Primarydark,
+                            color: ColorPath.primarydark,
                             fontSize: 14,
                           )),
                       YMargin(3.0),
                       Text("Make sure you enter a correct Email Address",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            color: ColorPath.PrimaryColor,
+                            color: ColorPath.primaryColor,
                             fontSize: 9.0,
                           )),
                     ],
                   ),
-                  YMargin(25),
+                  const YMargin(25),
                   CustomTextFieldWidget(
                     onChanged: (password) => onEmailChange(password),
                     controller: emailtexteditingcontroller,
                     keyboardType: TextInputType.emailAddress,
-                    autofill: [AutofillHints.email],
+                    autofill: const [AutofillHints.email],
                     hintText: 'Enter email address',
                   ),
-                  YMargin(30),
+                  const YMargin(30),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Container(
                       height: 50,
                       width: context.screenWidth(),
                       decoration: BoxDecoration(
                         color: isValid && isChange
-                            ? ColorPath.Secondarygrey
-                            : ColorPath.Primaryfield,
+                            ? ColorPath.secondarygrey
+                            : ColorPath.primaryfield,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: InkWell(
@@ -118,19 +118,19 @@ class _EmailVerificationState extends State<EmailVerification> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                UserVerification(),
+                                                const UserVerification(),
                                           ));
                                     });
                                   }
                                 : null
                             : null,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "Next",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarywhite,
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

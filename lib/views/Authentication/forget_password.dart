@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -41,10 +42,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorPath.Primarywhite,
+        backgroundColor: ColorPath.primarywhite,
         body: SingleChildScrollView(
           child: Column(children: [
-            YMargin(100),
+            const YMargin(100),
             authHeader(context),
             FadeInDown(
               child: Column(
@@ -53,52 +54,52 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Forget Password",
-                              style: GoogleFonts.montserrat(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                color: ColorPath.Primarydark,
+                                color: ColorPath.primarydark,
                                 fontSize: 18,
                               ),
                             ),
                             YMargin(10),
                             Text(
                                 "Did you forget your password? You can easily retrive it \nby telling us your mobile number!",
-                                style: GoogleFonts.montserrat(
+                                style: TextStyle(
                                   fontWeight: FontWeight.normal,
-                                  color: ColorPath.Primarydark,
+                                  color: ColorPath.primarydark,
                                   fontSize: 10,
                                 )),
                           ],
                         ),
                       ),
-                      YMargin(50),
+                      const YMargin(50),
                       CustomTextFieldWidget(
                         controller: phonetextEditingController,
                         keyboardType: TextInputType.phone,
-                        autofill: [AutofillHints.telephoneNumberAreaCode],
+                        autofill: const [AutofillHints.telephoneNumberAreaCode],
                         hintText: 'Mobile Number',
                         prefixWidget: DropdownButtonHideUnderline(
                             child: ButtonTheme(
                                 alignedDropdown: true,
-                                child: Text("+254 |  "))),
+                                child: const Text("+254 |  "))),
                       ),
-                      YMargin(20),
+                      const YMargin(20),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Container(
                           height: 50,
                           width: context.screenWidth(),
                           decoration: BoxDecoration(
                             color: isChange
-                                ? ColorPath.Secondarygrey
-                                : ColorPath.Primaryfield,
+                                ? ColorPath.secondarygrey
+                                : ColorPath.primaryfield,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: InkWell(
@@ -114,13 +115,13 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                                     });
                                   }
                                 : null,
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   "Submit",
-                                  style: GoogleFonts.poppins(
-                                    color: ColorPath.Primarywhite,
+                                  style: TextStyle(
+                                    color: ColorPath.primarywhite,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),

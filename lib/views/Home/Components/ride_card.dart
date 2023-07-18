@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api, avoid_print, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/models/ride_model.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -32,18 +33,16 @@ class _RideCardState extends State<RideCard> {
       },
       child: Container(
         color: widget.rideModel.isSelected
-            ? ColorPath.Primarydark
-            : ColorPath.SecondaryColor.withOpacity(0.3),
+            ? ColorPath.primarydark
+            : ColorPath.secondaryColor.withOpacity(0.3),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              child: Image(
-                width: 110,
-                height: 66,
-                image: AssetImage(widget.rideModel.image),
-              ),
+            Image(
+              width: 110,
+              height: 66,
+              image: AssetImage(widget.rideModel.image),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,86 +54,86 @@ class _RideCardState extends State<RideCard> {
                   children: [
                     Text(
                       widget.rideModel.name,
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w700,
                         color: widget.rideModel.isSelected
-                            ? ColorPath.SecondaryColor
-                            : ColorPath.Primarydark,
+                            ? ColorPath.secondaryColor
+                            : ColorPath.primarydark,
                       ),
                     ),
                     Icon(
                       Icons.info_outline,
                       color: widget.rideModel.isSelected
-                          ? ColorPath.SecondaryColor
-                          : ColorPath.Primarydark,
+                          ? ColorPath.secondaryColor
+                          : ColorPath.primarydark,
                       size: 8,
                     )
                   ],
                 ),
-                YMargin(5),
+                const YMargin(5),
                 Row(
                   children: [
                     SvgPicture.asset(
                       ImagesAsset.time,
                       color: widget.rideModel.isSelected
-                          ? ColorPath.SecondaryColor
-                          : ColorPath.Primarydark,
+                          ? ColorPath.secondaryColor
+                          : ColorPath.primarydark,
                       height: 8,
                       width: 8,
                     ),
-                    XMargin(3),
+                    const XMargin(3),
                     Text(
                       "21 mins",
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
                         fontSize: 11.0,
                         fontWeight: FontWeight.w300,
                         color: widget.rideModel.isSelected
-                            ? ColorPath.SecondaryColor
-                            : ColorPath.Primarydark,
+                            ? ColorPath.secondaryColor
+                            : ColorPath.primarydark,
                       ),
                     ),
-                    XMargin(3),
+                    const XMargin(3),
                     Row(
                       children: [
                         Icon(
                           Icons.person_outline,
                           color: widget.rideModel.isSelected
-                              ? ColorPath.SecondaryColor
-                              : ColorPath.Primarydark,
+                              ? ColorPath.secondaryColor
+                              : ColorPath.primarydark,
                           size: 10,
                         ),
                         Text(
                           "3 items",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontSize: 11.0,
                             fontWeight: FontWeight.w300,
                             color: widget.rideModel.isSelected
-                                ? ColorPath.SecondaryColor
-                                : ColorPath.Primarydark,
+                                ? ColorPath.secondaryColor
+                                : ColorPath.primarydark,
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                YMargin(5),
+                const YMargin(5),
                 Row(
                   children: [
                     SvgPicture.asset(
                       ImagesAsset.up,
                       color: widget.rideModel.isSelected
-                          ? ColorPath.SecondaryColor
-                          : ColorPath.Primarydark,
+                          ? ColorPath.secondaryColor
+                          : ColorPath.primarydark,
                     ),
                     Text(
                       "View delivery cost details",
-                      style: GoogleFonts.montserrat(
+                      style: TextStyle(
                         fontSize: 11.0,
                         fontWeight: FontWeight.w300,
                         color: widget.rideModel.isSelected
-                            ? ColorPath.SecondaryColor
-                            : ColorPath.Primarydark,
+                            ? ColorPath.secondaryColor
+                            : ColorPath.primarydark,
                       ),
                     ),
                   ],
@@ -147,24 +146,24 @@ class _RideCardState extends State<RideCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "\Ksh " + widget.rideModel.price,
-                    style: GoogleFonts.montserrat(
+                    "Ksh ${widget.rideModel.price}",
+                    style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                       color: widget.rideModel.isSelected
-                          ? ColorPath.SecondaryColor
-                          : ColorPath.Primarydark,
+                          ? ColorPath.secondaryColor
+                          : ColorPath.primarydark,
                     ),
                   ),
-                  YMargin(5.0),
+                  const YMargin(5.0),
                   Text(
                     widget.rideModel.time,
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 9.0,
                       fontWeight: FontWeight.w500,
                       color: widget.rideModel.isSelected
-                          ? ColorPath.SecondaryColor
-                          : ColorPath.Primarydark,
+                          ? ColorPath.secondaryColor
+                          : ColorPath.primarydark,
                     ),
                   ),
                 ],

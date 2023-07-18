@@ -1,5 +1,6 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/models/trip_rating.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/utils/colors.dart';
@@ -11,7 +12,9 @@ class RideRating extends StatefulWidget {
     required this.rideModel,
     required this.onSelected,
     Key? key,
-  }) : super(key: key);
+  }) : super(key: key) {
+    throw UnimplementedError();
+  }
 
   @override
   _RideRatingState createState() => _RideRatingState();
@@ -27,14 +30,14 @@ class _RideRatingState extends State<RideRating> {
         width: 40,
         decoration: BoxDecoration(
           color: widget.rideModel.isSelected
-              ? ColorPath.Primarydark
-              : ColorPath.Primarydark.withOpacity(0.29),
+              ? ColorPath.primarydark
+              : ColorPath.primarydark.withOpacity(0.29),
           shape: BoxShape.circle,
         ),
         child: Center(
           child: Text(
             widget.rideModel.emoji,
-            style: GoogleFonts.montserrat(
+            style: const TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.w700,
             ),

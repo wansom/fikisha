@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
@@ -26,12 +25,14 @@ class _PasswordVerificationState extends State<PasswordVerification> {
 
     setState(() {
       isPasswordEightCharacters = false;
-      if (passwordtexteditingcontroller.text.length >= 8)
+      if (passwordtexteditingcontroller.text.length >= 8) {
         isPasswordEightCharacters = true;
+      }
 
       hasPasswordOneNumber = false;
-      if (numericRegex.hasMatch(passwordtexteditingcontroller.text))
+      if (numericRegex.hasMatch(passwordtexteditingcontroller.text)) {
         hasPasswordOneNumber = true;
+      }
     });
   }
 
@@ -57,52 +58,52 @@ class _PasswordVerificationState extends State<PasswordVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPath.Primarywhite,
+      backgroundColor: ColorPath.primarywhite,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            YMargin(100),
+            const YMargin(100),
             authHeader(context),
             FadeInDown(
               child: Column(
                 children: [
-                  Column(
+                  const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Secure your account",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: ColorPath.Primarydark,
+                          color: ColorPath.primarydark,
                           fontSize: 23,
                         ),
                       ),
                       YMargin(15),
                       Text("Create your password",
-                          style: GoogleFonts.montserrat(
+                          style: TextStyle(
                             fontWeight: FontWeight.normal,
-                            color: ColorPath.Primarydark,
+                            color: ColorPath.primarydark,
                             fontSize: 14,
                           )),
                     ],
                   ),
-                  YMargin(35),
+                  const YMargin(35),
                   CustomTextFieldWidget(
                     onChanged: (password) => onPasswordChanged(password),
                     controller: passwordtexteditingcontroller,
                     hideText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    autofill: [AutofillHints.password],
+                    autofill: const [AutofillHints.password],
                     hintText: 'Create password',
                   ),
-                  YMargin(10),
+                  const YMargin(10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0),
                     child: Row(
                       children: [
                         AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            decoration: BoxDecoration(),
+                            duration: const Duration(milliseconds: 200),
+                            decoration: const BoxDecoration(),
                             child: Row(
                               children: [
                                 Icon(
@@ -110,27 +111,27 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                                       ? Icons.check
                                       : Icons.cancel_outlined,
                                   color: isPasswordEightCharacters
-                                      ? ColorPath.Primarygreen
-                                      : ColorPath.Primaryred,
+                                      ? ColorPath.primarygreen
+                                      : ColorPath.primaryred,
                                   size: 10.0,
                                 ),
-                                XMargin(2),
+                                const XMargin(2),
                                 Text(
                                   "8 characters long",
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     color: isPasswordEightCharacters
-                                        ? ColorPath.Primarygreen
-                                        : ColorPath.Primaryred,
+                                        ? ColorPath.primarygreen
+                                        : ColorPath.primaryred,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 9.0,
                                   ),
                                 )
                               ],
                             )),
-                        XMargin(10),
+                        const XMargin(10),
                         AnimatedContainer(
-                            duration: Duration(milliseconds: 200),
-                            decoration: BoxDecoration(),
+                            duration: const Duration(milliseconds: 200),
+                            decoration: const BoxDecoration(),
                             child: Row(
                               children: [
                                 Icon(
@@ -142,13 +143,13 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                                       : Colors.red,
                                   size: 10.0,
                                 ),
-                                XMargin(2),
+                                const XMargin(2),
                                 Text(
                                   "Must contain Number",
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     color: hasPasswordOneNumber
-                                        ? ColorPath.Primarygreen
-                                        : ColorPath.Primaryred,
+                                        ? ColorPath.primarygreen
+                                        : ColorPath.primaryred,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 9.0,
                                   ),
@@ -158,9 +159,9 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                       ],
                     ),
                   ),
-                  YMargin(20),
+                  const YMargin(20),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Container(
                       height: 50,
                       width: context.screenWidth(),
@@ -168,8 +169,8 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                         color: isPasswordEightCharacters &&
                                 hasPasswordOneNumber &&
                                 isChange
-                            ? ColorPath.Secondarygrey
-                            : ColorPath.Primaryfield,
+                            ? ColorPath.secondarygrey
+                            : ColorPath.primaryfield,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: InkWell(
@@ -181,19 +182,19 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => UserInfo(),
+                                            builder: (context) => const UserInfo(),
                                           ));
                                     });
                                   }
                                 : null
                             : null,
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "Next",
-                              style: GoogleFonts.poppins(
-                                color: ColorPath.Primarywhite,
+                              style: TextStyle(
+                                color: ColorPath.primarywhite,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

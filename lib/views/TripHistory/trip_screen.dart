@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Payment/payment.dart';
@@ -14,16 +13,16 @@ class TripScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
         child: CustomAppBar(title: "Your Delivery History"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            YMargin(30),
+            const YMargin(30),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Row(
                 children: [
                   Container(
@@ -31,15 +30,15 @@ class TripScreen extends StatelessWidget {
                     height: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      color: ColorPath.Primarydark,
+                      color: ColorPath.primarydark,
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "10th June 2023",
-                        style: GoogleFonts.montserrat(
+                        style: TextStyle(
                           fontSize: 9.0,
                           fontWeight: FontWeight.w300,
-                          color: ColorPath.SecondaryColor,
+                          color: ColorPath.secondaryColor,
                         ),
                       ),
                     ),
@@ -48,8 +47,8 @@ class TripScreen extends StatelessWidget {
               ),
             ),
             FadeInUp(
-              duration: Duration(milliseconds: 2000),
-              child: Container(
+              duration: const Duration(milliseconds: 2000),
+              child: SizedBox(
                 height: context.screenHeight(),
                 child: ListView.builder(
                   itemCount: 4,
@@ -68,14 +67,14 @@ class TripScreen extends StatelessWidget {
 
 Widget tripCard(BuildContext context) {
   return Padding(
-    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5.0),
       height: 65,
       width: context.screenWidth(),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.0),
-        color: ColorPath.Primaryfield,
+        color: ColorPath.primaryfield,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,50 +86,50 @@ Widget tripCard(BuildContext context) {
                 padding: const EdgeInsets.all(7.0),
                 child: Image(image: AssetImage(ImagesAsset.logosm)),
               ),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Kwara Mall,  Mbale",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 10.0,
                       fontWeight: FontWeight.w600,
-                      color: ColorPath.Primarydark,
+                      color: ColorPath.primarydark,
                     ),
                   ),
                   YMargin(5),
                   Text(
                     "10th January, 2021, 10: 00am",
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       fontSize: 7.0,
                       fontWeight: FontWeight.w300,
-                      color: ColorPath.Primarydark,
+                      color: ColorPath.primarydark,
                     ),
                   )
                 ],
               )
             ],
           ),
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
                 "Ksh2,300",
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 10.0,
                   fontWeight: FontWeight.w600,
-                  color: ColorPath.Primarydark,
+                  color: ColorPath.primarydark,
                 ),
               ),
               YMargin(5),
               Text(
                 "Trip Completed",
-                style: GoogleFonts.montserrat(
+                style: TextStyle(
                   fontSize: 7.0,
                   fontWeight: FontWeight.w300,
-                  color: ColorPath.Primarydark,
+                  color: ColorPath.primarydark,
                 ),
               )
             ],
@@ -141,7 +140,7 @@ Widget tripCard(BuildContext context) {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TripHistory(),
+            builder: (context) => const TripHistory(),
           ));
     }),
   );

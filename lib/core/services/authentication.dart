@@ -11,13 +11,11 @@ class AuthenticationService {
   static AuthenticationService? _instance;
 
   static AuthenticationService get instance {
-    if (_instance == null) {
-      _instance = AuthenticationService._();
-    }
+    _instance ??= AuthenticationService._();
     return _instance!;
   }
 
-  FirebaseAuth? _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
   Future<void> verifyPhoneSendOtp(
@@ -33,7 +31,7 @@ class AuthenticationService {
     void Function(String, int?)? codeSent,
     void Function(String)? codeAuthRetrivalTimeout,
   }) async {
-    _auth!.verifyPhoneNumber(
+    _auth.verifyPhoneNumber(
       phoneNumber: phone,
       verificationCompleted: completed!,
       verificationFailed: failure!,
@@ -53,7 +51,7 @@ class AuthenticationService {
 
     ///If successful it signs the user in into the app and
     ///updates any [authStateChanges], [idTokenChanges] or [userChanges] stream listeners.
-    final authCredential = await _auth!.signInWithCredential(credential);
+    final authCredential = await _auth.signInWithCredential(credential);
     if (authCredential.user != null) {
       /// If the user is not null or exists,
       /// Get/Fetch the Users details from FirebaseFirestore Data Collection
@@ -80,7 +78,7 @@ class AuthenticationService {
   /// any [authStateChanges], [idTokenChanges] or [userChanges] stream listeners.
   ///If the user doesn't have an account already, one will be created automatically.
   Future<String> getCredentials(PhoneAuthCredential credential) async {
-    final authCredentail = await _auth!.signInWithCredential(credential);
+    final authCredentail = await _auth.signInWithCredential(credential);
     return authCredentail.user!.uid;
   }
 }

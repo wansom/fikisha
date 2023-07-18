@@ -1,7 +1,7 @@
 name: fikisha
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -9,47 +9,45 @@ environment:
   sdk: ">=2.17.6 <3.0.0"
 
 dependencies:
+  animate_do: ^3.0.2
+  bloc: ^8.0.2
+  cloud_firestore: ^4.8.3
+  cupertino_icons: ^1.0.2
+  equatable: ^2.0.3
+  firebase_auth: ^4.7.0
+  firebase_core: ^2.15.0
+  firebase_core_platform_interface: 4.8.0
+  firebase_storage: ^11.2.5
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.2
-  animate_do: ^2.1.0
-  bloc: ^8.0.2
-  cloud_firestore: ^3.1.8
-  equatable: ^2.0.3
-  firebase_auth: ^3.3.7
-  firebase_core: ^1.12.0
   flutter_bloc: ^8.0.1
   flutter_polyline_points: ^1.0.0
-  flutter_svg: ^0.21.0
+  flutter_svg: ^2.0.7
   geocoding: ^2.0.0
-  google_fonts: 2.2.0
+  geolocator: ^9.0.2
+  google_directions_api: ^0.9.1
+  google_maps_directions: ^0.0.3+4
   google_maps_flutter: ^2.0.9
+  google_maps_webservice: ^0.0.19
   http: ^0.13.3
-  local_auth: ^1.1.7
-  location: ^4.3.0
+  local_auth: ^2.1.6
+  location: ^5.0.0
+  pinput: ^2.2.31
+  polyline: ^1.0.2
   shared_preferences: ^2.0.6
+  sliding_up_panel: ^2.0.0+1
   sms_autofill: ^2.2.0
+  url_launcher: ^6.1.12
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^2.0.0
-  
-dependency_overrides:
-    firebase_core_platform_interface: 4.5.1
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -63,13 +61,10 @@ flutter:
     - assets/fingerincon.svg
     - assets/discovery.svg
     - assets/Ripple.gif
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

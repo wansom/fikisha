@@ -6,8 +6,7 @@ class User {
   DateTime? createdAt;
   bool? isVerified;
 
-  User.fromJson(String uid, Map<String, dynamic> json) {
-    this.uid = uid;
+  User.fromJson(String this.uid, Map<String, dynamic> json) {
     if (json.containsKey("firstname")) {
       firstname = json["firstname"];
     }

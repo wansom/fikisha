@@ -14,20 +14,20 @@ class _RideDetailsState extends State<RideDetails> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       height: 250,
       width: context.screenWidth(),
       child: ListView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         scrollDirection: Axis.vertical,
         children: RideData.rideDetails
             .map((rideDetails) => RideCard(
                 rideModel: rideDetails,
                 onSelected: (model) {
                   setState(() {
-                    RideData.rideDetails.forEach((item) {
+                    for (var item in RideData.rideDetails) {
                       item.isSelected = false;
-                    });
+                    }
                     model.isSelected = true;
                   });
                 }))
