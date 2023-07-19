@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable, library_prefixes
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fikisha/models/riders.dart';
@@ -6,17 +6,13 @@ import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/views/Home/Components/rydr_drawer.dart';
-import 'package:fikisha/views/Home/firstpanel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart'as loc;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:location/location.dart' ;
-import 'package:google_maps_directions/google_maps_directions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,110 +23,133 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> formKey = GlobalKey<ScaffoldState>();
-  final LatLng center = const LatLng(-1.286389, 36.817223);
+  LatLng center = const LatLng(-1.286389, 36.817223);
   final locationController = TextEditingController();
   late GoogleMapController controller;
   final PanelController panelController = PanelController();
   List<Marker> markers = [];
   LatLng? destination;
    Set<Polyline>polylines = {};
-   final directions = GoogleMapsDirections();
+   loc.LocationData? currentLocation;
+
 
   @override
   void initState() {
     super.initState();
+    getCurrentLocation();
     loadRiders();
   }
+void getCurrentLocation() async{
+  loc.Location location = loc.Location();
+  location.getLocation().then((location) {
+    currentLocation = location;
+  });
+  GoogleMapController googleMapController = controller;
+  location.onLocationChanged.listen((newLocation) {
+    currentLocation = newLocation;
+    googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+      CameraPosition(target: LatLng(
+        newLocation.latitude!, 
+        newLocation.longitude!,
+        ))));
+        setState(() {
+          
+        });
+  });
+}
 
-  void loadRiders() async {
-    final ridersDocs =
-        await FirebaseFirestore.instance.collection('fikisha_riders_data').get();
-    final riders = ridersDocs.docs.map((doc) {
-      final data = doc.data();
-      final location = data['location'] as GeoPoint;
-      return RidersData(
-        bikeType: data['bikeType'], 
-        location: LatLng(location.latitude, location.longitude), 
-        name: data['name'],
-        cost: data['cost'],
-        plateNo: data['plateNo']
-        );
+void loadRiders() async{
+  final ridersDoc = await FirebaseFirestore.instance.collection('fikisha_riders_data').get();
+  final riders = ridersDoc.docs.map((doc) {
+    final data = doc.data();
+    final location = data['location'];
+    return RidersData(
+      cost: data['cost'], 
+      location: location, 
+      name: data['name'], 
+      plateNo: data['plateNo'], 
+      bikeType: data['bikeType'],
+      );
+  }).toList();
+  setState(() {
+    markers = riders.map((rider){
+      return Marker(
+        markerId: MarkerId(rider.plateNo),
+        position: rider.location,
+        infoWindow: InfoWindow(
+          title: rider.bikeType,
+          snippet: '${rider.plateNo} : ${rider.cost}'
+        )
+      );
     }).toList();
-    setState(() {
-      markers = riders.map((rider) {
-        return Marker(
-          icon: BitmapDescriptor.defaultMarkerWithHue(2),
-            markerId: MarkerId(rider.plateNo),
-            position: rider.location,
-            infoWindow: InfoWindow(
-                title: rider.bikeType,
-                snippet: '${rider.plateNo} - ${rider.cost}'));
-      }).toList();
-    });
-  }
+  });
+}
 
-  // void onCameraIdle() async {
-  //   if (destination == null) {
-  //     return;
-  //   }
-  //   final LatLngBounds bounds = await controller.getVisibleRegion();
-  //   if (bounds.contains(destination!)) {
-  //     showModalBottomSheet(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return StreamBuilder(
-  //           stream:
-  //               FirebaseFirestore.instance.collection('Ambulances').snapshots(),
-  //           builder: (context, snapshot) {
-  //             if (!snapshot.hasData) {
-  //               return CircularProgressIndicator();
-  //             }
-  //             return Expanded(
-  //               child: ListView.builder(
-  //                   itemCount: snapshot.data!.docs.length,
-  //                   itemBuilder: (context, index) {
-  //                     DocumentSnapshot ambulance = snapshot.data!.docs[index];
-  //                     return ListTile(
-  //                       onTap: () {},
-  //                       trailing: Text(ambulance['plateNo']),
-  //                       leading: CircleAvatar(
-  //                         backgroundImage: NetworkImage(ambulance['image']),
-  //                       ),
-  //                       subtitle: Text(ambulance['cost']),
-  //                       title: Text(ambulance['ambType']),
-  //                     );
-  //                   }),
-  //             );
-  //           },
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
+//  void loadRiders() async {
+// final location = await Geolocator.getCurrentPosition();
+// final LatLng userLocation = LatLng(location.latitude, location.longitude);
+// final ridersDocs= await FirebaseFirestore.instance
+//     .collection('fikisha_riders_data')
+//     .get();
+//     final riders = ridersDocs.docs.map((doc) {
+//       final data = doc.data();
+//       final location = data['location'] as GeoPoint;
+//       return RidersData(
+//         cost: data['cost'], 
+//         location: data['location'], 
+//         name: data['name'], 
+//         plateNo: data['plateNo,'] ,
+//         bikeType: data['bikeType']
+//         );
+//     }).toList();
+// final ridersNearUser = riders.where((rider) {
+//   final distance = Geolocator.distanceBetween(
+//     rider.location.latitude,
+//     rider.location.longitude,
+//     userLocation.latitude,
+//     userLocation.longitude,
+//   );
+//   return distance < 1000;
+// }).toList();
+
+// for (final rider in ridersNearUser) {
+//   final marker = Marker(
+//     icon: BitmapDescriptor.defaultMarkerWithHue(2),
+//     markerId: MarkerId(rider.plateNo),
+//     position: rider.location,
+//     infoWindow: InfoWindow(
+//         title: rider.bikeType,
+//         snippet: '${rider.plateNo} - ${rider.cost}'),
+//   );
+//   markers.add(marker);
+// }
+//   }
 
   void onMapCreated(GoogleMapController mapController){
     controller = mapController;
   }
 
-Future<Position> getUserLocation() async {
-  bool serviceEnabled;
-  LocationPermission locationPermission;
-  serviceEnabled  = await Geolocator.isLocationServiceEnabled();
-  if(!serviceEnabled){
-    throw 'Location service disabled';
-  }
-  locationPermission = await Geolocator.checkPermission();
-  if(locationPermission == LocationPermission.deniedForever){
-    throw 'Location service disabled, we cannot request permissions';
-  }
-  if (locationPermission == LocationPermission.denied){
-    locationPermission = await Geolocator.requestPermission();
-    if(locationPermission != LocationPermission.whileInUse && locationPermission != LocationPermission.always){
-      throw 'Location permissions denied';
-    }
-  }
-  return await Geolocator.getCurrentPosition();
-}
+
+// Future<Position> getUserLocation() async {
+//   bool serviceEnabled;
+//   LocationPermission locationPermission;
+//   serviceEnabled  = await Geolocator.isLocationServiceEnabled();
+//   if(!serviceEnabled){
+//     throw 'Location service disabled';
+//   }
+//   locationPermission = await Geolocator.checkPermission();
+//   if(locationPermission == LocationPermission.deniedForever){
+//     throw 'Location service disabled, we cannot request permissions';
+//   }
+//   if (locationPermission == LocationPermission.denied){
+//     locationPermission = await Geolocator.requestPermission();
+//     if(locationPermission != LocationPermission.whileInUse && locationPermission != LocationPermission.always){
+//       throw 'Location permissions denied';
+//     }
+//   }
+//   return await Geolocator.getCurrentPosition();
+// }
 
 void searchLocations() async {
   final query = locationController.text;
@@ -146,41 +165,52 @@ void searchLocations() async {
     destination = destinationLatLng; // Set the destination coordinates
     controller.animateCamera(CameraUpdate.newLatLngZoom(destinationLatLng, 15));
 
-    // Get the user's current location
-    final userLocation = await getUserLocation();
-    final userLatLng = LatLng(userLocation.latitude, userLocation.longitude);
-
-    // Retrieve directions from user's location to the destination
-    final directionsResult = await directions.directionsFromLocation(
-      origin: userLatLng,
-      destination: destinationLatLng,
-      travelMode: DirectionsTravelMode.driving,
-    );
-
-    // Extract the polyline points from the directions result
-    final polylinePoints = directionsResult.routes.first.polyline.points;
-
-    // Create a polyline from the polyline points
-    final polyline = Polyline(
-      polylineId: const PolylineId('directions'),
-      color: Colors.green,
-      points: polylinePoints,
-      width: 5,
-    );
-
-    setState(() {
-      polylines = {polyline};
-    });
+   
   } catch (e) {
     print(e.toString());
   }
 }
 
+// List<LatLng>decodePolyline(String encodedPolyline) {
+//   final List<LatLng> decodedPoints =[];
+//   int index =0;
+//   int lat = 0;
+//   int lng= 0;
+//   while (index < encodedPolyline.length) {
+//     int shift = 0;
+//     int results = 0;
+//     while(true) {
+//       int byte = encodedPolyline.codeUnitAt(index++) -63;
+//       results |= (byte & 0x1F) << (shift * 5);
+//       shift++;
+//       if(byte < 0x20){
+//         break;
+//       }
+//     }
+//     lat += (results & 1)!=0?~(results >>1): (results >>1);
+//     shift = 0;
+//     results=0;
+
+//     while(true) {
+//       int byte = encodedPolyline.codeUnitAt(index++) -63;
+//       results |= (byte & 0x1F) << (shift *5);
+//       shift++;
+//       if(byte < 0x20){
+//         break;
+//       }
+//     }
+//     lng += (results &1) != 0? ~(results>>1): (results>>1);
+//     final latlng = LatLng(lat/1E5, lng/1E5);
+//     decodedPoints.add(latlng);
+//   }
+//   return decodedPoints;
+// }
+
 
   @override
   Widget build(BuildContext context) {
-    final panelHeightClosed = MediaQuery.of(context).size.height * 0.1;
-    final panelHeightOpened = MediaQuery.of(context).size.height * 0.4;
+    final panelHeightClosed = MediaQuery.of(context).size.height * 0.3;
+    final panelHeightOpened = MediaQuery.of(context).size.height * 0.5;
     return Scaffold(
       key:  formKey,
       appBar: PreferredSize(
@@ -239,16 +269,40 @@ void searchLocations() async {
       drawer: const RyderDrawer(),
       body: Stack(
         children: [
-          SlidingUpPanel(            
-            panelBuilder: (controller) => FirstPanel(
-              controller: controller,
-            ),
+          SlidingUpPanel( 
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(50), topRight: Radius.circular(50)),
               minHeight: panelHeightClosed,
              maxHeight: panelHeightOpened,
             controller: panelController,
-            isDraggable: true,
+            isDraggable: true,           
+            panelBuilder: (controller) => Column(
+              crossAxisAlignment:  CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(30),
+                  width: MediaQuery.of(context).size.width - 60,
+                  height: 55,
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: TextField(
+                  controller: locationController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      labelText: 'Where to',
+                      prefixIcon: const Icon(Icons.car_rental),
+                      suffixIcon: IconButton(
+                        onPressed: searchLocations,
+                        icon: const Icon(
+                          Icons.search,
+                          color: Colors.deepPurpleAccent,
+                          size: 30,
+                        ),
+                      )),
+                              ),
+                ),
+              ],
+            ),           
             body: GoogleMap(
               myLocationEnabled: true,
               myLocationButtonEnabled: true,
@@ -259,27 +313,10 @@ void searchLocations() async {
               polylines: polylines,
             ),
           ),
-          Positioned(
-              left: 16,
-              right: 16,
-              top: 18,
-              child: TextField(
-                controller: locationController,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    labelText: 'Enter destination',
-                    suffixIcon: IconButton(
-                      onPressed: searchLocations,
-                      icon: const Icon(
-                        Icons.search,
-                        color: Colors.deepPurpleAccent,
-                        size: 30,
-                      ),
-                    )),
-              )),
         ],
       ),
     );
   }
 }
+
+

@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:fikisha/views/Home/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';

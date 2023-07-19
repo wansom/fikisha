@@ -33,7 +33,6 @@ dependencies:
   local_auth: ^2.1.6
   location: ^5.0.0
   pinput: ^2.2.31
-  polyline: ^1.0.2
   shared_preferences: ^2.0.6
   sliding_up_panel: ^2.0.0+1
   sms_autofill: ^2.2.0

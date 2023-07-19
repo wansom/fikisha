@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-// ignore_for_file: library_private_types_in_public_api, avoid_print
+// ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Home/home_page.dart';
 import 'package:fikisha/views/Home/home_view.dart';
+import 'package:fikisha/views/Home/mapscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-=======
-import 'package:fikisha/views/Authentication/user_details.dart';
->>>>>>> 3042836f342e6708a837300696e3c1bb814dec7c
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';
@@ -27,7 +24,10 @@ class VerifyOtp extends StatefulWidget {
 
 class _VerifyOtpState extends State<VerifyOtp> {
   final TextEditingController pinPutController = TextEditingController();
-  String? verificationCode;
+  String verificationCode ='';
+  TextEditingController phoneNumberController = TextEditingController();
+  String verificationId = '';
+  final auth = FirebaseAuth.instance;
    final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
@@ -89,7 +89,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       Row(
                         children: [
                           SvgPicture.asset(ImagesAsset.check),
-                          Text(" Verify ${widget.phonenumber}",
+                          Text(" Verify - ${widget.phonenumber}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: ColorPath.primaryColor,
@@ -132,7 +132,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 controller: pinPutController,
                 submittedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration?.copyWith(
-                    color: const Color.fromARGB(255, 2, 5, 8),
+                    color: const Color.fromARGB(255, 222, 228, 233),
                   ),
                 ),
                 focusedPinTheme: defaultPinTheme.copyDecorationWith(
@@ -147,7 +147,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   try {
                     await FirebaseAuth.instance
                         .signInWithCredential(PhoneAuthProvider.credential(
-                            verificationId: verificationCode!, smsCode: pin))
+                            verificationId: verificationCode, smsCode: pin))
                         .then((value) async {
                       if (value.user != null) {
                         Navigator.pushAndRemoveUntil(
@@ -166,7 +166,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             ),
             const YMargin(15),
             IconButton(onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const HomeScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const MapScreen()));
                 }, icon: const Icon(Icons.arrow_back),
                 ),
             // const Spacer(),
@@ -196,62 +196,47 @@ class _VerifyOtpState extends State<VerifyOtp> {
           ]),
         ));
   }
+   Future<void> verifyPhoneNumber() async {
+    verificationCompleted(PhoneAuthCredential credential) async {
+      await auth.signInWithCredential(credential);
+      // Authentication successful, navigate to the home screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
+    verificationFailed(FirebaseAuthException e) {
+      // Handle verification failure
+      print('Verification failed: ${e.message}');
+    }
 
-  // Widget buildCodeNumberBox(String codeNumber) {
-  //   return Padding(
-  //       padding: const EdgeInsets.symmetric(horizontal: 4),
-  //       child: SizedBox(
-  //         width: 47,
-  //         height: 40,
-  //         child: Container(
-  //           decoration: BoxDecoration(
-  //               color: ColorPath.primaryColor.withOpacity(0.3),
-  //               borderRadius: const BorderRadius.all(
-  //                 Radius.circular(5),
-  //               ),
-  //               border: Border.all(color: ColorPath.primaryColor, width: 0.5)),
-  //           child: Center(
-  //             child: Text(
-  //               codeNumber,
-  //               style: const TextStyle(
-  //                 fontSize: 22,
-  //                 fontWeight: FontWeight.bold,
-  //                 color: ColorPath.offWhite,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ));
-  // }
-    verifyPhoneNumber() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      timeout: const Duration(seconds: 60),
-      phoneNumber: '+254${widget.phonenumber}',
-      verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
-        await FirebaseAuth.instance
-            .signInWithCredential(phoneAuthCredential)
-            .then((value) async {
-          if (value.user != null) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const Homeview()),
-                (route) => false);
-          }
-        });
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        print(e.message);
-      },
-      codeSent: (String? verificationId, int? resendToken) {
-        setState(() {
-          verificationCode = verificationId;
-        });
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        setState(() {
-          verificationCode = verificationId;
-        });
-      },
+    codeSent(String verificationId, [int? forceResendingToken]) {
+      setState(() {
+        verificationId = verificationId;
+      });
+    }
+
+    codeAutoRetrievalTimeout(String verificationId) {
+      setState(() {
+        verificationId = verificationId;
+      });
+    }
+
+    await auth.verifyPhoneNumber(
+      phoneNumber: phoneNumberController.text,
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
     );
+  }
+
+  Future<UserCredential> verifyOtp(String otp) async {
+    var credentials = await auth.signInWithCredential(
+      PhoneAuthProvider.credential(
+        verificationId: verificationCode, 
+        smsCode: otp,
+        ));
+        return credentials; 
   }
 }

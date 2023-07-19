@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:fikisha/views/Authentication/user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/create_password.dart';

@@ -50,7 +50,6 @@ final LatLng center = const LatLng(-1.286389, 36.817223);
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
           child: AppBar(
-            // brightness: Brightness.dark,
             backgroundColor: ColorPath.primarydark,
             automaticallyImplyLeading: false,
             actions: [
@@ -106,7 +105,6 @@ final LatLng center = const LatLng(-1.286389, 36.817223);
           FadeIn(
             duration: const Duration(milliseconds: 1500),
             child: GoogleMap(
-              mapType: MapType.normal,
               initialCameraPosition: CameraPosition(target: center, zoom: 12),
               onMapCreated: onMapCreated,
             ),
@@ -614,6 +612,10 @@ class _CustomPlaceHolderState extends State<CustomPlaceHolder> {
   final locationController = TextEditingController();
   late GoogleMapController controller;
 
+    void onMapCreated(GoogleMapController mapController) {
+    controller = mapController;
+  }
+
   void searchLocations() async {
     final query = locationController.text;
     if (query.isEmpty) {
@@ -645,43 +647,45 @@ class _CustomPlaceHolderState extends State<CustomPlaceHolder> {
                         borderRadius: BorderRadius.circular(15)),
                     labelText: 'Where to ?',
                     suffixIcon: IconButton(
-                      onPressed: searchLocations, 
-                      icon: const Icon(Icons.search,
-                      color: Colors.black,
+                      onPressed: searchLocations,
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.black,
                         size: 30,
-                      )
                       ),
+                    ),
                     prefixIcon: Icon(
                         Icons.drive_eta_rounded,
                         color: ColorPath.primaryColor.withOpacity(0.3),
                         size: 30,
                       ),),
             ), 
-      ).ripple(() {
-        showModalBottomSheet(
-            isDismissible: true,
-            isScrollControlled: true,
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            clipBehavior: Clip.hardEdge,
-            context: context,
-            builder: (context) {
-              return Container(
-                padding: const EdgeInsets.only(top: 7),
-                height: context.screenHeight() - 118,
-                width: context.screenWidth(),
-                decoration: const BoxDecoration(
-                  color: ColorPath.primarywhite,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
-                ),
-                child: pickLocation(context),
-              );
-            });
-      }),
-    );
+      // ).ripple(() {
+      //   showModalBottomSheet(
+      //       isDismissible: true,
+      //       isScrollControlled: true,
+      //       elevation: 0,
+      //       backgroundColor: Colors.transparent,
+      //       clipBehavior: Clip.hardEdge,
+      //       context: context,
+      //       builder: (context) {
+      //         return Container(
+      //           padding: const EdgeInsets.only(top: 7),
+      //           height: context.screenHeight() - 118,
+      //           width: context.screenWidth(),
+      //           decoration: const BoxDecoration(
+      //             color: ColorPath.primarywhite,
+      //             borderRadius: BorderRadius.only(
+      //               topLeft: Radius.circular(15),
+      //               topRight: Radius.circular(15),
+      //             ),
+      //           ),
+      //           child: pickLocation(context),
+      //         );
+      //       });
+      // }
+      // ),
+    ));
   }
 
   Widget pickLocation(BuildContext context) {

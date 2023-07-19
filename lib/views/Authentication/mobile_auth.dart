@@ -1,12 +1,16 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables
+// ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_local_variable, avoid_print
 
 import 'package:animate_do/animate_do.dart';
+import 'package:fikisha/views/Authentication/verify_otp.dart';
+import 'package:fikisha/views/Home/home_page.dart';
+import 'package:fikisha/views/Home/home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
-import 'package:fikisha/views/Authentication/verify_otp.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/utils/colors.dart';
+import 'package:pinput/pinput.dart';
 
 class MobileAuth extends StatefulWidget {
   const MobileAuth({Key? key}) : super(key: key);
@@ -16,26 +20,63 @@ class MobileAuth extends StatefulWidget {
 }
 
 class _MobileAuthState extends State<MobileAuth> {
-  TextEditingController phonetextEditingController = TextEditingController();
-  String code = "";
+  TextEditingController phoneNumberController = TextEditingController();
+  String _verificationId = '';
+  final auth = FirebaseAuth.instance;
   bool isChange = false;
-
-  @override
-  void initState() {
-    super.initState();
-    phonetextEditingController = TextEditingController();
-    phonetextEditingController.addListener(() {
-      final isChange = phonetextEditingController.text.isNotEmpty;
-      setState(() {
-        this.isChange = isChange;
-      });
-    });
-  }
+   final TextEditingController pinPutController = TextEditingController();
+       final defaultPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: const TextStyle(
+        fontSize: 20,
+        color: Color.fromRGBO(30, 60, 87, 1),
+        fontWeight: FontWeight.w600),
+    decoration: BoxDecoration(
+      border: Border.all(color: const Color.fromARGB(255, 4, 7, 10)),
+      borderRadius: BorderRadius.circular(20),
+    ),
+  );
 
   @override
   void dispose() {
     super.dispose();
-    phonetextEditingController.dispose();
+    phoneNumberController.dispose();
+  }
+
+    Future<void> verifyPhoneNumber() async {
+    verificationCompleted(PhoneAuthCredential credential) async {
+      await auth.signInWithCredential(credential);
+      // Authentication successful, navigate to the home screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
+    verificationFailed(FirebaseAuthException e) {
+      // Handle verification failure
+      print('Verification failed: ${e.message}');
+    }
+
+    codeSent(String verificationId, [int? forceResendingToken]) {
+      setState(() {
+        _verificationId = verificationId;
+      });
+    }
+
+    codeAutoRetrievalTimeout(String verificationId) {
+      setState(() {
+        _verificationId = verificationId;
+      });
+    }
+
+    await auth.verifyPhoneNumber(
+      phoneNumber: phoneNumberController.text,
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+    );
   }
 
   @override
@@ -86,12 +127,12 @@ class _MobileAuthState extends State<MobileAuth> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     filled: false,
-                    hintText: 'Mobile Number',
-                    // prefixText: '+254 | ',
+                    hintText: '+254700000000',
+                    // prefixText: '+254',
                     prefixIcon: Icon(Icons.phone_iphone)),
-                maxLength: 10,
+                maxLength: 15,
                 keyboardType: TextInputType.phone,
-                controller: phonetextEditingController,
+                controller: phoneNumberController,
               ),              
                 const YMargin(30),
                 Padding(
@@ -105,16 +146,13 @@ class _MobileAuthState extends State<MobileAuth> {
                           : ColorPath.primaryfield,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: ElevatedButton(                      
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VerifyOtp(
-                                          phonenumber:
-                                              phonetextEditingController.text),
-                                    ));
-                      },                    
+                    child: ElevatedButton(                     
+                      onPressed:
+                        () {
+                        verifyPhoneNumber();
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) =>VerifyOtp(phonenumber: phoneNumberController.text,)));
+                        },
                       child: const Text(
                         "Next",
                         textAlign: TextAlign.center,
@@ -125,7 +163,7 @@ class _MobileAuthState extends State<MobileAuth> {
                       ),
                     ),
                   ),
-                ),
+                ),              
               ],
             ),
           ),
@@ -133,7 +171,28 @@ class _MobileAuthState extends State<MobileAuth> {
       ),
     );
   }
-}
+
+  void signInWithPhoneNumber() async{
+      try {
+      final AuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: _verificationId,
+        smsCode: pinPutController.text,
+      );
+
+      final UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      // Authentication successful, navigate to the home screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Homeview()),
+      );
+    } catch (e) {
+      // Handle sign-in failure
+      print('Sign-in failed: $e');
+    }
+  }
+  }
 
 class CustomTextFieldWidget extends StatelessWidget {
   final String hintText;
