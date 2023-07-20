@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/views/Payment/payment.dart';
 import 'package:fikisha/utils/colors.dart';
@@ -25,11 +24,13 @@ class ApplyCoupon extends StatelessWidget {
           child: Column(
             children: [
               const YMargin(20),
-              CustomTextFieldWidget(
+              TextField(
                 controller: coupontextEditingController,
                 keyboardType: TextInputType.text,
-                autofill: const [AutofillHints.name],
-                hintText: 'Enter Coupon Code',
+                autofillHints: const [AutofillHints.name],
+                decoration: const InputDecoration(
+                  hintText: 'Enter Coupon Code',
+                ),
               ),
               const YMargin(15),
               Padding(

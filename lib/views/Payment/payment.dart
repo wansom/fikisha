@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'add_payment_method.dart';
@@ -191,11 +190,13 @@ class _PaymentsState extends State<Payments> {
                   ),
                 ),
                 const YMargin(10),
-                CustomTextFieldWidget(
+                TextField(
                   controller: coupontextEditingController,
                   keyboardType: TextInputType.text,
-                  autofill: const [AutofillHints.name],
-                  hintText: 'Enter Coupon Code',
+                  autofillHints: const [AutofillHints.name],
+                  decoration: const InputDecoration(
+                    hintText: 'Enter Coupon Code',
+                  ),
                 ),
                 const YMargin(15),
                 Padding(

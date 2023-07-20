@@ -4,7 +4,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Payment/payment.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 
@@ -32,20 +31,24 @@ class _ManagePasswordState extends State<ManagePassword> {
         child: Column(
           children: [
             const YMargin(50),
-            CustomTextFieldWidget(
+            TextField(
               controller: passwordtexteditingcontroller,
-              hideText: true,
+              obscureText: true,
               keyboardType: TextInputType.visiblePassword,
-              autofill: const [AutofillHints.password],
-              hintText: 'Password',
+              autofillHints: const [AutofillHints.password],
+             decoration: const InputDecoration(
+               hintText: 'Password',
+             ),
             ),
             const YMargin(8.0),
-            CustomTextFieldWidget(
+            TextField(
               controller: confirmpasswordtexteditingcontroller,
-              hideText: true,
+              obscureText: true,
               keyboardType: TextInputType.visiblePassword,
-              autofill: const [AutofillHints.password],
-              hintText: 'Confirm Password',
+              autofillHints: const [AutofillHints.password],
+              decoration: const InputDecoration(
+                hintText: 'Confirm Password',
+              ),
             ),
             const YMargin(20),
             Padding(

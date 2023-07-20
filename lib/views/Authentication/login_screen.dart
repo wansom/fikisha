@@ -90,20 +90,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const YMargin(30),
-                      CustomTextFieldWidget(
+                      TextField(
                         controller: emailnametexteditingcontroller,
                         keyboardType: TextInputType.emailAddress,
-                        autofill: const [AutofillHints.email],
-                        hintText: 'Email Address',
+                        autofillHints: const [AutofillHints.email],
+                        decoration: const InputDecoration(
+                          hintText: 'Email Address',
+                        ),
                       ),
                       const YMargin(10),
-                      CustomTextFieldWidget(
+                      TextField(
                         controller: passwordnametexteditingcontroller,
                         keyboardType: TextInputType.visiblePassword,
-                        hideText: true,
-                        suffixWidget: const Text("show"),
-                        autofill: const [AutofillHints.password],
-                        hintText: 'Password',
+                        obscureText: true,                       
+                        autofillHints: const [AutofillHints.password],
+                        decoration: const InputDecoration(
+                          hintText: 'Password', 
+                        suffix: Text("show"),
+                        ),
                       ),
                       const YMargin(20),
                       FadeInDown(

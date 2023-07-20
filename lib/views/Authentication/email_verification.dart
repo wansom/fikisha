@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Authentication/user_details.dart';
 import 'package:fikisha/utils/colors.dart';
 
@@ -89,12 +88,11 @@ class _EmailVerificationState extends State<EmailVerification> {
                     ],
                   ),
                   const YMargin(25),
-                  CustomTextFieldWidget(
+                  TextField(
                     onChanged: (password) => onEmailChange(password),
                     controller: emailtexteditingcontroller,
                     keyboardType: TextInputType.emailAddress,
-                    autofill: const [AutofillHints.email],
-                    hintText: 'Enter email address',
+                    autofillHints: const [AutofillHints.email],
                   ),
                   const YMargin(30),
                   Padding(

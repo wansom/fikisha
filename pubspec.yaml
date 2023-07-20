@@ -30,6 +30,7 @@ dependencies:
   google_maps_flutter: ^2.0.9
   google_maps_webservice: ^0.0.19
   http: ^0.13.3
+  intl: ^0.18.1
   local_auth: ^2.1.6
   location: ^5.0.0
   pinput: ^2.2.31

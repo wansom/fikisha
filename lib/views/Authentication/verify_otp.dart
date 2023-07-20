@@ -1,9 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
-import 'package:fikisha/views/Home/home_page.dart';
 import 'package:fikisha/views/Home/home_view.dart';
-import 'package:fikisha/views/Home/mapscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -44,7 +42,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
 
   @override
   void initState() {
-    verifyPhoneNumber();
     super.initState();
   }
   @override
@@ -142,94 +139,19 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
                 pinAnimationType: PinAnimationType.fade,
                 androidSmsAutofillMethod:
-                    AndroidSmsAutofillMethod.smsRetrieverApi,
-                onCompleted: (pin) async {
-                  try {
-                    await FirebaseAuth.instance
-                        .signInWithCredential(PhoneAuthProvider.credential(
-                            verificationId: verificationCode, smsCode: pin))
-                        .then((value) async {
-                      if (value.user != null) {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Homeview()),
-                            (route) => false);
-                      }
-                    });
-                  } catch (e) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(e.toString())));
-                  }
-                },
+                    AndroidSmsAutofillMethod.smsRetrieverApi,    
+                    onCompleted: verifyOtp,            
               ),
             ),
             const YMargin(15),
             IconButton(onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const MapScreen()));
-                }, icon: const Icon(Icons.arrow_back),
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
+                }, icon: const Icon(Icons.arrow_forward),
                 ),
-            // const Spacer(),
-            // NumericPad(
-            //   onNumberSelected: (value) {
-            //     setState(() {
-            //       if (value != -1) {
-            //         if (code.length < 6) {
-            //           code = code + value.toString();
-            //         }
-            //       } else {
-            //         code = code.substring(0, code.length - 1);
-            //       }
-            //     });
-            //   },
-            //   onValidate: (value) {
-            //     //CheckOtp Valid
-            //     if (code.length == 6 && code == "123456") {
-            //       Navigator.pushReplacement(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => const EmailVerification()));
-            //     } else {}
-            //   },
-            // ),
-            // const Spacer(),
           ]),
         ));
   }
-   Future<void> verifyPhoneNumber() async {
-    verificationCompleted(PhoneAuthCredential credential) async {
-      await auth.signInWithCredential(credential);
-      // Authentication successful, navigate to the home screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    }
-    verificationFailed(FirebaseAuthException e) {
-      // Handle verification failure
-      print('Verification failed: ${e.message}');
-    }
 
-    codeSent(String verificationId, [int? forceResendingToken]) {
-      setState(() {
-        verificationId = verificationId;
-      });
-    }
-
-    codeAutoRetrievalTimeout(String verificationId) {
-      setState(() {
-        verificationId = verificationId;
-      });
-    }
-
-    await auth.verifyPhoneNumber(
-      phoneNumber: phoneNumberController.text,
-      verificationCompleted: verificationCompleted,
-      verificationFailed: verificationFailed,
-      codeSent: codeSent,
-      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-    );
-  }
 
   Future<UserCredential> verifyOtp(String otp) async {
     var credentials = await auth.signInWithCredential(

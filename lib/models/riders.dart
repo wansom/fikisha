@@ -7,9 +7,11 @@ class RidersData{
   final String cost;
   final String plateNo;
   final String bikeType;
+  final String contact;
 
   RidersData({
     required this.cost,
+    required this.contact,
     required this.location,
     required this.name,
     required this.plateNo,
@@ -22,7 +24,8 @@ class RidersData{
       name: data['name'],
       plateNo: data['plateNo'],
       cost: data['cost'],
-      bikeType: data['bikeType']
+      bikeType: data['bikeType'],
+      contact: data['contact']
       );
   }
 }

@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/create_password.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'components/auth_header.dart';
 
@@ -75,18 +74,22 @@ class _UserVerificationState extends State<UserVerification> {
                     ],
                   ),
                   const YMargin(25),
-                  CustomTextFieldWidget(
+                  TextField(
                     controller: firstnametexteditingcontroller,
                     keyboardType: TextInputType.name,
-                    autofill: const [AutofillHints.name],
-                    hintText: 'First name',
+                    autofillHints: const [AutofillHints.name],
+                    decoration: const InputDecoration(
+                      hintText: 'First name',
+                    ),
                   ),
                   const YMargin(10),
-                  CustomTextFieldWidget(
+                  TextField(
                     controller: lastnametexteditingcontroller,
                     keyboardType: TextInputType.name,
-                    autofill: const [AutofillHints.name],
+                    autofillHints: const [AutofillHints.name],
+                    decoration: const InputDecoration(                      
                     hintText: 'Last name',
+                    ),
                   ),
                   const YMargin(30),
                   Padding(

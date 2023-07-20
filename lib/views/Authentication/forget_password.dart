@@ -4,7 +4,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/utils/colors.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -80,15 +79,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         ),
                       ),
                       const YMargin(50),
-                      CustomTextFieldWidget(
+                      TextField(
                         controller: phonetextEditingController,
                         keyboardType: TextInputType.phone,
-                        autofill: const [AutofillHints.telephoneNumberAreaCode],
-                        hintText: 'Mobile Number',
-                        prefixWidget: DropdownButtonHideUnderline(
+                        autofillHints: const [AutofillHints.telephoneNumberAreaCode],
+                        decoration: InputDecoration(
+                          hintText: 'Mobile Number',
+                        prefix: DropdownButtonHideUnderline(
                             child: ButtonTheme(
                                 alignedDropdown: true,
                                 child: const Text("+254 |  "))),
+                        ),
                       ),
                       const YMargin(20),
                       Padding(

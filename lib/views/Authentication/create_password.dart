@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
-import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Authentication/user_info.dart';
 import 'package:fikisha/utils/colors.dart';
 
@@ -88,13 +87,12 @@ class _PasswordVerificationState extends State<PasswordVerification> {
                     ],
                   ),
                   const YMargin(35),
-                  CustomTextFieldWidget(
+                 TextField(
                     onChanged: (password) => onPasswordChanged(password),
                     controller: passwordtexteditingcontroller,
-                    hideText: true,
+                    obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    autofill: const [AutofillHints.password],
-                    hintText: 'Create password',
+                    autofillHints: const [AutofillHints.password],                    
                   ),
                   const YMargin(10),
                   Padding(
