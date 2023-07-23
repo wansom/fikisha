@@ -162,10 +162,13 @@ class _MobileAuthState extends State<MobileAuth> {
                           : ColorPath.primaryfield,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: ElevatedButton(                     
+                    child: ElevatedButton(  
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorPath.primaryblack
+                      ),                   
                       onPressed:
-                        () {
-                        verifyPhoneNumber();
+                        () async{
+                        await verifyPhoneNumber();
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) =>VerifyOtp(phonenumber: phoneNumberController.text,)));
                         },

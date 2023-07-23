@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fikisha/utils/colors.dart';
-import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Home/schedule_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -80,7 +79,7 @@ class _FirstPanelState extends State<FirstPanel> {
           )
         ),
           onPressed: () {
-            scheduleTrip(context);
+            scheduleTrip(context,);
           }, 
           child: const Text('Schedule delivery'),
           )

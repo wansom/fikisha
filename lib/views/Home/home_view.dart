@@ -1,4 +1,6 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
+import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fikisha/models/riders.dart';
@@ -7,15 +9,18 @@ import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/views/Home/Components/rydr_drawer.dart';
 import 'package:fikisha/views/Home/firstpanel.dart';
+import 'package:fikisha/views/Home/schedule_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:location/location.dart'  as loc;
 
 class Homeview extends StatefulWidget {
-  const Homeview({super.key});
+  const Homeview({super.key,});
 
   @override
   State<Homeview> createState() => _HomeviewState();
@@ -25,15 +30,63 @@ class _HomeviewState extends State<Homeview> {
   final GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   final LatLng center = const LatLng(-1.2921, 36.8219);
   final locationController = TextEditingController();
-  late GoogleMapController controller;
+  final Completer<GoogleMapController> controller = Completer();
   final PanelController panelController = PanelController();
+  static const LatLng sourceLocation =  LatLng(-1.286389, 36.817223);
   List<Marker> markers = [];
-  LatLng? destination;
+  String googleApiKey ="AIzaSyCoxCd3ZrbaeruLPg5irsJwOrBH1TS_FLU";
+  loc.LocationData? currentLocation;
+  late LatLng destination;
+  List<LatLng> polylineCoordinates =[];
+  String locationResult ='';
 
-  @override
-  void initState() {
-    super.initState();
-    loadRiders();
+
+
+    void getCurrentLocation() async {
+    loc.Location location = loc.Location();
+    location.getLocation().then((location) {
+      currentLocation = location;
+    });
+    GoogleMapController googleMapController = await controller.future;
+    location.onLocationChanged.listen((newLocation) {
+      currentLocation = newLocation;
+      googleMapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+        CameraPosition(
+          zoom: 11,
+          target: LatLng(
+            newLocation.latitude!, 
+            newLocation.longitude!,
+            ))));
+            setState(() {
+              
+            });
+    });
+  }
+
+    void setDestination (LatLng destinationLatlng) {
+    setState(() {
+      destination = destinationLatlng;
+    });
+    getPolyPoints();
+  }
+
+    void getPolyPoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey, 
+      PointLatLng(sourceLocation.latitude, sourceLocation.longitude), 
+      PointLatLng(destination.latitude, destination.longitude),
+      );
+      if(result.points.isNotEmpty) {
+        polylineCoordinates.clear();
+        for (var point in result.points) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+        setState(() {
+          
+        });
+      }
   }
 
   void loadRiders() async {
@@ -64,9 +117,9 @@ class _HomeviewState extends State<Homeview> {
   }
 
 
-  void onMapCreated(GoogleMapController mapController) {
-    controller = mapController;
-  }
+  void onMapCreated (mapController) {
+            controller.complete(mapController);
+          }
 
   void searchLocations() async {
     final query = locationController.text;
@@ -78,11 +131,22 @@ class _HomeviewState extends State<Homeview> {
       if (locations.isEmpty) {
         return;
       }
-      final lng = LatLng(locations.first.latitude, locations.first.longitude);
-      controller.animateCamera(CameraUpdate.newLatLngZoom(lng, 15));
+      final newDestination = LatLng(locations.first.latitude, locations.first.longitude);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Destination:$query'),
+      duration: const Duration(seconds: 2),));
+      scheduleTrip(context,);
+      setDestination(newDestination);
     } catch (e) {
       print(e.toString());
     }
+  }
+  
+  @override
+  void initState() {
+  loadRiders();
+  getPolyPoints();
+  getCurrentLocation();  
+  super.initState();
   }
 
   @override
@@ -162,6 +226,14 @@ class _HomeviewState extends State<Homeview> {
               markers: markers.toSet(),
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
+              polylines: {
+               Polyline(
+              polylineId: const PolylineId('route'),
+              points: polylineCoordinates,
+              color: Colors.blue,
+              width: 6
+            )
+          },
             ),
           ),
           Positioned(
@@ -182,7 +254,8 @@ class _HomeviewState extends State<Homeview> {
                         size: 30,
                       ),
                     )),
-              )),
+              )
+              ),
         ],
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:fikisha/views/Authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';

@@ -18,12 +18,12 @@ scheduleTrip(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return SingleChildScrollView(child: const ScheduleTrip());
+        return  SingleChildScrollView(child: ScheduleTrip());
       });
 }
 
 class ScheduleTrip extends StatefulWidget {
-  const ScheduleTrip({Key? key}) : super(key: key);
+  ScheduleTrip({Key? key}) : super(key: key);
 
   @override
   _ScheduleTripState createState() => _ScheduleTripState();
@@ -35,6 +35,7 @@ class _ScheduleTripState extends State<ScheduleTrip> {
   final dateController = TextEditingController();
   final timeController = TextEditingController();
   final nameController = TextEditingController();
+  final destinationController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
    @override
@@ -91,6 +92,25 @@ class _ScheduleTripState extends State<ScheduleTrip> {
             key: formKey,
             child: Column(
               children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 80,
+                  child: TextFormField(
+                            controller: destinationController,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                prefixIcon: const Icon(Icons.edit),
+                                labelText: 'Destination'),                          
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter name of receiver';
+                              }
+                              return null;
+                            },
+                          ),
+                ),
+                const YMargin(10),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 80,
                   child: TextFormField(
@@ -203,6 +223,7 @@ class _ScheduleTripState extends State<ScheduleTrip> {
               if(formKey.currentState!.validate()) {
                 DeliveryAppointment deliveryAppointment = DeliveryAppointment(date: 
                 dateController.text, time: timeController.text,
+                destination: destinationController.text,
                 name: nameController.text, phoneNumber: phoneNumberController.text
                 );
                 FirebaseFirestore.instance.collection('fikisha_users').add(deliveryAppointment.toJson()).then((value) {

@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const Homeview(),
+                                              builder: (context) =>  const Homeview(),
                                             ));
                                       });
                                     }
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => const Homeview()),
+                                  builder: (context) =>  const Homeview()),
                             );
                           },
                           child: Padding(
@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   );
                         // }
                         Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => const Homeview()),
+                            MaterialPageRoute(builder: (context) =>  const Homeview()),
                           );
                       },
                       child: Container(
@@ -305,7 +305,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //   );
           // }
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const Homeview()));
+              MaterialPageRoute(builder: (context) =>  const Homeview()));
         },
       );
 

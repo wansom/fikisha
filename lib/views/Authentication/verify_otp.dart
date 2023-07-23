@@ -22,10 +22,12 @@ class VerifyOtp extends StatefulWidget {
 
 class _VerifyOtpState extends State<VerifyOtp> {
   final TextEditingController pinPutController = TextEditingController();
-  String verificationCode ='';
+  String vefiricarionCode ='';
   TextEditingController phoneNumberController = TextEditingController();
   String verificationId = '';
   final auth = FirebaseAuth.instance;
+  late bool isOTPValid;
+
    final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
@@ -95,23 +97,23 @@ class _VerifyOtpState extends State<VerifyOtp> {
                           SvgPicture.asset(ImagesAsset.pen),
                         ],
                       ),
-                      Container(
-                        height: 30,
-                        width: 90,
-                        decoration: BoxDecoration(
-                            color: ColorPath.primarydark,
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: InkWell(
-                          onTap: () {},
-                          child: const Center(
-                              child: Text("Resend",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: ColorPath.primarywhite,
-                                    fontSize: 9.0,
-                                  ))),
-                        ),
-                      ),
+                      // Container(
+                      //   height: 30,
+                      //   width: 90,
+                      //   decoration: BoxDecoration(
+                      //       color: ColorPath.primarydark,
+                      //       borderRadius: BorderRadius.circular(5.0)),
+                      //   child: InkWell(
+                      //     onTap: () {},
+                      //     child: const Center(
+                      //         child: Text("Resend",
+                      //             style: TextStyle(
+                      //               fontWeight: FontWeight.w500,
+                      //               color: ColorPath.primarywhite,
+                      //               fontSize: 9.0,
+                      //             ))),
+                      //   ),
+                      // ),
                     ])),
             const YMargin(5),
             const Text("Enter the 6 digit otp",
@@ -140,25 +142,51 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 pinAnimationType: PinAnimationType.fade,
                 androidSmsAutofillMethod:
                     AndroidSmsAutofillMethod.smsRetrieverApi,    
-                    onCompleted: verifyOtp,            
+                    onCompleted: (otp)  {
+                      verifyOtp(otp).then((isOTPValid) {
+                        if(isOTPValid != null) {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
+                        } else {
+                          
+                        }
+                      } );
+                    },            
               ),
             ),
             const YMargin(15),
-            IconButton(onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
-                }, icon: const Icon(Icons.arrow_forward),
-                ),
+             ElevatedButton(  
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorPath.primarydark,
+                        minimumSize: const Size(250, 50)
+                      ),                   
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
+                      },
+                      child: const Text(
+                        "Verify",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: ColorPath.primarywhite,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
           ]),
         ));
   }
 
 
-  Future<UserCredential> verifyOtp(String otp) async {
-    var credentials = await auth.signInWithCredential(
+  Future<UserCredential?> verifyOtp(String otp) async {
+   try { var credentials = await auth.signInWithCredential(
       PhoneAuthProvider.credential(
-        verificationId: verificationCode, 
+        verificationId: vefiricarionCode, 
         smsCode: otp,
         ));
-        return credentials; 
+         return credentials; 
+        }
+        catch (e){
+          print(e.toString());
+        }
+       return null;
   }
 }

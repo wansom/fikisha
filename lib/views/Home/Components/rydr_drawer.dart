@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -10,11 +11,17 @@ import 'package:fikisha/views/Support/support.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/views/TripHistory/trip_screen.dart';
 
-class RyderDrawer extends StatelessWidget {
+class RyderDrawer extends StatefulWidget {
   const RyderDrawer({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<RyderDrawer> createState() => _RyderDrawerState();
+}
+
+class _RyderDrawerState extends State<RyderDrawer> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -215,36 +222,22 @@ class RyderDrawer extends StatelessWidget {
                   ],
                 ),
                 const YMargin(10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Container(
-                    height: 40,
-                    width: 137,
-                    decoration: BoxDecoration(
-                      color: ColorPath.primaryred,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Log out",
-                          style: TextStyle(
-                            color: ColorPath.primarywhite,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: ColorPath.primaryred,
                   ),
-                ).ripple(() {
-                  Navigator.of(context).pop();
-                  // Navigator.pushReplacement(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => const LoginScreen(),
-                  //     ));
-                }),
+                  onPressed: () async{
+                    try {
+                      await auth.signOut();
+                      print('User signed out successfully');
+                    } catch (e) {
+                      print(e.toString());
+                    }
+                  }, 
+                  child: const Text(
+                    'Log out'
+                  )
+                  ),
                 const YMargin(10),
                 const Spacer()
               ],
