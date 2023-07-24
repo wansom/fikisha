@@ -81,12 +81,14 @@ class ChooseAuth extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => const MobileAuth()));
                       },
                       child: AuthButtons(
-                        color: ColorPath.primarywhite, 
-                        text: 'Sign in with phone number',
-                        icon: ImagesAsset.message, 
-                        textcolor: ColorPath.primaryblack, 
-                        bordercolor: ColorPath.secondarydark,
-                        ),
+                      color: ColorPath.primarydark,
+                      // text: "Continue with Email",
+                      // icon: ImagesAsset.envelope,
+                      text: "Continue with Phone Number",
+                      icon: ImagesAsset.call,
+                      textcolor: ColorPath.primarywhite,
+                      bordercolor: Colors.transparent,
+                    ),
                     )
                   ],
                 ),

@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fikisha/models/riders.dart';
+import 'package:fikisha/models/ride_model.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
@@ -95,23 +95,24 @@ class _HomeviewState extends State<Homeview> {
     final riders = ridersDocs.docs.map((doc) {
       final data = doc.data();
       final location = data['location'] as GeoPoint;
-      return RidersData(
-        plateNo: data['plateNo'],
-        bikeType: data['bikeType'],
+      return RideModel(
+        name: data['name'],
         location: LatLng(location.latitude, location.longitude),
-        cost: data['cost'],
-        name: data['name'], 
-        contact: data['contact']
+        price: data['price'],
+        id: data['id'], 
+        contact: data['contact'], 
+        image: '', 
+        time: ''
       );
     }).toList();
     setState(() {
       markers = riders.map((rider) {
         return Marker(
-            markerId: MarkerId(rider.plateNo),
+            markerId: MarkerId(rider.name),
             position: rider.location,
             infoWindow: InfoWindow(
-                title: rider.bikeType,
-                snippet: '${rider.plateNo} - ${rider.cost}'));
+                title: rider.name,
+                snippet: rider.price));
       }).toList();
     });
   }

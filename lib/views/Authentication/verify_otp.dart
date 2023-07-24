@@ -141,16 +141,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 ),
                 pinAnimationType: PinAnimationType.fade,
                 androidSmsAutofillMethod:
-                    AndroidSmsAutofillMethod.smsRetrieverApi,    
-                    onCompleted: (otp)  {
-                      verifyOtp(otp).then((isOTPValid) {
-                        if(isOTPValid != null) {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
-                        } else {
-                          
-                        }
-                      } );
-                    },            
+                    AndroidSmsAutofillMethod.smsRetrieverApi,           
               ),
             ),
             const YMargin(15),
@@ -160,6 +151,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         minimumSize: const Size(250, 50)
                       ),                   
                       onPressed: () {
+                        verifyOtp(
+                          
+                        );
                         Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
                       },
                       child: const Text(
@@ -176,11 +170,11 @@ class _VerifyOtpState extends State<VerifyOtp> {
   }
 
 
-  Future<UserCredential?> verifyOtp(String otp) async {
+  Future<UserCredential?> verifyOtp() async {
    try { var credentials = await auth.signInWithCredential(
       PhoneAuthProvider.credential(
         verificationId: vefiricarionCode, 
-        smsCode: otp,
+        smsCode: vefiricarionCode,
         ));
          return credentials; 
         }
@@ -190,3 +184,5 @@ class _VerifyOtpState extends State<VerifyOtp> {
        return null;
   }
 }
+
+

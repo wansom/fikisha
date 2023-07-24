@@ -1,3 +1,6 @@
+// ignore_for_file: avoid_print
+
+import 'package:fikisha/views/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
@@ -21,7 +24,7 @@ class RyderDrawer extends StatefulWidget {
 }
 
 class _RyderDrawerState extends State<RyderDrawer> {
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth= FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -226,13 +229,12 @@ class _RyderDrawerState extends State<RyderDrawer> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: ColorPath.primaryred,
                   ),
-                  onPressed: () async{
-                    try {
-                      await auth.signOut();
-                      print('User signed out successfully');
-                    } catch (e) {
-                      print(e.toString());
-                    }
+                  onPressed: () async{                    
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.pushReplacement(
+                      context, 
+                      MaterialPageRoute(builder: (_) => const SplashScreen()),
+                      );
                   }, 
                   child: const Text(
                     'Log out'

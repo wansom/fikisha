@@ -20,31 +20,11 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late AuthBlocBloc bloc;
-
-  @override
-  void initState() {
-    bloc = AuthBlocBloc();
-    bloc.add(LoginCurrentUser());
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Rydr Hailing Application',
         debugShowCheckedModeBanner: false,

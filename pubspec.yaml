@@ -23,6 +23,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_polyline_points: ^1.0.0
   flutter_svg: ^2.0.7
+  fluttertoast: ^8.2.2
   geocoding: ^2.0.0
   geolocator: ^9.0.2
   google_directions_api: ^0.9.1

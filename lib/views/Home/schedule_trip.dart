@@ -18,12 +18,12 @@ scheduleTrip(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return  SingleChildScrollView(child: ScheduleTrip());
+        return  const SingleChildScrollView(child: ScheduleTrip());
       });
 }
 
 class ScheduleTrip extends StatefulWidget {
-  ScheduleTrip({Key? key}) : super(key: key);
+  const ScheduleTrip({Key? key}) : super(key: key);
 
   @override
   _ScheduleTripState createState() => _ScheduleTripState();

@@ -1,14 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_local_variable, avoid_print
 
 import 'package:animate_do/animate_do.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fikisha/views/Authentication/verify_otp.dart';
 import 'package:fikisha/views/Home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/components/auth_header.dart';
 import 'package:fikisha/utils/colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
 
 class MobileAuth extends StatefulWidget {
@@ -20,8 +19,11 @@ class MobileAuth extends StatefulWidget {
 
 class _MobileAuthState extends State<MobileAuth> {
   TextEditingController phoneNumberController = TextEditingController();
-  final auth = FirebaseAuth.instance;
-  bool isChange = false;
+  final firebaseAuth = FirebaseAuth.instance;
+  String verificationId ='';
+  bool otpVisible= false;
+  User? user;
+
    final TextEditingController pinPutController = TextEditingController();
        final defaultPinTheme = PinTheme(
     width: 56,
@@ -36,63 +38,70 @@ class _MobileAuthState extends State<MobileAuth> {
     ),
   );
 
-  void saveUserData(User user, String name, String email) {
-    final userData = {
-      'name' : name, 'email': email
-    };
-    FirebaseFirestore.instance.collection('fikisha_users').doc(user.uid).set(userData);
-  }
 
   @override
   void dispose() {
     super.dispose();
     phoneNumberController.dispose();
+    pinPutController.dispose();
   }
 
-   Future<void> verifyPhoneNumber() async {
-    verificationCompleted(PhoneAuthCredential credential) async {
-      await auth.signInWithCredential(credential);
-      // get the currently signed in user
-      User? user = auth.currentUser;
-      if(user != null) {
-        // store phone number in firetore
-        await FirebaseFirestore.instance.
-        collection('fikisha_users')
-        .doc(user.uid).
-        set({'phone_number': user.phoneNumber});
-        Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Homeview()),
-      );
-      }
-     else {
-      print('User is null');
-     }
-    }
-    verificationFailed(FirebaseAuthException e) {
-      // Handle verification failure
-      print('Verification failed: ${e.message}');
-    }
-
-    codeSent(String verificationId, [int? forceResendingToken]) {
-      setState(() {
-        verificationId = verificationId;
-      });
-    }
-
-    codeAutoRetrievalTimeout(String verificationId) {
-      setState(() {
-        verificationId = verificationId;
-      });
-    }
-
-    await auth.verifyPhoneNumber(
+ void loginWithPhone() async {
+    firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumberController.text,
-      verificationCompleted: verificationCompleted,
-      verificationFailed: verificationFailed,
-      codeSent: codeSent,
-      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-    );
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await firebaseAuth.signInWithCredential(credential).then((value) {
+          print('Log in successful');
+        });
+      }, 
+      verificationFailed: (FirebaseAuthException e) {
+        print(e.message);
+      }, 
+      codeSent: (String verificationId, int? resendToken) {
+        otpVisible  =true;
+        this.verificationId = verificationId;
+        setState(() {});
+      }, 
+      codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+  }
+
+void verifyOtp() async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId, 
+      smsCode: pinPutController.text,
+      );
+      await firebaseAuth.signInWithCredential(credential).then((value) {
+        setState(() {
+          user = FirebaseAuth.instance.currentUser;
+        });
+      }).whenComplete(() {
+        if(user != null) {
+          Fluttertoast.showToast(
+            msg: 'You are logged in successfully',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16
+          );
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(builder: (_) => const Homeview()),
+            );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Your login failed',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.white,
+            textColor: Colors.red,
+            fontSize: 16
+          );
+        }
+      });
   }
 
   @override
@@ -146,40 +155,51 @@ class _MobileAuthState extends State<MobileAuth> {
                     hintText: '+254700000000',
                     // prefixText: '+254',
                     prefixIcon: Icon(Icons.phone_iphone)),
-                maxLength: 15,
+                maxLength: 13,
                 keyboardType: TextInputType.phone,
                 controller: phoneNumberController,
               ),              
                 const YMargin(30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Container(
-                    height: 50,
-                    width: context.screenWidth(),
-                    decoration: BoxDecoration(
-                      color: isChange
-                          ? ColorPath.secondarygrey
-                          : ColorPath.primaryfield,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: ElevatedButton(  
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorPath.primaryblack
-                      ),                   
-                      onPressed:
-                        () async{
-                        await verifyPhoneNumber();
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) =>VerifyOtp(phonenumber: phoneNumberController.text,)));
-                        },
-                      child: const Text(
-                        "Next",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: ColorPath.primarywhite,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                 Padding(
+              padding: const EdgeInsets.all(30),
+              child: Pinput(
+                length: 6,
+                defaultPinTheme: defaultPinTheme,
+                controller: pinPutController,
+                submittedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration?.copyWith(
+                    color: const Color.fromARGB(255, 222, 228, 233),
+                  ),
+                ),
+                focusedPinTheme: defaultPinTheme.copyDecorationWith(
+                  border:
+                      Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                pinAnimationType: PinAnimationType.fade,
+                androidSmsAutofillMethod:
+                    AndroidSmsAutofillMethod.smsRetrieverApi,           
+              ),
+            ),
+            const YMargin(30),
+                ElevatedButton(  
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:ColorPath.secondarygrey,
+                    minimumSize: const Size(250, 50)
+                  ),                   
+                  onPressed:() {
+                    if(otpVisible){
+                      verifyOtp();
+                    } else {
+                      loginWithPhone();
+                    }
+                  },
+                  child:  Text(
+                    otpVisible ? 'Verify' : 'Login',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: ColorPath.primarywhite,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),              
@@ -190,6 +210,4 @@ class _MobileAuthState extends State<MobileAuth> {
       ),
     );
   }
-
-
   }
