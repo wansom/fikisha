@@ -233,6 +233,11 @@ void onSearchLocation() async {
       setState(() {
       });
       showDeliveryDetails(context);
+      // Navigator.pushReplacement(context, 
+      // MaterialPageRoute(builder: (BuildContext context) {
+      //   return showDeliveryDetails(context);
+      // })
+      // );
     } else {
       print('Error: Unable to calculate distance or destination is null.');
     }
@@ -253,7 +258,6 @@ showDeliveryDetails(context) async {
   });
   DateTime currentDate = DateTime.now();
   String formattedDate = DateFormat('yyy-MM-dd').format(currentDate);
-
   return showModalBottomSheet(
     context: context,
     isDismissible: true,
@@ -262,7 +266,7 @@ showDeliveryDetails(context) async {
     builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height *0.9,
+          height: MediaQuery.of(context).size.height *0.6,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -304,7 +308,8 @@ showDeliveryDetails(context) async {
                   fontSize: 15,
                 ),
               ),
-              ),            
+              ),  
+              const YMargin(10),          
               TextField(
                     controller: packageController,
                     decoration: InputDecoration(
@@ -341,32 +346,9 @@ showDeliveryDetails(context) async {
                         );
                       }
                       );
+                      initiatePayment();
+                      Navigator.pop(context);
                   }     
-                  showDialog(
-                    context: context, 
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Delivery status',
-                          style: TextStyle(
-                            fontSize: 20
-                          ),
-                        ),
-                        content: const Text(
-                          'Delivery appointment added: pending'
-                        ),
-                        actions: [
-                          ElevatedButton(onPressed: () {
-                            Navigator.of(context).pop();
-                          }, 
-                          child: const Text(
-                            'Go Back'
-                          )
-                          )
-                        ],
-                      );
-                    },
-                    );
                 }, 
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorPath.primaryblack,
@@ -380,26 +362,11 @@ showDeliveryDetails(context) async {
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
                 ),
                 ),
-                const YMargin(15),
-                ElevatedButton(
-                onPressed: initiatePayment,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorPath.primaryblack,
-              minimumSize: Size(MediaQuery.of(context).size.width , 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-               ),
-            ),
-                child: const Text(
-                  'Pay via Mpesa',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
-                )
             ],
           ),
         ),
       );
-    },
+    },  
     );
 }
 
@@ -626,19 +593,21 @@ Future<void> initiatePayment() async {
                   ),
                   const SizedBox(height: 10,),
                   TextField(
-                    controller: locationController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        labelText: 'Where it\'s going to..',
-                        suffixIcon: IconButton(
-                          onPressed: onSearchLocation,
-                          icon: const Icon(Icons.search,
-                          color: Colors.black,
-                          size: 25,),
-                        )
-                        ),
-                  ),                                 
+                controller: locationController,
+                    onChanged: (newText) {
+                  Future.delayed(const Duration(seconds: 1), () {
+                 onSearchLocation();
+                     });
+                     },
+                     decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                    labelText: 'Where it\'s going to..',
+    // ),
+  ),
+),
+                                 
                 ],
               )
               )        ]

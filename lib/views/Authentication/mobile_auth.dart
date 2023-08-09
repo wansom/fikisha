@@ -203,7 +203,7 @@ void verifyOtp() async {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),             
+                ),     
               ],
             ),
           ),

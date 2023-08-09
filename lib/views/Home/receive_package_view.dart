@@ -231,7 +231,11 @@ void onSearchLocation() async {
 
       setState(() {
       });
-      showDeliveryDetails(context);
+      Navigator.pushReplacement(context, 
+      MaterialPageRoute(builder: (BuildContext context) {
+        return showDeliveryDetails(context);
+      })
+      );
     } else {
       print('Error: Unable to calculate distance or destination is null.');
     }
@@ -260,7 +264,7 @@ showDeliveryDetails(context) async {
     builder: (BuildContext context) {
       return SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height *0.9,
+          height: MediaQuery.of(context).size.height *0.6,
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -268,7 +272,7 @@ showDeliveryDetails(context) async {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [              
               Text(
-                 'Get package from ${locationController.text}',
+                 'Deliver to ${locationController.text}',
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -302,15 +306,16 @@ showDeliveryDetails(context) async {
                   fontSize: 15,
                 ),
               ),
-              ),
-               TextField(
+              ),  
+              const YMargin(10),          
+              TextField(
                     controller: packageController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15)),
                         labelText: 'Enter the package name as wrapped',                        
                         ),
-                  ),        
+                  ), 
               const YMargin(15),
               ElevatedButton(
                 onPressed: () async{
@@ -320,9 +325,9 @@ showDeliveryDetails(context) async {
                     final String uid = user.uid;
                     DeliveryAppointment deliveryAppointment = DeliveryAppointment(
                     date: formattedDate, 
-                    addressDestination: locationController.text, 
-                    amount: calculatedTotalCost,
+                    addressDestination: locationController.text,
                     sourceAddress: preferredLocationController.text,
+                    amount: calculatedTotalCost,
                     packageType: packageController.text
                     );
                     await FirebaseFirestore.instance.collection(
@@ -339,33 +344,9 @@ showDeliveryDetails(context) async {
                         );
                       }
                       );
+                      initiatePayment(); 
                   }     
-                  showDialog(
-                    context: context, 
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text(
-                          'Delivery status',
-                          style: TextStyle(
-                            fontSize: 20
-                          ),
-                        ),
-                        content: const Text(
-                          'Delivery appointment added: pending'
-                        ),
-                        actions: [
-                          ElevatedButton(onPressed: () {
-                            Navigator.of(context).pop();
-                          }, 
-                          child: const Text(
-                            'Go Back'
-                          )
-                          )
-                        ],
-                      );
-                    },
-                    );
-                },  
+                }, 
             style: ElevatedButton.styleFrom(
               backgroundColor: ColorPath.primaryblack,
               minimumSize: Size(MediaQuery.of(context).size.width , 60),
@@ -378,21 +359,6 @@ showDeliveryDetails(context) async {
                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
                 ),
                 ),
-                const YMargin(15),
-                ElevatedButton(
-                onPressed: initiatePayment,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: ColorPath.primaryblack,
-              minimumSize: Size(MediaQuery.of(context).size.width , 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-               ),
-            ),
-                child: const Text(
-                  'Pay via Mpesa',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
-                )
             ],
           ),
         ),
