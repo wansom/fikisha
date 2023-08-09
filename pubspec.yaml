@@ -34,6 +34,8 @@ dependencies:
   intl: ^0.18.1
   local_auth: ^2.1.6
   location: ^5.0.0
+  mpesadaraja: ^0.1.5
+  page_view_dot_indicator: ^2.3.0
   pinput: ^2.2.31
   shared_preferences: ^2.0.6
   sliding_up_panel: ^2.0.0+1

@@ -5,12 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
-import 'package:fikisha/views/Home/Components/home_extention.dart';
-import 'package:fikisha/views/Notifications/notifications.dart';
-import 'package:fikisha/views/Payment/Coupons/apply_coupons.dart';
-import 'package:fikisha/views/Payment/payment.dart';
-import 'package:fikisha/views/Settings/manage_password.dart';
-import 'package:fikisha/views/Support/support.dart';
+// import 'package:fikisha/views/Home/Components/home_extention.dart';
+// import 'package:fikisha/views/Notifications/notifications.dart';
+// import 'package:fikisha/views/Payment/Coupons/apply_coupons.dart';
+// import 'package:fikisha/views/Payment/payment.dart';
+// import 'package:fikisha/views/Settings/manage_password.dart';
+// import 'package:fikisha/views/Support/support.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/views/TripHistory/trip_screen.dart';
 
@@ -55,7 +55,7 @@ class _RyderDrawerState extends State<RyderDrawer> {
                       ),
                       const YMargin(14),
                       const Text(
-                    "Ochieng Warren",
+                    "Fikisha",
                     style: TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w600,
@@ -63,33 +63,33 @@ class _RyderDrawerState extends State<RyderDrawer> {
                     ),
                       ),
                       const YMargin(15),
-                      Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: Container(
-                      height: 33,
-                      width: 125,
-                      decoration: BoxDecoration(
-                        color: ColorPath.primarydark,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: InkWell(
-                        onTap: () {},
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Edit Profile",
-                              style: TextStyle(
-                                color: ColorPath.primarywhite,
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ).ripple(() {}),
-                      ),
+                    //   Padding(
+                    // padding: const EdgeInsets.symmetric(horizontal: 50),
+                    // child: Container(
+                    //   height: 33,
+                    //   width: 125,
+                    //   decoration: BoxDecoration(
+                    //     color: ColorPath.primarydark,
+                    //     borderRadius: BorderRadius.circular(8.0),
+                    //   ),
+                    //   child: InkWell(
+                    //     onTap: () {},
+                    //     child: const Row(
+                    //       mainAxisAlignment: MainAxisAlignment.center,
+                    //       children: [
+                    //         Text(
+                    //           "Edit Profile",
+                    //           style: TextStyle(
+                    //             color: ColorPath.primarywhite,
+                    //             fontSize: 10.0,
+                    //             fontWeight: FontWeight.w500,
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ).ripple(() {}),
+                    //   ),
                     ]),
                   ],
                 ),
@@ -114,61 +114,61 @@ class _RyderDrawerState extends State<RyderDrawer> {
                             ));
                       },
                     ),
-                    DrawerListTile(
-                      title: 'Payment',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Payments(),
-                            ));
-                      },
-                    ),
-                    DrawerListTile(
-                      title: 'Notifications',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Notifications(),
-                            ));
-                      },
-                    ),
-                    DrawerListTile(
-                      title: 'Apply Coupon',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ApplyCoupon(),
-                            ));
-                      },
-                    ),
-                    DrawerListTile(
-                      title: 'Support',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Support(),
-                            ));
-                      },
-                    ),
-                    DrawerListTile(
-                      title: 'Manage Password',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ManagePassword(),
-                            ));
-                      },
-                    ),
+                    // DrawerListTile(
+                    //   title: 'Payment',
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const Payments(),
+                    //         ));
+                    //   },
+                    // ),
+                    // DrawerListTile(
+                    //   title: 'Notifications',
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const Notifications(),
+                    //         ));
+                    //   },
+                    // ),
+                    // DrawerListTile(
+                    //   title: 'Apply Coupon',
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => ApplyCoupon(),
+                    //         ));
+                    //   },
+                    // ),
+                    // DrawerListTile(
+                    //   title: 'Support',
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const Support(),
+                    //         ));
+                    //   },
+                    // ),
+                    // DrawerListTile(
+                    //   title: 'Manage Password',
+                    //   onPressed: () {
+                    //     Navigator.of(context).pop();
+                    //     Navigator.push(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //           builder: (context) => const ManagePassword(),
+                    //         ));
+                    //   },
+                    // ),
                     // DrawerListTile(
                     //   title: 'About us',
                     //   onPressed: () {

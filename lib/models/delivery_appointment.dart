@@ -1,22 +1,24 @@
 class DeliveryAppointment {
   final String date;
-  final String time;
-  final String name;
-  final String destination;
-  final String phoneNumber;
+  final String amount;
+  final String addressDestination;
+  final String packageType;
+  final String sourceAddress;
+
   DeliveryAppointment({
     required this.date,
-    required this.name,
-    required this.phoneNumber,
-    required this.time,
-    required this.destination
+    required this.amount,
+    required this.addressDestination,
+    required this.sourceAddress,
+    required this.packageType
   });
   Map<String, dynamic> toJson() {
     return {
       'date': date,
-      'time': time,
-      'phoneNumber': phoneNumber,
-      'name': name
+      'amount': amount,
+      'address': addressDestination,
+      'sourceAddress': sourceAddress,
+      'packageType': packageType
     };
   }
 }

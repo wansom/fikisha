@@ -568,6 +568,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  mpesadaraja:
+    dependency: "direct main"
+    description:
+      name: mpesadaraja
+      sha256: "2f964461fe6176225e883517ccd3c004e648d9c5038879cf1f8dbac0d8145a0f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.5"
   nested:
     dependency: transitive
     description:
@@ -576,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  page_view_dot_indicator:
+    dependency: "direct main"
+    description:
+      name: page_view_dot_indicator
+      sha256: "32d73b9de221339a371a229f547eb9cbb6f8114b8770e76a104fb4c30e39cf22"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   path:
     dependency: transitive
     description:

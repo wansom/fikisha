@@ -6,7 +6,6 @@ import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'Components/sheet_header.dart';
 import 'booking_comfirm.dart';
-import 'build_select_ride.dart';
 import 'package:fikisha/utils/colors.dart';
 
 buildTripDetails(BuildContext context) {
@@ -140,7 +139,7 @@ buildTripDetails(BuildContext context) {
                                     dashWidth: 2.0,
                                   ),
                                   const YMargin(10),
-                                  const RideDetails(),
+                                  // const RideDetails(),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 50),

@@ -2,12 +2,13 @@
 
 import 'dart:io';
 import 'package:animate_do/animate_do.dart';
+import 'package:fikisha/views/Home/delivery_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
-import 'package:fikisha/views/Home/home_view.dart';
+// import 'package:fikisha/views/Home/home_view.dart';
 import 'package:fikisha/utils/colors.dart';
 
 import 'components/auth_header.dart';
@@ -131,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>  const Homeview(),
+                                              builder: (context) =>  const DeliveryOnboardingScreen(),
                                             ));
                                       });
                                     }
@@ -174,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) =>  const Homeview()),
+                                  builder: (context) =>  const DeliveryOnboardingScreen()),
                             );
                           },
                           child: Padding(
@@ -223,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         //   );
                         // }
                         Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) =>  const Homeview()),
+                            MaterialPageRoute(builder: (context) =>  const DeliveryOnboardingScreen()),
                           );
                       },
                       child: Container(
@@ -305,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //   );
           // }
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) =>  const Homeview()));
+              MaterialPageRoute(builder: (context) =>  const DeliveryOnboardingScreen()));
         },
       );
 

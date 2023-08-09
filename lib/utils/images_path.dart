@@ -71,6 +71,9 @@ class ImagesAsset {
   static String faq = 'assets/faq.svg';
   static String headphone = 'assets/headphone.svg';
   static String chat = 'assets/chat.svg';
+  static String illustration1 = 'assets/illustration1.png';
+  static String illustration2 = 'assets/illustration2.png';
+  static String illustration3 = 'assets/illustration3.png';
 
 //Logos
   static String logo = 'assets/logo.png';

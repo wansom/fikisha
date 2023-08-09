@@ -1,7 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_print, use_build_context_synchronously
 
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
-import 'package:fikisha/views/Home/home_view.dart';
+import 'package:fikisha/views/Home/delivery_splash.dart';
+// import 'package:fikisha/views/Home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -154,7 +155,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         verifyOtp(
                           
                         );
-                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Homeview()));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
                       },
                       child: const Text(
                         "Verify",

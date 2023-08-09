@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fikisha/models/delivery_appointment.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:fikisha/models/delivery_appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'Components/sheet_header.dart';
@@ -18,7 +18,7 @@ scheduleTrip(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return  const SingleChildScrollView(child: ScheduleTrip());
+        return const SingleChildScrollView(child: ScheduleTrip());
       });
 }
 
@@ -220,74 +220,73 @@ class _ScheduleTripState extends State<ScheduleTrip> {
           const YMargin(10),
           ElevatedButton(
             onPressed: () {           
-              if(formKey.currentState!.validate()) {
-                DeliveryAppointment deliveryAppointment = DeliveryAppointment(date: 
-                dateController.text, time: timeController.text,
-                destination: destinationController.text,
-                name: nameController.text, phoneNumber: phoneNumberController.text
-                );
-                FirebaseFirestore.instance.collection('fikisha_users').add(deliveryAppointment.toJson()).then((value) {
-                  showDialog(
-                    context: context, 
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Schedule status'),
-                        content: const Text(
-                          'Delivery scheduled successfully',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.deepPurpleAccent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text(
-                                        'Ok',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ))
-                        ],
-                      );
-                    });
-                }).catchError((e) {
-                  showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Appointment status'),
-                                content: Text(
-                                  'Failed to add appointment $e.\n Contact support.',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                actions: [
-                                  ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.deepPurpleAccent,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20))),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Ok'))
-                                ],
-                              );
-                            });
-                });
-              }
+              // if(formKey.currentState!.validate()) {
+              //   DeliveryAppointment deliveryAppointment = DeliveryAppointment(date: 
+              //   dateController.text, time: timeController.text,
+              //   name: nameController.text, phoneNumber: phoneNumberController.text
+              //   );
+              //   FirebaseFirestore.instance.collection('fikisha_users').add(deliveryAppointment.toJson()).then((value) {
+              //     showDialog(
+              //       context: context, 
+              //       builder: (BuildContext context) {
+              //         return AlertDialog(
+              //           title: const Text('Schedule status'),
+              //           content: const Text(
+              //             'Delivery scheduled successfully',
+              //             style: TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.w600
+              //             ),
+              //           ),
+              //           actions: [
+              //             ElevatedButton(
+              //                         style: ElevatedButton.styleFrom(
+              //                             backgroundColor:
+              //                                 Colors.deepPurpleAccent,
+              //                             shape: RoundedRectangleBorder(
+              //                                 borderRadius:
+              //                                     BorderRadius.circular(20))),
+              //                         onPressed: () {
+              //                           Navigator.of(context).pop();
+              //                         },
+              //                         child: const Text(
+              //                           'Ok',
+              //                           style: TextStyle(
+              //                             fontSize: 18,
+              //                           ),
+              //                         ))
+              //           ],
+              //         );
+              //       });
+              //   }).catchError((e) {
+              //     showDialog(
+              //               context: context,
+              //               builder: (BuildContext context) {
+              //                 return AlertDialog(
+              //                   title: const Text('Appointment status'),
+              //                   content: Text(
+              //                     'Failed to add appointment $e.\n Contact support.',
+              //                     style: const TextStyle(
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.w600),
+              //                   ),
+              //                   actions: [
+              //                     ElevatedButton(
+              //                         style: ElevatedButton.styleFrom(
+              //                             backgroundColor:
+              //                                 Colors.deepPurpleAccent,
+              //                             shape: RoundedRectangleBorder(
+              //                                 borderRadius:
+              //                                     BorderRadius.circular(20))),
+              //                         onPressed: () {
+              //                           Navigator.of(context).pop();
+              //                         },
+              //                         child: const Text('Ok'))
+              //                   ],
+              //                 );
+              //               });
+              //   });
+              // }
               Navigator.of(context).pop();
             }, 
             child: const Text('Save'),

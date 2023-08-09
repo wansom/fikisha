@@ -1,7 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_typing_uninitialized_variables, use_build_context_synchronously, unused_local_variable, avoid_print
 
 import 'package:animate_do/animate_do.dart';
-import 'package:fikisha/views/Home/home_view.dart';
+import 'package:fikisha/views/Home/delivery_splash.dart';
+// import 'package:fikisha/views/Home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -88,7 +89,7 @@ void verifyOtp() async {
           );
           Navigator.pushReplacement(
             context, 
-            MaterialPageRoute(builder: (_) => const Homeview()),
+            MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()),
             );
         } else {
           Fluttertoast.showToast(
@@ -202,7 +203,7 @@ void verifyOtp() async {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),              
+                ),             
               ],
             ),
           ),
