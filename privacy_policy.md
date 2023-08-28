@@ -1,6 +1,6 @@
 # Privacy Policy - Fikisha Mashinani
 
-Effective Date: [23 August,2023]
+Effective Date: [28 August,2023]
 
 ## Introduction
 
@@ -17,7 +17,7 @@ Since you are logging in with your phone number, we will only collect your phone
 
 ### Location Information
 
-The App requests access to your background location permission to provide delivery services. This allows us to connect you with nearby delivery providers and accurately track the status of your deliveries. Your location data is only used for the purpose of fulfilling delivery requests and enhancing the user experience. 
+The App requests access to your location permission to provide delivery services only while using the app. This allows us to connect you with nearby delivery providers and accurately track the status of your deliveries. Your location data is only used for the purpose of fulfilling delivery requests and enhancing the user experience. 
 Your Geolocation information: we may request access or permission to track location-based information. Your destination and delivery addresses are collected for a seamsless delivery experience.
 
 ### Payment Information
