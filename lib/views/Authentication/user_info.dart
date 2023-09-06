@@ -134,9 +134,9 @@ class _UserInfoState extends State<UserInfo> {
                 //     child: Center(
                 //       child: Text(
                 //         "Reset Password",
-                //         style: GoogleFonts.montserrat(
+                //         style: TextStyle(
                 //           fontWeight: FontWeight.w300,
-                //           color: ColorPath.Primarydark,
+                //           color: ColorPath.primarydark,
                 //           fontSize: 12,
                 //         ),
                 //       ),

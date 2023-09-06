@@ -8,9 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Authentication/mobile_auth.dart';
-// import 'package:fikisha/views/Home/home_view.dart';
 import 'package:fikisha/utils/colors.dart';
-
 import 'components/auth_header.dart';
 
 class LoginScreen extends StatefulWidget {

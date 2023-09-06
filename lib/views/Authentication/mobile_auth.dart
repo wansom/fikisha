@@ -24,9 +24,9 @@ class _MobileAuthState extends State<MobileAuth> {
   String verificationId ='';
   bool otpVisible= false;
   User? user;
-
-   final TextEditingController pinPutController = TextEditingController();
-       final defaultPinTheme = PinTheme(
+  final TextEditingController pinPutController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+    final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
     textStyle: const TextStyle(
@@ -87,10 +87,6 @@ void verifyOtp() async {
             textColor: Colors.white,
             fontSize: 16
           );
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()),
-            );
         } else {
           Fluttertoast.showToast(
             msg: 'Your login failed',
@@ -148,13 +144,13 @@ void verifyOtp() async {
                   ],
                 ),
                 const YMargin(25),
-                TextField(
+                TextFormField(
+                  key: formKey,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     filled: false,
-                    hintText: '+254700000000',
-                    // prefixText: '+254',
+                    hintText: 'Start with +254',
                     prefixIcon: Icon(Icons.phone_iphone)),
                 maxLength: 13,
                 keyboardType: TextInputType.phone,
@@ -183,19 +179,20 @@ void verifyOtp() async {
               ),
             ),
             const YMargin(30),
-                ElevatedButton(  
+                ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:ColorPath.secondarygrey,
+                    backgroundColor: ColorPath.secondarygrey,
                     minimumSize: const Size(250, 50)
                   ),                   
-                  onPressed:() {
-                    if(otpVisible){
-                      verifyOtp();
-                    } else {
-                      loginWithPhone();
-                    }
+                  onPressed: () {
+                    final phoneNumber = phoneNumberController.text;
+                      if (otpVisible) {
+                        verifyOtp();
+                      } else {
+                        loginWithPhone();
+                      }
                   },
-                  child:  Text(
+                  child: Text(
                     otpVisible ? 'Verify' : 'Login',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -203,7 +200,12 @@ void verifyOtp() async {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),     
+                ),
+                // IconButton(onPressed: () {
+                //   Navigator.push(
+                //     context, MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
+                // }, icon: const Icon(Icons.arrow_forward_ios))
+  
               ],
             ),
           ),
@@ -211,4 +213,56 @@ void verifyOtp() async {
       ),
     );
   }
-  }
+// bool validatePhoneNumber(String phoneNumber) {
+//   if (phoneNumber.isEmpty) {
+//     showDialog(
+//       context: context, 
+//       builder: (BuildContext context){
+//         return const AlertDialog(
+//           title: Text(
+//             'Enter a valid phone number'
+//           ),
+//         );
+//       });    
+//   }
+//   final cleanedValue = phoneNumber.replaceAll(RegExp(r'\D'), '');
+
+//   if (cleanedValue.startsWith('0')) {
+//     final formattedValue = '+254${cleanedValue.substring(1)}';
+//     phoneNumberController.text = formattedValue;
+//     return true;
+//   }
+//   return false;
+// }
+
+Future<void> showDisclosureDialog(BuildContext context) async {
+  return showDialog<void> (
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: const Text(
+          'This app collects location data to enable efficient delivery services even when the app is closed or not in use.' 
+          'This data is used solely for the'
+          'purpose of providing accurate delivery tracking and optimizing routes.'
+        ),
+        title: const Text('Location Permissions'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            }, 
+            child: const Text('Cancel')
+            ),
+            ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
+            }, 
+            child: const Text('Continue')
+            ),
+        ],
+      );
+    }
+  );
+}
+}
