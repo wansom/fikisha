@@ -1,5 +1,5 @@
+import 'package:fikisha/utils/info_windows.dart';
 import 'package:flutter/material.dart';
-import 'package:fikisha/models/info_windows.dart';
 import 'package:fikisha/utils/colors.dart';
 
 class CustomWindow extends StatelessWidget {
