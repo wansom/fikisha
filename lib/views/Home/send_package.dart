@@ -1,18 +1,17 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously, unnecessary_null_comparison, deprecated_member_use
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
-
-// import 'dart:math'show asin, cos, pi, pow, sin, sqrt;
-
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fikisha/models/delivery_appointment.dart';
-import 'package:fikisha/models/ride_model.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
 import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/views/Home/Components/rydr_drawer.dart';
+import 'package:fikisha/views/Home/Components/sheet_header.dart';
+import 'package:fikisha/views/Home/build_trip_details.dart';
+import 'package:fikisha/views/Home/enjoy_ride.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,6 +52,7 @@ class _SendPackageViewState extends State<SendPackageView> {
   LatLng? preferredLocation;  
   bool isCustomLocation = false;
   final packageController = TextEditingController();
+  Timer? debounceTimer;
 
 void getCurrentLocation() async {
   loc.Location location = loc.Location();
@@ -193,10 +193,12 @@ void getDirections() async {
     controller =  mapController;
   }
 
-void onSearchLocation() async {
+void onSearchLocation(String location) async {
   String query = locationController.text;
   List<Location> locations = await locationFromAddress(query);
   if (locations.isNotEmpty) {
+    // Show the disclosure dialog before proceeding with the search
+
     setState(() {
       destination = LatLng(locations.first.latitude, locations.first.longitude);
     });
@@ -205,39 +207,25 @@ void onSearchLocation() async {
     getDirections();
     // scheduleTrip(context);
     if (currentLocation != null && destination != null) {
-      // Calculate the distance in kilometers between current location and destination
-      double distanceInKm = Geolocator.distanceBetween(
+      double distanceInKm = (Geolocator.distanceBetween(
         currentLocation!.latitude!,
         currentLocation!.longitude!,
         destination!.latitude,
         destination!.longitude,
-      ) / 1000; // Convert distance to kilometers
-
-      // Define the price per kilometer
-      double price5PerKm = 100.0;
-
-      // Define price for extra km
-      double pricePerExtraKm = 3.0;
-
-      // Calculate the price based on the distance
-      double calculatedPriceValue = 0;
-      if(distanceInKm <=5) {
+      ) / 1000); // Convert distance to kilometers
+      final firestore = FirebaseFirestore.instance;
+      DocumentSnapshot documentSnapshot = await firestore.collection('fikisha_base_price').doc('base_price').get();
+      int price5PerKm = int.parse((documentSnapshot.data() as Map<String, dynamic>)['cost']);
+      int pricePerExtraKm = int.parse((documentSnapshot.data() as Map<String, dynamic>)['extra_km_price']);
+      int calculatedPriceValue = 0;
+      if (distanceInKm <= 5) {
         calculatedPriceValue = price5PerKm;
       } else {
-        calculatedPriceValue = price5PerKm +(distanceInKm - 5) *pricePerExtraKm;
+        calculatedPriceValue = (price5PerKm + (distanceInKm - 5) * pricePerExtraKm).toInt();
       }
-
-      // Update the calculatedPrice variable with the formatted price
       calculatedTotalCost = 'sh. ${calculatedPriceValue.toStringAsFixed(0)}';
-
-      setState(() {
-      });
-      showDeliveryDetails(context);
-      // Navigator.pushReplacement(context, 
-      // MaterialPageRoute(builder: (BuildContext context) {
-      //   return showDeliveryDetails(context);
-      // })
-      // );
+      setState(() {});
+      confirmDelivery(context);
     } else {
       print('Error: Unable to calculate distance or destination is null.');
     }
@@ -247,159 +235,155 @@ void onSearchLocation() async {
   }
 }
 
-showDeliveryDetails(context) async {
-  final riderDocs = await FirebaseFirestore.instance.collection('fikisha_riders_data').
-  get();
-  final rider = riderDocs.docs.map((doc)  {
-    final data = doc.data();
-    return RideModel(
-      image: data['image'],
-      );
-  });
+confirmDelivery(BuildContext context) async {
   DateTime currentDate = DateTime.now();
   String formattedDate = DateFormat('yyy-MM-dd').format(currentDate);
-  return showModalBottomSheet(
-    context: context,
-    isDismissible: true,
-    isScrollControlled: true,
-    elevation: 0,
-    builder: (BuildContext context) {
-      return SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height *0.6,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [              
-              Text(
-                 'Deliver to ${locationController.text}',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: ColorPath.primaryblack
-                ),
-              ),
-              const YMargin(5),
-              ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(rider.first.image),
-                ), 
-                trailing: Text(
-                calculatedTotalCost,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700
-                ),
-              ),
-              title: const Text(
-                'Get your package',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500
-                ),
-              ),
-              subtitle: Text(
-                'Package arrives in $eta',
-                style: const TextStyle(
-                  color: ColorPath.primaryblack,
-                  fontSize: 15,
-                ),
-              ),
-              ),  
-              const YMargin(10),          
-              TextField(
-                    controller: packageController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        labelText: 'Enter the package name as wrapped',                        
-                        ),
-                  ), 
-              const YMargin(15),
-              ElevatedButton(
-                onPressed: () async{
+    showModalBottomSheet(
+      isDismissible: false,
+      isScrollControlled: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      clipBehavior: Clip.hardEdge,
+      context: context,
+      builder: (context) {
+      return Container(
+      padding: const EdgeInsets.only(top: 7),
+      height: context.screenHeight() / 2.0,
+      width: context.screenWidth(),
+      decoration: const BoxDecoration(
+        color: ColorPath.primarywhite,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      child: Column(
+        children: [
+          sheetHeader(),
+          const YMargin(15),
+          const Text(
+            "Delivery details",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+              color: ColorPath.primarydark,
+            ),
+          ),
+          const Text(
+            "Please enter the package details",
+            style: TextStyle(
+              fontSize: 11.0,
+              fontWeight: FontWeight.w500,
+              color: ColorPath.offBlack,
+            ),
+          ),
+          const YMargin(14),
+          const DotWidget(
+            dashColor: ColorPath.primaryfield,
+            dashHeight: 1.0,
+            dashWidth: 2.0,
+          ),
+          const YMargin(14),
+          tripdetails(
+            ImagesAsset.down,
+            "Your Current Location",
+            preferredLocationController.text,
+            "Estimated Distance",
+            ImagesAsset.run,
+            distance
+          ),
+          const YMargin(14),
+          const DotWidget(
+            dashColor: ColorPath.primaryfield,
+            dashHeight: 1.0,
+            dashWidth: 2.0,
+          ),
+          const YMargin(14),
+          tripdetails(
+            ImagesAsset.locate,
+            "Your Destination",
+            locationController.text,
+            "Estimated Time",
+            ImagesAsset.clock,
+            eta
+          ),
+          const YMargin(14),
+          const DotWidget(
+            dashColor: ColorPath.primaryfield,
+            dashHeight: 1.0,
+            dashWidth: 2.0,
+          ),
+          const YMargin(14), 
+          const YMargin(15),         
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: ElevatedButton(
+             onPressed: () async {         
                   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-                  final User? user = firebaseAuth.currentUser;
-                  if(user!=null) {
+                  final User? user = firebaseAuth.currentUser;                  
+                  if(user!=null && user.phoneNumber !=null) {
                     final String uid = user.uid;
+                    final Timestamp timestamp = Timestamp.now();
+                    final String phoneNumber = user.phoneNumber!;
                     DeliveryAppointment deliveryAppointment = DeliveryAppointment(
                     date: formattedDate, 
                     addressDestination: locationController.text,
                     sourceAddress: preferredLocationController.text,
                     amount: calculatedTotalCost,
-                    packageType: packageController.text
+                    user: uid,
+                    timestamp: timestamp,
+                    phoneNumber: phoneNumber,
+                    status: 'Pending'
                     );
                     await FirebaseFirestore.instance.collection(
-                      'fikisha_delivery_history'
-                    ).doc(uid).collection('deliveries_ordered').add(deliveryAppointment.toJson());
-                  } else {
+                      'fikisha_delivery_history')
+                      .doc(phoneNumber)
+                      .collection('deliveries_ordered')
+                      .add(deliveryAppointment.toJson());                                       
+                    buildEnjoyRide(context,
+                      preferredLocationController.text, 
+                      locationController.text, 
+                      calculatedTotalCost);
+                    // initiatePayment();    
+                  } 
+                  else {
                     showDialog(
                       context: context, 
                       builder: (BuildContext context) {
                         return const AlertDialog(
                           content: Text(
-                            'Log in first to access your delivery history'
+                            'Log in first to make a delivery order'
                           ),
                         );
                       }
                       );
-                      initiatePayment();
-                      Navigator.pop(context);
-                  }     
-                }, 
+                  }                  
+                },  
             style: ElevatedButton.styleFrom(
-              backgroundColor: ColorPath.primaryblack,
-              minimumSize: Size(MediaQuery.of(context).size.width , 60),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-               ),
+                backgroundColor: ColorPath.primarygreen,
+                minimumSize: Size(MediaQuery.of(context).size.width , 60),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                 ),
+              ),
+            child: const Text(
+              'Proceed',
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
             ),
-                child: const Text(
-                  'Confirm delivery',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
-                ),
-            ],
           ),
-        ),
-      );
-    },  
-    );
+        ],
+      ),
+        );
+});
 }
-
-// Future<void> lipaNaMpesa() async {
-//   final stkPush = MpesaDaraja(
-//     consumerKey: consumerKey, 
-//     consumerSecret: consumerSecret, 
-//     passKey: 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919',
-//     );   
-//     int amount = int.parse(calculatedTotalCost.replaceAll(RegExp(r'[^\d]'), ''));
-//      try{ await stkPush.lipaNaMpesaStk(
-//       '174379', 
-//       amount, 
-//       '254796116642', 
-//       '174379', 
-//       '254112187873', 
-//       'https://mydomain.com/path',
-//       'Mobisa', 
-//       'Test delivery'
-//       );  
-//       }
-//       catch(e) {
-//         print('Error intiating payment:$e');
-//       }
-// }
 
 String formattedPhoneNumber(String phoneNumber) {
   if (phoneNumber.startsWith('+')) {
-    return phoneNumber.substring(1); // Remove the first character (the + sign)
+    return phoneNumber.substring(1);
   }
-  return phoneNumber; // Return the original number if it doesn't start with +
+  return phoneNumber;
 }
-
 
 Future<void> initiatePayment() async {
   final stk = MpesaDaraja(
@@ -411,18 +395,16 @@ Future<void> initiatePayment() async {
   int amount = int.parse(calculatedTotalCost.replaceAll(RegExp(r'[^\d]'), ''));
 
   final User? user = FirebaseAuth.instance.currentUser;
-  String userPhoneNumber = ''; // Declare the variable outside the if block
+  String userPhoneNumber = '';
 
   if (user != null) {
     userPhoneNumber = user.phoneNumber ?? '';
     userPhoneNumber = formattedPhoneNumber(userPhoneNumber);
   } else {
-    // Handle the case where the user is not logged in or phone number is not available.
-    // You can show an error message or take appropriate action.
     return;
   }
 
-  await stk.lipaNaMpesaStk(
+  final result =await stk.lipaNaMpesaStk(
     "174379",
     amount,
     userPhoneNumber,
@@ -432,9 +414,35 @@ Future<void> initiatePayment() async {
     "FIKISHA RIDERS",
     "transactionDesc",
   );
+  if(result.isSuccessful) {
+    String transactionDescription = 'Payment sent successfully to FIKISHA RIDERS.Thank you for working with Fikisha Mashinani.';
+    updateFirestoreTransactionDescription(userPhoneNumber, transactionDescription);
+  }
+  if(result.Cancelled) {
+    String transactionDescription = 'Delivery cancelled and no payment has been made. Thank you for working with Fikisha Mashinani.';
+    updateFirestoreTransactionDescription(userPhoneNumber, transactionDescription);
+  }
 }
 
-
+void updateFirestoreTransactionDescription  (String phoneNumber, String transactionDescription) async{
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('fikisha_delivery_history')
+  .doc(phoneNumber)
+  .collection('deliveries_ordered')
+  .orderBy('timestamp')
+  .limit(1)
+  .get();
+  if(querySnapshot.docs.isNotEmpty) {
+    String documentId = querySnapshot.docs[0].id;
+    await FirebaseFirestore.instance.collection('fikisha_delivery_history')
+    .doc(phoneNumber)
+    .collection('deliveries_orderes')
+    .doc(documentId)
+    .update({
+      'transactionDescription': transactionDescription
+    });
+  }
+}
+ 
   void addRoutePolyline() async {
     if (currentLocation != null) {
       PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
@@ -593,26 +601,27 @@ Future<void> initiatePayment() async {
                   ),
                   const SizedBox(height: 10,),
                   TextField(
-                controller: locationController,
+                    controller: locationController,
                     onChanged: (newText) {
-                  Future.delayed(const Duration(seconds: 1), () {
-                 onSearchLocation();
-                     });
-                     },
-                     decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                    labelText: 'Where it\'s going to..',
-    // ),
-  ),
-),
-                                 
+                     if (debounceTimer != null && debounceTimer!.isActive) {
+                        debounceTimer!.cancel();
+                      }
+                    debounceTimer = Timer(const Duration(seconds: 2), () {
+                    onSearchLocation(newText);
+                  });
+                    },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      ),
+                      labelText: 'Where it\'s going to..',
+                    ),
+                    ) ,                                
                 ],
               )
-              )        ]
+              )
+              ]
           ),          
     );
-
   }
 }

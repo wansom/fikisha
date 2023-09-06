@@ -1,16 +1,19 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fikisha/views/Home/share_trip.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/images_path.dart';
 import 'package:fikisha/utils/margins.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'Components/sheet_header.dart';
-import 'arrived_destination.dart';
+// import 'arrived_destination.dart';
 import 'build_trip_details.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fikisha/utils/colors.dart';
-import 'drivers_details.dart';
 
-buildEnjoyRide(BuildContext context) {
+buildEnjoyRide(BuildContext context,String destinationLocation, String sourceLocation, String totalCost) {
   Navigator.pop(context);
   showModalBottomSheet(
       isDismissible: false,
@@ -20,13 +23,23 @@ buildEnjoyRide(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return const EnjoyRide();
+        return EnjoyRide(
+          sourceLocation: sourceLocation, 
+          destinationLocation: destinationLocation, 
+          totalCost: totalCost
+        );
       });
 }
 
 class EnjoyRide extends StatefulWidget {
+  final String sourceLocation;
+  final String  destinationLocation;
+  final String totalCost;
   const EnjoyRide({
-    Key? key,
+    Key? key, 
+    required this.sourceLocation, 
+    required this.destinationLocation, 
+    required this.totalCost,
   }) : super(key: key);
 
   @override
@@ -38,346 +51,393 @@ class _EnjoyRideState extends State<EnjoyRide> {
   void initState() {
     setState(() {
       Future.delayed(const Duration(seconds: 8), () {
-        arrivedDestination(context);
+        // arrivedDestination(context);
       });
     });
     super.initState();
   }
 
+  CollectionReference deliveryHistoryCollection = FirebaseFirestore.instance.collection('fikisha_delivery_history');
+
+  Future<Map<String, dynamic>?> fetchAssignedRiderData() async {
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  final User? user = firebaseAuth.currentUser;  
+  if (user != null && user.phoneNumber != null) {
+    final String phoneNumber = user.phoneNumber!;    
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('fikisha_delivery_history')
+        .doc(phoneNumber)
+        .collection('deliveries_ordered')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .get();
+    
+    if (querySnapshot.size > 0) {
+      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+      if (documentSnapshot.exists) {
+        Map<String, dynamic>? assignedRider =
+            documentSnapshot['assigned_rider'] as Map<String, dynamic>?;
+        return assignedRider;
+      }
+    }
+  }  
+  return null;
+}
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 7),
-      height: context.screenHeight() / 1.4,
-      width: context.screenWidth(),
-      decoration: const BoxDecoration(
-        color: ColorPath.primarywhite,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(15),
-          topRight: Radius.circular(15),
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: fetchAssignedRiderData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+        return const CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        return const Text('Error loading rider data.');
+      } 
+      else if (snapshot.data == null) {
+        return const Center(
+          child: Text(
+            'No assigned rider yet'
+          ),
+        );
+      } else {
+        Map<String, dynamic> assignedRider = snapshot.data!;
+        String assignedBike = assignedRider['bike'];
+        String assignedRiderName = assignedRider['name'];
+        String assignedRiderId = assignedRider['id'];
+        String assignedRiderPhone = assignedRider['phone'];      
+      return Container(
+        padding: const EdgeInsets.only(top: 7),
+        height: context.screenHeight() / 1.4,
+        width: context.screenWidth(),
+        decoration: const BoxDecoration(
+          color: ColorPath.primarywhite,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          sheetHeader(),
-          const YMargin(15),
-          const Text(
-            "Your Delivery is on the way",
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-              color: ColorPath.primarydark,
+        child: Column(
+          children: [
+            sheetHeader(),
+            const YMargin(15),
+            const Text(
+              "Your Delivery is on the way",
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                color: ColorPath.primarydark,
+              ),
             ),
-          ),
-          const Text(
-            "Please wait for the driver at the destination",
-            style: TextStyle(
-              fontSize: 11.0,
-              fontWeight: FontWeight.w300,
-              color: ColorPath.offBlack,
+            const Text(
+              "Please wait for the driver at the destination",
+              style: TextStyle(
+                fontSize: 11.0,
+                fontWeight: FontWeight.w300,
+                color: ColorPath.offBlack,
+              ),
             ),
-          ),
-          const YMargin(14),
-          const DotWidget(
-            dashColor: ColorPath.primaryfield,
-            dashHeight: 1.0,
-            dashWidth: 2.0,
-          ),
-          const YMargin(14),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "RIDERS INFORMATION",
-                      style: TextStyle(
-                        fontSize: 9.0,
-                        fontWeight: FontWeight.w300,
-                        color: ColorPath.offBlack,
+            const YMargin(14),
+            const DotWidget(
+              dashColor: ColorPath.primaryfield,
+              dashHeight: 1.0,
+              dashWidth: 2.0,
+            ),
+            const YMargin(14),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "RIDERS INFORMATION",
+                        style: TextStyle(
+                          fontSize: 9.0,
+                          fontWeight: FontWeight.w300,
+                          color: ColorPath.offBlack,
+                        ),
                       ),
-                    ),
-                    const YMargin(10),
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                driversDetail(context);
-                              },
-                              child: Container(
-                                height: 60,
-                                width: 60,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            ImagesAsset.driverpic))),
+                      const YMargin(10),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  // driversDetail(context);
+                                },
+                                child: Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              ImagesAsset.driverpic))),
+                                ),
                               ),
-                            ),
-                            const XMargin(10),
-                            const Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              const XMargin(10),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    assignedRiderName,
+                                    style: const TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorPath.primarydark,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        assignedBike,
+                                        style: const TextStyle(
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorPath.primarydark,
+                                        ),
+                                      ),
+                                      Text(
+                                        assignedRiderId,
+                                        style: const TextStyle(
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: ColorPath.primarydark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const XMargin(35),
+                           Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  "Ochieng Warren",
-                                  style: TextStyle(
+                                  widget.totalCost,
+                                  style: const TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w700,
                                     color: ColorPath.primarydark,
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Honda Cycle 2010 |",
-                                      style: TextStyle(
-                                        fontSize: 10.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: ColorPath.primarydark,
-                                      ),
-                                    ),
-                                    Text(
-                                      "237183AR",
-                                      style: TextStyle(
-                                        fontSize: 10.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: ColorPath.primarydark,
-                                      ),
-                                    ),
-                                  ],
+                                const Text(
+                                  "Final Cost",
+                                  style: TextStyle(
+                                    fontSize: 10.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorPath.primarydark,
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const XMargin(35),
-                        const Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "Ksh1,100",
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorPath.primarydark,
-                                ),
-                              ),
-                              Text(
-                                "Final Cost",
-                                style: TextStyle(
-                                  fontSize: 10.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorPath.primarydark,
-                                ),
-                              ),
-                            ])
-                      ],
-                    )
-                  ],
-                )
-              ],
+                              ])
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-          const YMargin(14),
-          const DotWidget(
-            dashColor: ColorPath.primaryfield,
-            dashHeight: 1.0,
-            dashWidth: 2.0,
-          ),
-          const YMargin(14),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Delivery Details",
-                  style: TextStyle(
-                    fontSize: 9.0,
-                    fontWeight: FontWeight.w300,
-                    color: ColorPath.offBlack,
+            const YMargin(14),
+            const DotWidget(
+              dashColor: ColorPath.primaryfield,
+              dashHeight: 1.0,
+              dashWidth: 2.0,
+            ),
+            const YMargin(14),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Delivery Details",
+                    style: TextStyle(
+                      fontSize: 9.0,
+                      fontWeight: FontWeight.w300,
+                      color: ColorPath.offBlack,
+                    ),
+                  ),
+                  const YMargin(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset(ImagesAsset.side),
+                      const XMargin(10),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Current Location",
+                            style: TextStyle(
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w400,
+                              color: ColorPath.offBlack,
+                            ),
+                          ),
+                          const YMargin(5),
+                          Text(
+                            widget.sourceLocation,
+                            style: const TextStyle(
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w300,
+                              color: Color(0xFF818181),
+                            ),
+                          ),
+                          const YMargin(30),
+                          const Text(
+                            "Destination",
+                            style: TextStyle(
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w400,
+                              color: ColorPath.offBlack,
+                            ),
+                          ),
+                          const YMargin(5),
+                           Text(
+                            widget.destinationLocation,
+                            style: const TextStyle(
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w300,
+                              color: ColorPath.offBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const YMargin(14),
+            const DotWidget(
+              dashColor: ColorPath.primaryfield,
+              dashHeight: 1.0,
+              dashWidth: 2.0,
+            ),
+            const YMargin(14),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      const Text(
+                        "Call Rider",
+                        style: TextStyle(
+                          fontSize: 9.0,
+                          fontWeight: FontWeight.w300,
+                          color: ColorPath.offBlack,
+                        ),
+                      ),
+                      const YMargin(10),
+                      Row(
+                        children: [
+                          TextButton(onPressed: () {
+                            launch('tel:$assignedRiderPhone');
+                          }, 
+                          style: TextButton.styleFrom(
+                            backgroundColor: ColorPath.primarygreen,
+                            shape: const CircleBorder()
+                          ),
+                          child: const Icon(Icons.call,
+                          color: ColorPath.primarydark,)
+                          ),
+                          const XMargin(5),
+                          Text(
+                            assignedRiderName,
+                            style: const TextStyle(
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w300,
+                              color: ColorPath.offBlack,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                 
+                ],
+              ),
+            ),
+            const YMargin(10.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                height: 40,
+                width: context.screenWidth(),
+                decoration: BoxDecoration(
+                  color: ColorPath.primaryred,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Cancel Delivery",
+                        style: TextStyle(
+                          color: ColorPath.primarywhite,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const YMargin(5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset(ImagesAsset.side),
-                    const XMargin(10),
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Current Location",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w400,
-                            color: ColorPath.offBlack,
-                          ),
-                        ),
-                        YMargin(5),
-                        Text(
-                          "Mbale, Vihiga County",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w300,
-                            color: Color(0xFF818181),
-                          ),
-                        ),
-                        YMargin(30),
-                        Text(
-                          "Destination",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w400,
-                            color: ColorPath.offBlack,
-                          ),
-                        ),
-                        YMargin(5),
-                        Text(
-                          "Chavakali, Vihiga County",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w300,
-                            color: ColorPath.offBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const YMargin(14),
-          const DotWidget(
-            dashColor: ColorPath.primaryfield,
-            dashHeight: 1.0,
-            dashWidth: 2.0,
-          ),
-          const YMargin(14),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: [
-                    const Text(
-                      "Share delivery info with:",
-                      style: TextStyle(
-                        fontSize: 9.0,
-                        fontWeight: FontWeight.w300,
-                        color: ColorPath.offBlack,
-                      ),
-                    ),
-                    const YMargin(10),
-                    Row(
-                      children: [
-                        Container(
-                          height: 34,
-                          width: 34,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(ImagesAsset.driverpic))),
-                        ),
-                        const XMargin(5),
-                        const Text(
-                          "Maroa Masese",
-                          style: TextStyle(
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w300,
-                            color: ColorPath.offBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    const Text(
-                      "Share delivery details on:",
-                      style: TextStyle(
-                        fontSize: 9.0,
-                        fontWeight: FontWeight.w300,
-                        color: ColorPath.offBlack,
-                      ),
-                    ),
-                    const YMargin(10),
-                    Row(
-                      children: [
-                        Container(
-                          height: 25,
-                          width: 25,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(ImagesAsset.whatsapp))),
-                        ),
-                        const XMargin(5),
-                        Container(
-                          height: 25,
-                          width: 25,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(ImagesAsset.twitter))),
-                        ),
-                        const XMargin(5),
-                        Container(
-                          height: 25,
-                          width: 25,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(ImagesAsset.facebook))),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const YMargin(10.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: Container(
-              height: 40,
-              width: context.screenWidth(),
-              decoration: BoxDecoration(
-                color: ColorPath.primaryred,
-                borderRadius: BorderRadius.circular(8.0),
               ),
-              child: InkWell(
-                onTap: () {},
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Canel Delivery",
-                      style: TextStyle(
-                        color: ColorPath.primarywhite,
-                        fontWeight: FontWeight.w500,
+            ),
+             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Container(
+                height: 40,
+                width: context.screenWidth(),
+                decoration: BoxDecoration(
+                  color: ColorPath.primarydark,
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    shareTripInfo(
+                      context,
+                      widget.sourceLocation, 
+                      widget.destinationLocation, 
+                      widget.totalCost
+                    );
+                  },
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Share Delivery Info',
+                        style: TextStyle(
+                          color: ColorPath.primarywhite,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+  }});
   }
 }

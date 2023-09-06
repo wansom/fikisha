@@ -13,7 +13,11 @@ const CameraPosition _kLake =   CameraPosition(
   zoom: 24,
 );
 
-shareTripInfo(BuildContext context) {
+shareTripInfo(
+  BuildContext context,
+  String destinationLocation, 
+  String sourceLocation, 
+  String totalCost) {
   Navigator.pop(context);
   showModalBottomSheet(
       isDismissible: false,
@@ -23,13 +27,23 @@ shareTripInfo(BuildContext context) {
       clipBehavior: Clip.hardEdge,
       context: context,
       builder: (context) {
-        return const ShareTripInfo();
+        return ShareTripInfo(
+          sourceLocation: sourceLocation, 
+          destinationLocation: destinationLocation, 
+          totalCost: totalCost
+        );
       });
 }
 
 class ShareTripInfo extends StatefulWidget {
+  final String sourceLocation;
+  final String  destinationLocation;
+  final String totalCost;
   const ShareTripInfo({
     Key? key,
+    required this.sourceLocation, 
+    required this.destinationLocation, 
+    required this.totalCost,
   }) : super(key: key);
 
   @override
@@ -37,6 +51,8 @@ class ShareTripInfo extends StatefulWidget {
 }
 
 class _ShareTripInfoState extends State<ShareTripInfo> {
+  final locationController = TextEditingController();
+  final preferredLocationController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -140,11 +156,11 @@ class _ShareTripInfoState extends State<ShareTripInfo> {
                       children: [
                         SvgPicture.asset(ImagesAsset.side),
                         const XMargin(10),
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Current Location",
                               style: TextStyle(
                                 fontSize: 9.0,
@@ -152,17 +168,17 @@ class _ShareTripInfoState extends State<ShareTripInfo> {
                                 color: ColorPath.offBlack,
                               ),
                             ),
-                            YMargin(5),
+                            const YMargin(5),
                             Text(
-                              "Mbale, Vihiga County",
-                              style: TextStyle(
+                              locationController.text,
+                              style: const TextStyle(
                                 fontSize: 9.0,
                                 fontWeight: FontWeight.w300,
-                                color: Color(0xFF818181),
+                                color: ColorPath.offBlack,
                               ),
                             ),
-                            YMargin(30),
-                            Text(
+                            const YMargin(30),
+                            const Text(
                               "Destination",
                               style: TextStyle(
                                 fontSize: 9.0,
@@ -170,10 +186,10 @@ class _ShareTripInfoState extends State<ShareTripInfo> {
                                 color: ColorPath.offBlack,
                               ),
                             ),
-                            YMargin(5),
+                            const YMargin(5),
                             Text(
-                              "Chavakali, Vihiga County",
-                              style: TextStyle(
+                              preferredLocationController.text,
+                              style: const TextStyle(
                                 fontSize: 9.0,
                                 fontWeight: FontWeight.w300,
                                 color: ColorPath.offBlack,

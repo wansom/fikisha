@@ -207,7 +207,7 @@ Widget tripdetails(
   String eDistance,
 ) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+    padding: const EdgeInsets.symmetric(horizontal: 20.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -230,17 +230,17 @@ Widget tripdetails(
                 Text(
                   locate,
                   style: TextStyle(
-                    fontSize: 12.0,
+                    fontSize: 15.0,
                     fontWeight: FontWeight.w600,
-                    color: ColorPath.primaryblack.withOpacity(0.5),
+                    color: ColorPath.primaryblack.withOpacity(0.7),
                   ),
                 ),
                 const YMargin(10),
                 Text(
                   location,
                   style: const TextStyle(
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w300,
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w600,
                     color: Color(0xFF818181),
                   ),
                 )
@@ -255,8 +255,8 @@ Widget tripdetails(
             Text(
               extimated,
               style: const TextStyle(
-                fontSize: 9.0,
-                fontWeight: FontWeight.w300,
+                fontSize: 10.0,
+                fontWeight: FontWeight.w500,
                 color: Color(0xFF818181),
               ),
             ),

@@ -131,7 +131,7 @@ class _DeliveryOnboardingScreenState extends State<DeliveryOnboardingScreen> {
   }
     ElevatedButton receivePackageButton(BuildContext context) {
     return ElevatedButton(
-                    onPressed: () {                      
+                    onPressed: () {     
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (_) => const ReceivePackageView())
                       );
@@ -152,6 +152,8 @@ class _DeliveryOnboardingScreenState extends State<DeliveryOnboardingScreen> {
                     ),
                     );
   }
+
+
    
 ElevatedButton sendPackageButton(BuildContext context) {
   return ElevatedButton(

@@ -10,7 +10,6 @@ import 'package:fikisha/views/Home/Components/home_extention.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'chat_with_driver.dart';
 import 'drivers_details.dart';
-import 'enjoy_ride.dart';
 
 buildBookingDetails(BuildContext context) {
   showModalBottomSheet(
@@ -39,7 +38,7 @@ class _BookingDetialsState extends State<BookingDetials> {
   void initState() {
     setState(() {
       Future.delayed(const Duration(seconds: 5), () {
-        buildEnjoyRide(context);
+        // buildEnjoyRide(context);
       });
     });
     super.initState();
