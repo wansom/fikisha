@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fikisha/utils/colors.dart';
 import 'package:fikisha/utils/images_path.dart';
+import 'package:flutter/material.dart';
 
 class OnboardModel {
   String img;
@@ -36,8 +36,8 @@ List<OnboardModel> screens = <OnboardModel>[
     button: ColorPath.primarywhite,
   ),
   OnboardModel(
-    img: ImagesAsset.accomodation,
-    text: "Enjoy affordable deliveraries",
+    img: ImagesAsset.illustration3,
+    text: "Enjoy affordable deliveries",
     desc:
         "We have many riders available for you\n to pick your orders and make deliveries \non time.",
     bg: ColorPath.primarywhite,
