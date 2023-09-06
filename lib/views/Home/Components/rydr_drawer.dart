@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:fikisha/views/splash.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,19 +50,10 @@ class _RyderDrawerState extends State<RyderDrawer> {
                     child: Image(
                       width: 110,
                       height: 110,
-                      image: AssetImage(ImagesAsset.driverpic),
+                      image: AssetImage(ImagesAsset.logosm),
                     ),
                       ),
                       const YMargin(14),
-                      const Text(
-                    "Fikisha",
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w600,
-                      color: ColorPath.primarydark,
-                    ),
-                      ),
-                      const YMargin(15),
                     //   Padding(
                     // padding: const EdgeInsets.symmetric(horizontal: 50),
                     // child: Container(
@@ -189,41 +180,41 @@ class _RyderDrawerState extends State<RyderDrawer> {
                   dashWidth: 2.0,
                 ),
                 const YMargin(10),
-                const Text("Share on:",
-                    style: TextStyle(
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.w400,
-                      color: ColorPath.primarydark,
-                    )),
-                const YMargin(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(ImagesAsset.whatsapp))),
-                    ),
-                    const XMargin(5),
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(ImagesAsset.twitter))),
-                    ),
-                    const XMargin(5),
-                    Container(
-                      height: 25,
-                      width: 25,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(ImagesAsset.facebook))),
-                    ),
-                  ],
-                ),
+                // const Text("Share on:",
+                //     style: TextStyle(
+                //       fontSize: 10.0,
+                //       fontWeight: FontWeight.w400,
+                //       color: ColorPath.primarydark,
+                //     )),
+                // const YMargin(10),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Container(
+                //       height: 25,
+                //       width: 25,
+                //       decoration: BoxDecoration(
+                //           image: DecorationImage(
+                //               image: AssetImage(ImagesAsset.whatsapp))),
+                //     ),
+                //     const XMargin(5),
+                //     Container(
+                //       height: 25,
+                //       width: 25,
+                //       decoration: BoxDecoration(
+                //           image: DecorationImage(
+                //               image: AssetImage(ImagesAsset.twitter))),
+                //     ),
+                //     const XMargin(5),
+                //     Container(
+                //       height: 25,
+                //       width: 25,
+                //       decoration: BoxDecoration(
+                //           image: DecorationImage(
+                //               image: AssetImage(ImagesAsset.facebook))),
+                //     ),
+                //   ],
+                // ),
                 const YMargin(10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
