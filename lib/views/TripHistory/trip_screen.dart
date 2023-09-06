@@ -19,8 +19,7 @@ class TripScreen extends StatelessWidget {
   String formattedDate = DateFormat('yyy-MM-dd').format(currentDate);
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final User? user = firebaseAuth.currentUser;
-  final String uid = user!.uid;
-
+  final String phoneNumber = user!.phoneNumber!;
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(75.0),
@@ -57,11 +56,11 @@ class TripScreen extends StatelessWidget {
               ),
             ),
             FadeInUp(
-              duration: const Duration(milliseconds: 2000),
+              duration: const Duration(milliseconds: 2000),              
               child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: FirebaseFirestore.instance.collection(
                   'fikisha_delivery_history'
-                ).doc(uid).collection('deliveries_ordered').snapshots(),
+                ).doc(phoneNumber).collection('deliveries_ordered').snapshots(),
                 builder: (context, snapshot) {
                   if(!snapshot.hasData) {
                     return const Column(
