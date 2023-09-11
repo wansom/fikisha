@@ -341,11 +341,15 @@ confirmDelivery(BuildContext context) async{
                     ).doc(phoneNumber)
                     .collection('deliveries_ordered')
                     .add(deliveryAppointment.toJson());                                       
-                   buildEnjoyRide(context,
+                   Future.delayed(Duration.zero, () {
+                    buildEnjoyRide(
+                      context,
                       preferredLocationController.text, 
                       locationController.text, 
                       calculatedTotalCost
-                      );
+                    ); 
+                  }
+                  );
                     // initiatePayment(); 
                   } 
                   else {

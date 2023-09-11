@@ -57,48 +57,46 @@ class _EnjoyRideState extends State<EnjoyRide> {
     super.initState();
   }
 
-  CollectionReference deliveryHistoryCollection = FirebaseFirestore.instance.collection('fikisha_delivery_history');
-
-  Future<Map<String, dynamic>?> fetchAssignedRiderData() async {
+// CollectionReference deliveryHistoryCollection = FirebaseFirestore.instance.collection('fikisha_delivery_history');
+Stream<Map<String, dynamic>?> fetchAssignedRiderData() {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final User? user = firebaseAuth.currentUser;  
+  final User? user = firebaseAuth.currentUser;
   if (user != null && user.phoneNumber != null) {
     final String phoneNumber = user.phoneNumber!;    
-    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final Stream<QuerySnapshot> queryStream = FirebaseFirestore.instance
         .collection('fikisha_delivery_history')
         .doc(phoneNumber)
         .collection('deliveries_ordered')
         .orderBy('timestamp', descending: true)
         .limit(1)
-        .get();
-    
-    if (querySnapshot.size > 0) {
-      DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-      if (documentSnapshot.exists) {
-        Map<String, dynamic>? assignedRider =
-            documentSnapshot['assigned_rider'] as Map<String, dynamic>?;
-        return assignedRider;
+        .snapshots();
+    return queryStream.map((querySnapshot) {
+      if (querySnapshot.size > 0) {
+        DocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+        if (documentSnapshot.exists) {
+          Map<String, dynamic>? assignedRider =
+              documentSnapshot['assigned_rider'] as Map<String, dynamic>?;
+          return assignedRider;
+        }
       }
-    }
-  }  
-  return null;
+      return null;
+    });
+  }
+  return Stream.value(null);
 }
+
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: fetchAssignedRiderData(),
+    return StreamBuilder<Map<String, dynamic>?>(
+      stream: fetchAssignedRiderData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-        return const CircularProgressIndicator();
-      } else if (snapshot.hasError) {
-        return const Text('Error loading rider data.');
-      } 
-      else if (snapshot.data == null) {
-        return const Center(
-          child: Text(
-            'No assigned rider yet'
-          ),
+        return const Row(
+          children: [
+            Text('Connecting you to a rider soon...'),
+             CircularProgressIndicator(),
+          ],
         );
       } else {
         Map<String, dynamic> assignedRider = snapshot.data!;
@@ -438,6 +436,5 @@ class _EnjoyRideState extends State<EnjoyRide> {
           ],
         ),
       );
-  }});
-  }
-}
+  }}
+  );}}

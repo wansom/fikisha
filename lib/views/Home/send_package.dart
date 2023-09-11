@@ -318,7 +318,7 @@ confirmDelivery(BuildContext context) async {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: ElevatedButton(
-             onPressed: () async {         
+             onPressed: () async {        
                   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
                   final User? user = firebaseAuth.currentUser;                  
                   if(user!=null && user.phoneNumber !=null) {
@@ -340,10 +340,15 @@ confirmDelivery(BuildContext context) async {
                       .doc(phoneNumber)
                       .collection('deliveries_ordered')
                       .add(deliveryAppointment.toJson());                                       
-                    buildEnjoyRide(context,
+                  Future.delayed(Duration.zero, () {
+                    buildEnjoyRide(
+                      context,
                       preferredLocationController.text, 
                       locationController.text, 
-                      calculatedTotalCost);
+                      calculatedTotalCost
+                    ); 
+                  }
+                  );
                     // initiatePayment();    
                   } 
                   else {

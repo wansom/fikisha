@@ -1,6 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
-// import 'package:fikisha/views/Authentication/mobile_auth.dart';
 import 'package:fikisha/views/Authentication/auth_changes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

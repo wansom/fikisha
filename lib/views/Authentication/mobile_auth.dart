@@ -2,7 +2,6 @@
 
 import 'package:animate_do/animate_do.dart';
 import 'package:fikisha/views/Home/delivery_splash.dart';
-// import 'package:fikisha/views/Home/home_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fikisha/utils/margins.dart';
@@ -78,6 +77,9 @@ void verifyOtp() async {
         });
       }).whenComplete(() {
         if(user != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_)=> const DeliveryOnboardingScreen())
+          );
           Fluttertoast.showToast(
             msg: 'You are logged in successfully',
             toastLength: Toast.LENGTH_SHORT,
@@ -200,12 +202,7 @@ void verifyOtp() async {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),
-                // IconButton(onPressed: () {
-                //   Navigator.push(
-                //     context, MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
-                // }, icon: const Icon(Icons.arrow_forward_ios))
-  
+                ),               
               ],
             ),
           ),
@@ -235,34 +232,34 @@ void verifyOtp() async {
 //   return false;
 // }
 
-Future<void> showDisclosureDialog(BuildContext context) async {
-  return showDialog<void> (
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: const Text(
-          'This app collects location data to enable efficient delivery services even when the app is closed or not in use.' 
-          'This data is used solely for the'
-          'purpose of providing accurate delivery tracking and optimizing routes.'
-        ),
-        title: const Text('Location Permissions'),
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            }, 
-            child: const Text('Cancel')
-            ),
-            ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
-            }, 
-            child: const Text('Continue')
-            ),
-        ],
-      );
-    }
-  );
-}
+// Future<void> showDisclosureDialog(BuildContext context) async {
+//   return showDialog<void> (
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         content: const Text(
+//           'This app collects location data to enable efficient delivery services even when the app is closed or not in use.' 
+//           'This data is used solely for the'
+//           'purpose of providing accurate delivery tracking and optimizing routes.'
+//         ),
+//         title: const Text('Location Permissions'),
+//         actions: [
+//           ElevatedButton(
+//             onPressed: () {
+//               Navigator.of(context).pop();
+//             }, 
+//             child: const Text('Cancel')
+//             ),
+//             ElevatedButton(
+//             onPressed: () {
+//               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()));
+//             }, 
+//             child: const Text('Continue')
+//             ),
+//         ],
+//       );
+//     }
+//   );
+// }
 }
