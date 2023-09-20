@@ -59,6 +59,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
         });
       }).whenComplete(() {
         if(user != null) {
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()),
+            );
           Fluttertoast.showToast(
             msg: 'You are logged in successfully',
             toastLength: Toast.LENGTH_SHORT,
@@ -67,11 +71,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
             backgroundColor: Colors.black,
             textColor: Colors.white,
             fontSize: 16
-          );
-          Navigator.pushReplacement(
-            context, 
-            MaterialPageRoute(builder: (_) => const DeliveryOnboardingScreen()),
-            );
+          );          
         } else {
           Fluttertoast.showToast(
             msg: 'Your login failed',

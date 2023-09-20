@@ -23,21 +23,21 @@ class _MobileAuthState extends State<MobileAuth> {
   String verificationId ='';
   bool otpVisible= false;
   User? user;
+  bool isLoading = false;
   final TextEditingController pinPutController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-    final defaultPinTheme = PinTheme(
-    width: 56,
-    height: 56,
-    textStyle: const TextStyle(
-        fontSize: 20,
-        color: Color.fromRGBO(30, 60, 87, 1),
-        fontWeight: FontWeight.w600),
-    decoration: BoxDecoration(
-      border: Border.all(color: const Color.fromARGB(255, 4, 7, 10)),
-      borderRadius: BorderRadius.circular(20),
-    ),
-  );
-
+  final defaultPinTheme = PinTheme(
+  width: 56,
+  height: 56,
+  textStyle: const TextStyle(
+      fontSize: 20,
+      color: Color.fromRGBO(30, 60, 87, 1),
+      fontWeight: FontWeight.w600),
+  decoration: BoxDecoration(
+    border: Border.all(color: const Color.fromARGB(255, 4, 7, 10)),
+    borderRadius: BorderRadius.circular(20),
+  ),
+);
 
   @override
   void dispose() {
@@ -47,20 +47,31 @@ class _MobileAuthState extends State<MobileAuth> {
   }
 
  void loginWithPhone() async {
+  setState(() {
+    isLoading = true;
+  });
     firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumberController.text,
       verificationCompleted: (PhoneAuthCredential credential) async {
         await firebaseAuth.signInWithCredential(credential).then((value) {
           print('Log in successful');
-        });
+        });    
+        setState(() {
+          isLoading = true;
+        });     
       }, 
       verificationFailed: (FirebaseAuthException e) {
         print(e.message);
+        setState(() {
+          isLoading = true;
+        });
       }, 
       codeSent: (String verificationId, int? resendToken) {
-        otpVisible  =true;
+      setState(() {
+        isLoading = false;
+        otpVisible = true;
         this.verificationId = verificationId;
-        setState(() {});
+      });
       }, 
       codeAutoRetrievalTimeout: (String verificationId) {},
       );
@@ -109,10 +120,10 @@ void verifyOtp() async {
       backgroundColor: ColorPath.primarywhite,
       body: SingleChildScrollView(
         child: FadeInDown(
-          duration: const Duration(
-            milliseconds: 2000,
-          ),
-          child: Padding(
+    duration: const Duration(
+    milliseconds: 2000,
+    ),
+      child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
@@ -159,26 +170,26 @@ void verifyOtp() async {
                 controller: phoneNumberController,
               ),              
                 const YMargin(30),
-                 Padding(
-              padding: const EdgeInsets.all(30),
-              child: Pinput(
-                length: 6,
-                defaultPinTheme: defaultPinTheme,
-                controller: pinPutController,
-                submittedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration?.copyWith(
-                    color: const Color.fromARGB(255, 222, 228, 233),
-                  ),
-                ),
-                focusedPinTheme: defaultPinTheme.copyDecorationWith(
-                  border:
-                      Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                pinAnimationType: PinAnimationType.fade,
-                androidSmsAutofillMethod:
-                    AndroidSmsAutofillMethod.smsRetrieverApi,           
-              ),
+            Padding(
+            padding: const EdgeInsets.all(30),
+            child: Pinput(
+            length: 6,
+            defaultPinTheme: defaultPinTheme,
+            controller: pinPutController,
+            submittedPinTheme: defaultPinTheme.copyWith(
+            decoration: defaultPinTheme.decoration?.copyWith(
+            color: const Color.fromARGB(255, 222, 228, 233),
+            ),
+            ),
+            focusedPinTheme: defaultPinTheme.copyDecorationWith(
+            border:
+            Border.all(color: const Color.fromRGBO(114, 178, 238, 1)),
+            borderRadius: BorderRadius.circular(8),
+            ),
+            pinAnimationType: PinAnimationType.fade,
+            androidSmsAutofillMethod:
+            AndroidSmsAutofillMethod.smsRetrieverApi,           
+            ),
             ),
             const YMargin(30),
                 ElevatedButton(
@@ -187,14 +198,16 @@ void verifyOtp() async {
                     minimumSize: const Size(250, 50)
                   ),                   
                   onPressed: () {
-                    final phoneNumber = phoneNumberController.text;
+                  final phoneNumber = phoneNumberController.text;
                       if (otpVisible) {
                         verifyOtp();
                       } else {
                         loginWithPhone();
-                      }
+                    }
                   },
-                  child: Text(
+                  child: isLoading ?
+                  const CircularProgressIndicator()
+                  : Text(
                     otpVisible ? 'Verify' : 'Login',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
@@ -202,13 +215,11 @@ void verifyOtp() async {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                ),               
-              ],
+                ),
+                ],
             ),
-          ),
-        ),
-      ),
-    );
+          ))));
+  }
   }
 // bool validatePhoneNumber(String phoneNumber) {
 //   if (phoneNumber.isEmpty) {
@@ -262,4 +273,3 @@ void verifyOtp() async {
 //     }
 //   );
 // }
-}
